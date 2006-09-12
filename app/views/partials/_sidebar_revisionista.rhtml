@@ -1,0 +1,49 @@
+          <li id="menu">
+            <h2>Revisionista</h2>
+            <ul>
+              <li><%= link_to 'Latest Articles',
+                :controller => 'news_articles', :action => 'list' %></li>
+              <li><%= link_to 'Latest Revisions',
+                :controller => 'news_articles', :action => 'list_revisions' %></li>
+              <li><%= link_to 'Revisions RSS Feed',
+                :controller => 'news_articles', :action => 'list_rss' %></li>
+
+            </ul>
+          </li>
+<% if @article and @versions -%>
+          <li>
+            <h2>Article</h2>
+            <ul class="nobullet">
+              <li>Source: <%= @article.source %></li>
+              <li>Published: <%= @versions.first.created_at.strftime("%a %b %d %H:%M") %></li>
+              <li><%= link_to 'Link to article', @article.url %></li>
+              <li><%= link_to 'Article RSS Feed', :action => :diff_rss, 
+                :id => @article.id %></li>
+            </ul>
+          </li>
+            
+          <li>
+            <h2>Versions</h2>
+            <ul>
+            <% @versions.each do |version| next if version.version == 0 %>
+            <li><%= link_to version.created_at.strftime("%a %b %d %H:%M"),
+              :action => 'diff',
+              :id => @article.id,
+              :version_a => version.version,
+              :version_b => version.version - 1 %></li>
+            <% end %>
+            </ul>
+          </li>
+<% else -%>
+          <li id="search">
+            <h2>Search Articles</h2>
+            <ul class="nobullet">
+              <li id="searchbox"
+              <%= start_form_tag :controller => 'news_articles', :action => 'search'  %>
+              <%= text_field_tag 'search', @search, :class => 'searchbox' %>
+              <p><%= submit_tag ' Search ' %></p>
+              <%= end_form_tag %>
+              </li>
+            </ul>
+          </li>
+<% end -%>

@@ -1,0 +1,27 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+comments_rss_size: 255805
+comments_updated: 2006-07-31 19:23:05.919648 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=2014&amp;edition=1
+missing_comments: 
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Tim_Brooks
+  created: 2006-06-01 14:49:41 +01:00
+  deleted_at: 2006-06-01 15:15:08.156500 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=883053&amp;tstart=0#883053
+  message_id: 883053
+  modified: 2006-06-01 14:49:41 +01:00
+  text: Michael Allison, why are you trying to act so clever with poor old Jo? <br /><br />Everyone knows you do a lot of good work.
+  thread_id: 2014
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: brucknerspen
+  created: 2006-06-01 14:48:20 +01:00
+  deleted_at: 2006-06-01 15:15:08.156521 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=883018&amp;tstart=0#883018
+  message_id: 883018
+  modified: 2006-06-01 14:48:20 +01:00
+  text: Joanna Denning - 'Yeah we are too busy and to be perfectly frank, don't see why we should feel guilty for not volunteering.'<br /><br /><br />Other than yourself, Joanna, who said you should do?
+  thread_id: 2014
+published: 2006-06-01 09:19:18 +01:00
+thread_id: 2014
+title: Are we too busy to volunteer?

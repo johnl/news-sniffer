@@ -1,0 +1,11 @@
+if @voted
+  if isadmin?
+    page.replace_html "reccounter#{@comment.id}", "#{@comment.votes + 5} recommendations."
+  else
+    page.replace_html "reccounter#{@comment.id}", "#{@comment.votes + 1} recommendations."
+  end
+  page.replace_html "recommend-#{@comment.id}", "Thanks!"
+else
+  page.replace_html "recommend-#{@comment.id}", "You've already voted on this!"
+end
+  

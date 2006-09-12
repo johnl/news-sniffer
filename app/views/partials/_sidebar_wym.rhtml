@@ -1,0 +1,31 @@
+          <li id="menu">
+            <h2>Watch Your Mouth</h2>
+            <ul>
+              <li><%= link_to 'Latest Threads', :controller => 'bbchysthreads', :action => 'all' %></li>
+              <li><%= link_to 'Most Censored Threads', :controller => 'bbchysthreads', :action => 'mostcensored' %></li>
+              <li><%= link_to 'Censored Comments', :controller => 'bbchyscomments', :action => 'list' %></li>
+              <li><%= link_to 'Recommended Comments', :controller => 'bbchyscomments', :action => 'recommended' %></li>
+              <li><%= link_to 'RSS Feed',
+                :controller => 'bbchyscomments', :action => 'list_rss' %></li>
+            </ul>
+          </li>
+          <li id="search">
+            <h2>Search Comments</h2>
+            <ul class="nobullet">
+              <li id="searchbox"
+              <%= start_form_tag :controller => 'bbchyscomments', :action => 'search'  %>
+              <%= text_field_tag 'search', @search, :class => 'searchbox' %>
+              <p><%= submit_tag ' Search ' %></p>
+              <%= end_form_tag %>
+              </li>
+            </ul>
+          </li>
+          <% if @random_comment %>
+          <li>
+            <h2>Random Comment</h2>
+            <ul class="nobullet">
+              <li><%= comment_permalink(@random_comment.hys_thread.title, @random_comment) %><br/>
+              <p>&quot;<%= truncate(@random_comment.text, 120) %>&quot;</p></li>
+            </ul>
+          </li>
+          <% end %>

@@ -1,0 +1,351 @@
+body {
+	background: #F3F6ED;
+	color: #333;
+	font: 1em/1.4em "Trebuchet MS", Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+a {
+  color: #4d6175;
+	text-decoration: none;
+}
+
+a:visited {
+}
+
+a:hover {
+	color: #fff;
+	text-decoration: underline;
+  background-color: #4d6175;
+}
+
+input, textarea {
+	background: #F3F6ED;
+	border: #E1D6C6 1px solid;
+  padding: 2px;
+}
+
+h1, h2, h3, h4 {
+	font-weight: normal;
+	letter-spacing: 1px;
+}
+
+hr {
+	border-top: #BBC4A3 1px solid;
+}
+#content {
+  margin-left: 190px;
+  padding: 0 10px 0 10px;
+}
+#content ul {
+	margin-left: 0;
+	padding-left: 45px;
+}
+
+#content ul li {
+	padding-left: 1.5em;
+}
+.narrow {
+  width: 550px;
+}
+
+#rap {
+
+	margin: 0 auto;
+	padding: 0px;
+	text-align: left;
+	width: 910px;
+}
+#header {
+  background: #211 url(layout/top-bg.png);
+  height: 110px;
+  margin: 0;
+  text-align: left;
+  padding-top: 1px;
+}
+#header ul {
+  margin: 0px;
+  padding: 11px 2em 0 0;
+  text-align: right;
+}
+#header ul li {
+  display: inline;
+  padding-left: 0.9em;
+}
+#header ul li a {
+  color: #fff;
+}
+/* photo of pinocchio */
+#pinleft {
+  position: absolute;
+}
+#logo {
+  float: right;
+  margin: 10px 10px 0 0;
+}
+#crossbar {
+  background: #211 url(layout/midbar.png);
+  height: 32px;
+  margin-bottom: 10px;
+}
+#nav {
+  margin-left: 150px;
+  margin-top: 81px;
+}
+
+#nav ul {
+  margin: 11px 0 0 38px;
+  padding: 0;
+  list-style:none;
+  font-size: 80%;
+  line-height: 10px;
+}
+
+#nav li {
+  float:left;
+  margin: 0 10px 0 0;
+
+}
+
+#nav a {
+  float:left;
+  display:block;
+  background: #997 url(layout/tabbg.png) repeat-x left top;
+  padding: 9px 20px;
+  text-decoration: none;
+  border: none;
+  font-weight: bold;
+  color: #fff;
+  border-color: #d1dbe8;
+  border-style: solid;
+  border-width: 1px 1px 0 1px;
+  outline: none;
+  height: 10px;
+}
+
+#nav a:hover {
+  color: #000;
+}
+
+/* Commented Backslash Hack
+   hides rule from IE5-Mac \*/
+#nav a {float:none;}
+/* End IE5-Mac hack */
+
+#nav #current {
+}
+
+#nav #current a {
+  color: #fff;
+  padding-bottom:5px;
+}
+
+
+#nav-r {
+  position: absolute;
+  top: 70px;
+  right: 40px;
+}
+
+#sidebar {
+  font-size: 1em;
+  display: inline;
+  width: 186px;
+  float: left;
+  margin: 0 10px 0 5px;
+  padding: 0 0 10px 0;
+}
+#sidebar ul h2 {
+	background: url(img/sidenav_top.jpg) no-repeat center;
+  color: #4d6175;
+	font-size: 1em;
+	font-weight: bold;
+	height: 22px;
+	margin: 0 0 0 0;
+	padding: 2px;
+  line-height: 1.5em;
+	text-align: center;
+}
+#sidebar ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0px;
+}
+
+#sidebar ul ul {
+	border: #E1D6C6 1px solid;
+  color: #4d6175;
+	font-size: 0.9em;
+	list-style-type: square;
+	margin: 0 0 10px 0;
+	padding: 5px;
+}
+#sidebar p {
+  color: #333;
+}
+#sidebar ul ul.nobullet {
+  list-style-type: none;
+}
+#sidebar ul ul li {
+  margin-left: 15px;
+}
+#sidebar ul ul.nobullet li {
+  margin: 0;
+}
+
+#farsidebar {
+  width: 160px;
+  float: right;
+  margin: 0 0 1em;
+}
+
+#footer {
+  clear: both;
+	color: #999999;
+	font-size: 0.8em;
+	margin: 0 auto;
+	padding: 7px 0;
+	text-align: center;
+}
+
+p.note {
+        font-size: 0.7em;
+        line-height: 1em;
+}
+
+#searchbox {
+        text-align: center;
+}
+#searchbox input.searchbox {
+  padding: 0.5em;
+  width: 100%;
+}
+
+div.post {
+  padding: 1em 0 2em 0.5em;
+}
+          
+div#footerbar {
+	background: url(img/longfooter.png) #F3F6ED no-repeat center top;
+  height: 26px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+td,th {
+        padding-right: 1em;
+}
+
+div#notice {
+        text-align: center;
+        color: green;
+        padding: 0.5em 1em 0.5em 1em;
+        width: 300px;
+        margin: 0 auto 2em auto;
+}
+div#error {
+        text-align: center;
+        color: red;
+        padding: 0.5em 1em 0.5em 1em;
+        width: 300px;
+        margin: 0 auto 2em auto;
+}
+
+img.itemimage {
+  float: right;
+  border: 1px solid #000;
+  margin: 0 0 1em 1em;
+}
+
+h1, h2, h3 {
+  margin: 0 0 0.2em 0;
+  padding: 0;
+}
+h1 {
+  font-size: 2em;
+}
+h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+h3 {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+h1#itemlabel {
+  text-align: center;
+  font-weight: bold;
+}
+h3#cancompost {
+  text-align: right;
+  font-size: 2em;
+}
+
+a:hover, #sidebar ul ul li a:hover {
+  background-color: 4d6175;
+  color: #fff;
+}
+
+div#randombox {
+  margin-top: 1em;
+  text-align: center;
+}
+div#randombox img {
+  border: 1px solid #000;
+}
+div#farsidebar {
+  float: right;
+  width: 170px;
+  padding-top: 10px;
+}
+
+div.comment {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 0.6em;
+}
+div.comment h3.comment {
+  margin-bottom: -0.6em;
+}
+
+div.counter {
+}
+
+span.match {
+  background-color: #f9ef7a;
+}
+p.comment-meta {
+  font-size: 0.8em;
+  color: #888;
+}
+p.comment-toolbar {
+  font-size: 0.8em;
+  text-align: right;
+}
+
+ins {
+  background-color: #baffb1;
+  text-decoration: none;
+}
+
+del {
+  background-color: #ffc8c8;
+  text-decoration: none;
+}
+
+div.bluebox {
+  border-style: solid;
+  border-color: #638aae;
+  border-width: 0 1px 1px 1px;
+  margin-bottom: 1em;
+  padding: 5px;
+}
+div.bluebox h2.top {
+  margin: -5px -5px 5px -5px;
+  border-style: solid;
+  border-color: #638aae;
+  border-width: 1px 0 1px 0;
+  padding: 2px 5px 2px 5px;
+  background-color: #e6eadb;
+  font-size: 1em;
+}

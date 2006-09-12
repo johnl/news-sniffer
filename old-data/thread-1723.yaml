@@ -1,0 +1,27 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+comments_rss_size: 195255
+comments_updated: 2006-07-31 19:24:12.877165 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=1723&amp;edition=1&amp;ttl=20060509104120
+missing_comments: 
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Phill_Callaway
+  created: 2006-05-09 12:09:06 +01:00
+  deleted_at: 2006-05-09 14:40:09.141089 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=786392&amp;tstart=0#786392
+  message_id: 786392
+  modified: 2006-05-09 12:14:38 +01:00
+  text: "\"And how, exactly, did you know that these bad parents had learning disabilities and were not just bad parents?\"<br /><br />[PAY2003] <br /><br />Probably because they didn't learn that smoking seriously damages your child's health?"
+  thread_id: 1723
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Roger
+  created: 2006-05-09 12:25:09 +01:00
+  deleted_at: 2006-05-09 17:00:10.304121 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=786529&amp;tstart=0#786529
+  message_id: 786529
+  modified: 2006-05-09 12:26:46 +01:00
+  text: It is cruel but true that, to improve the overall level of intelligence in the human race, those with learning difficulties should be discouraged from reproducing. However, with intelligent people having smaller families or none and less intelligent having larger families we are reversing natural selection.
+  thread_id: 1723
+published: 2006-05-09 11:20:45 +01:00
+thread_id: 1723
+title: How can 'less able' parents be helped?

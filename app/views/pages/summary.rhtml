@@ -1,0 +1,28 @@
+<p><strong>News Sniffer</strong> aims to monitor corporate news organisations to uncover bias.
+<%= link_to 'Read more', :action => 'about' %></p>
+
+<div class="bluebox" style="width: 26em">
+<h2 class="top">Watch Your Mouth: Latest censored threads</h2>
+<table>
+<% @hys_comments.each do |c| -%>
+<tr><td><%= link_to c.hys_thread.title, :controller => 'bbchysthreads',
+  :action => 'show', :id => c.hys_thread.bbcid %></td>
+<td><small><%= distance_of_time_in_words_to_now c.updated_at %> ago</small></td>
+</tr>
+<% end -%>
+</table>
+</div>
+
+<div class="bluebox" style="width: 26em">
+<h2 class="top">Revisionista: Latest news article revisions</h2>
+<table>
+<% @news_articles.each do |a| -%>
+<tr><td><%= link_to a.title, :controller => 'news_articles',
+  :action => 'diff', :id => a.id,
+  :version_a => a.versions_count - 1 , 
+  :version_b => a.versions_count - 2  %></td>
+<td><small><%= distance_of_time_in_words_to_now a.updated_at %> ago</small></td>
+</tr>
+<% end -%>
+</table>
+</div>

@@ -1,0 +1,36 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+comments_rss_size: 423240
+comments_updated: 2006-07-31 19:20:04.553670 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=1761&amp;edition=1
+missing_comments: 
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Mani
+  created: 2006-05-11 09:19:17 +01:00
+  deleted_at: 2006-05-11 11:10:10.031985 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=796746&amp;tstart=0#796746
+  message_id: 796746
+  modified: 2006-05-11 09:24:31 +01:00
+  text: Could 7 July have been avoided? <br /><br />NO!.What can anyone do against such reckless hate!.<br /><br />Shep <br /><br />How about revenge!?
+  thread_id: 1761
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: latexfanclub
+  created: 2006-05-11 09:53:29 +01:00
+  deleted_at: 2006-05-12 12:55:14.809613 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=796884&amp;tstart=0#796884
+  message_id: 796884
+  modified: 2006-05-11 10:38:48 +01:00
+  text: The bombings could have been prevented if we kept closer tabs on all religious groups - not just Muslims but Christians, Jews, Sikhs and all the rest.<br /><br />Every religion has an expressed wish to convert non-believers to their cause. And every relgiion has at some time resorted to violence to achieve those ends. Therefore, they should all be treated as potential terrorists.
+  thread_id: 1761
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: mike
+  created: 2006-05-11 09:52:31 +01:00
+  deleted_at: 2006-05-12 12:55:14.809636 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=796897&amp;tstart=0#796897
+  message_id: 796897
+  modified: 2006-05-11 10:38:47 +01:00
+  text: We could have prevented it 40 years ago by taking heed of what Enoch Powell said.  The "rivers of blood" he predicted have arrived.
+  thread_id: 1761
+published: 2006-05-11 08:31:39 +01:00
+thread_id: 1761
+title: Could 7 July have been avoided?

@@ -1,0 +1,36 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+comments_rss_size: 141874
+comments_updated: 2006-07-31 07:09:44.885720 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=1741&amp;edition=2&amp;ttl=20060508165253
+missing_comments: 
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: verstraelen
+  created: 2006-05-08 20:59:04 +01:00
+  deleted_at: 2006-05-09 15:00:09.603125 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=783877&amp;tstart=0#783877
+  message_id: 783877
+  modified: 2006-05-08 21:31:52 +01:00
+  text: "Hahahaha....<br /><br />Maybe Sony and Nintendo should invent an exciting game called: \"HAVE YOUR SAY\", where people can have a go at eachother?<br /><br />Hahahaha....."
+  thread_id: 1741
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Nick
+  created: 2006-05-08 18:02:33 +01:00
+  deleted_at: 2006-05-09 20:45:08.409726 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=783164&amp;tstart=0#783164
+  message_id: 783164
+  modified: 2006-05-08 18:43:59 +01:00
+  text: We don't need more reasons for pasty faced youths to stay indoors, play video games masturbate excesivley. Get outside and get some freash air for godsake
+  thread_id: 1741
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: iamafreeman
+  created: 2006-05-08 21:46:12 +01:00
+  deleted_at: 2006-05-17 17:15:30.726912 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=784029&amp;tstart=0#784029
+  message_id: 784029
+  modified: 2006-05-08 22:00:52 +01:00
+  text: As far as I can tell the majority of these people must be lonely individuals, without friends, unable to relate to others locked away with their only companion - a machine. I can suggest a much more exciting form of home entertainment which I won't mention here. <br /><br />Poor souls we should pity them!
+  thread_id: 1741
+published: 2006-05-08 17:09:31 +01:00
+thread_id: 1741
+title: Which console would you choose?

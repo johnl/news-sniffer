@@ -1,0 +1,18 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+comments_rss_size: 334936
+comments_updated: 2006-07-31 06:57:08.559205 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=2493&amp;edition=1&amp;ttl=20060708112053
+missing_comments: 
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Nigelbaldwin
+  created: 2006-07-08 13:11:16 +01:00
+  deleted_at: 2006-07-08 13:42:02.328253 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=1053271&amp;tstart=0#1053271
+  message_id: 1053271
+  modified: 2006-07-08 13:11:16 +01:00
+  text: Christ's 12 Apostles were all male - true - but they were also all Jews.  Can only Jewish males be Priests?
+  thread_id: 2493
+published: 2006-07-08 11:24:27 +01:00
+thread_id: 2493
+title: Should women be ordained as Bishops?

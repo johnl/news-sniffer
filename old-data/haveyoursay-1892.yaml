@@ -1,0 +1,26 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+  - !ruby/object:BBCNews::Haveyoursaycomment 
+    author: nol-jvs-bmc
+    created: 2006-05-23 11:24:14 +01:00
+    link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=848254&amp;tstart=0#848254
+    message_id: 848254
+    modified: 2006-05-23 11:24:34 +01:00
+    text: "<b> How should divorce settlements be handled?</b><br /><br />The House of Lords
+      will give a ruling on Wednesday concerning two divorce cases set to have a
+      massive effect on the handling of financial settlements in England and Wales.<br
+      /><br />In the first case, a former wife is claiming the right to share in the
+      future income of her husband after giving up a high paid job to care for their
+      children.<br /><br />A second case concerns a City fund manager contesting a £5
+      million payment to his ex-wife mainly because they were married for less than
+      three years and had no children.<br /><br /><b> How should the financial side of
+      a divorce be settled? Does the current system work? Should pre-nuptial
+      agreements be more acceptable? Send us your comments and experiences. </b>"
+    thread_id: 1892
+comments_rss_size: 1874
+comments_updated: 2006-05-23 11:40:21.803020 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=1892&amp;start=0&amp;edition=1&amp;ttl=20060523113741
+missing_comments: []
+published: 2006-05-23 11:28:06 +01:00
+thread_id: 1892
+title: Divorce settlements

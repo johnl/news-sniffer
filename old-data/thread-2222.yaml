@@ -1,0 +1,63 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+comments_rss_size: 30191
+comments_updated: 2006-07-31 07:08:07.607347 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=2222&amp;edition=1
+missing_comments: 
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: leftwing
+  created: 2006-06-20 17:01:19 +01:00
+  deleted_at: 2006-06-20 17:14:04.092069 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=964959&amp;tstart=0#964959
+  message_id: 964959
+  modified: 2006-06-20 17:01:19 +01:00
+  text: I am glad no one has blamed immigrants for this problem!
+  thread_id: 2222
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: RayEvans33
+  created: 2006-06-20 16:59:42 +01:00
+  deleted_at: 2006-06-20 17:14:04.092090 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=964931&amp;tstart=0#964931
+  message_id: 964931
+  modified: 2006-06-20 16:59:42 +01:00
+  text: What the heck has this rubbish topic got to do with estate agents? (Other than what some of them write)
+  thread_id: 2222
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: leftwing
+  created: 2006-06-20 16:44:22 +01:00
+  deleted_at: 2006-06-20 17:14:04.092109 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=964895&amp;tstart=0#964895
+  message_id: 964895
+  modified: 2006-06-20 16:44:22 +01:00
+  text: Widuran does have a point Tre Cool I'm going through the same rubbish myself. I am trying to buy a flat and the Estate agents aint helping. As for the packaging debate I know I need to recycle more paper ect..
+  thread_id: 2222
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: tre-cool
+  created: 2006-06-20 16:41:44 +01:00
+  deleted_at: 2006-06-20 17:14:04.092131 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=964893&amp;tstart=0#964893
+  message_id: 964893
+  modified: 2006-06-20 16:41:44 +01:00
+  text: I am sick and tired of these Estate agents manipulating and increasing property prices in their areas meaning I cannpt buy a home and overpromises of high prices for the vendors.<br /><br />widuran Bertram, Letchworth, United Kingdom <br /><br /><br />I see your medication still isn't working.
+  thread_id: 2222
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: leftwing
+  created: 2006-06-20 16:39:01 +01:00
+  deleted_at: 2006-06-20 17:14:04.092159 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=964887&amp;tstart=0#964887
+  message_id: 964887
+  modified: 2006-06-20 16:39:01 +01:00
+  text: I agree Widuran shame it isn't relevant. I think that we should reduce packaging and I support the womens insitute for this.
+  thread_id: 2222
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: "24163124"
+  created: 2006-06-20 16:18:41 +01:00
+  deleted_at: 2006-06-20 17:14:04.092191 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=964821&amp;tstart=0#964821
+  message_id: 964821
+  modified: 2006-06-20 16:18:41 +01:00
+  text: Some of the dirtboxes who use the supermarkets in our area don't use the tongs provided so keep everthing packaged
+  thread_id: 2222
+published: 2006-06-20 08:31:50 +01:00
+thread_id: 2222
+title: "Call to halt packaging: Your views"

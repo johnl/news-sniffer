@@ -1,0 +1,45 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+comments_rss_size: 394032
+comments_updated: 2006-07-31 19:16:21.221869 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=2228&amp;edition=1
+missing_comments: 
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Mikyla
+  created: 2006-06-21 13:19:49 +01:00
+  deleted_at: 2006-06-21 14:42:34.156964 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=968201&amp;tstart=0#968201
+  message_id: 968201
+  modified: 2006-06-21 13:19:49 +01:00
+  text: What was the name of that city that they ran away from, in `Logans Run`?
+  thread_id: 2228
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Len_Day
+  created: 2006-06-21 13:17:15 +01:00
+  deleted_at: 2006-06-21 14:42:34.156985 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=968173&amp;tstart=0#968173
+  message_id: 968173
+  modified: 2006-06-21 13:17:15 +01:00
+  text: When I lived in Tunbridge Wells I found it to be a pretty enough place - lots of green space, lovely pubs &#38; surrounded by the most glorious countryside. Pity then that it's populated by the most arrogant, selfish and loathsome people.<br />Cardiff, on the other hand, is a vast building site right now, but I'd rather live here because the people are a breath of fresh air - tolerant, welcoming and generous.<br />It's the people that make a city great, not buildings.
+  thread_id: 2228
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Gantax
+  created: 2006-06-21 13:10:51 +01:00
+  deleted_at: 2006-06-21 14:42:34.157006 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=968103&amp;tstart=0#968103
+  message_id: 968103
+  modified: 2006-06-21 13:10:51 +01:00
+  text: Bert Puttocks<br /><br />Can't get over your screamingly funny name. I've just emailed to all my friends. Well I would have done if I was 8 years old. I can see why London disappointed you. You're just too sophisticated for the metropolis.<br /><br />Your wound a little tight there Phil, some people are so easy to wind up. Are you sure you have friends?
+  thread_id: 2228
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Harry-Flashman
+  created: 2006-06-21 14:19:03 +01:00
+  deleted_at: 2006-06-21 14:42:34.157029 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=968590&amp;tstart=0#968590
+  message_id: 968590
+  modified: 2006-06-21 14:19:41 +01:00
+  text: Chelsea is full of chavs.<br /><br />Marc Kay, New York, United States <br /><br />Everywhere is full of Chavs. The underclass are the only section of the population that's increasing.
+  thread_id: 2228
+published: 2006-06-20 17:59:10 +01:00
+thread_id: 2228
+title: Describe your dream city

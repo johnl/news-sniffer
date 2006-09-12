@@ -1,0 +1,7 @@
+
+<div class="comment">
+<p><strong><%= link_to @comment.hys_thread.title, @comment.hys_thread.url %></strong></p>
+<p class="commeta"><%= link_to image_tag("/images/speech.gif", :alt => "icon", :border => 0), @comment.url %> Added <%= @comment.created_at %> Censored: <%= @comment.updated_at %></p>
+<p><%= @comment.text %></p>
+<p>Written by <strong><%= @comment.author %></strong></p>
+</div>

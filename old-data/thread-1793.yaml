@@ -1,0 +1,54 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+comments_rss_size: 427736
+comments_updated: 2006-07-31 19:19:49.310489 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=1793&amp;edition=1
+missing_comments: 
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: "24163124"
+  created: 2006-05-16 11:03:01 +01:00
+  deleted_at: 2006-05-16 11:30:14.050425 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=816242&amp;tstart=0#816242
+  message_id: 816242
+  modified: 2006-05-16 11:03:01 +01:00
+  text: Nice to see you moderators are on the ball,it would be even better if you returned whence you came.
+  thread_id: 1793
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: n_evil
+  created: 2006-05-16 11:37:23 +01:00
+  deleted_at: 2006-05-16 11:55:15.653648 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=816441&amp;tstart=0#816441
+  message_id: 816441
+  modified: 2006-05-16 11:37:23 +01:00
+  text: "\"We should ALL have a National rebellion, and refuse to pay ALL our utility bills for a while.\"<br /><br />Ken Thompson, United Kingdom <br /><br /><br />Hear Hear!<br /><br />It is the ONLY language they will understand!"
+  thread_id: 1793
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: doctorchipshop
+  created: 2006-05-16 11:27:42 +01:00
+  deleted_at: 2006-05-16 12:05:15.293439 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=816374&amp;tstart=0#816374
+  message_id: 816374
+  modified: 2006-05-16 11:27:42 +01:00
+  text: If I'm not mistaken, hasn't this been foreseen 2-3 years ago? Why on earth has there been no large civil projects to improve the infrastructure (eg buiding resevoirs)in this time, instead of plastering homes all over the SE &#38; increasing demand? Is there really no ability to plan &#38; administer in this country anymore?<br /><br />Rob Bayliss, Taunton, United Kingdom <br /><br />I'm afraid not dude!
+  thread_id: 1793
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: VicolaW
+  created: 2006-05-16 11:45:22 +01:00
+  deleted_at: 2006-05-16 12:05:15.293479 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=816489&amp;tstart=0#816489
+  message_id: 816489
+  modified: 2006-05-16 11:45:22 +01:00
+  text: Peersonally I can't see the point of washing the car or watering the lawn. And as for watering golf courses........<br />Peter Thompson, Howden, United Kingdom <br /><br /><br />Oh dear Peter, you really do need to get out more.<br /><br />Richard K, Horsham, United Kingdom <br /><br />Bit mean that. There are activities out there that don't involve wasting scarce resources. Trying walking, you don't need emerald green lawns to do that.
+  thread_id: 1793
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: xmetalheadx
+  created: 2006-05-16 11:43:45 +01:00
+  deleted_at: 2006-05-16 12:05:15.293506 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=816496&amp;tstart=0#816496
+  message_id: 816496
+  modified: 2006-05-16 11:43:45 +01:00
+  text: May be we have got too many imigrants in this country,thats why we are running out of water.<br /> like every other post on have your say.
+  thread_id: 1793
+published: 2006-05-15 17:39:30 +01:00
+thread_id: 1793
+title: Are you worried by drought order?

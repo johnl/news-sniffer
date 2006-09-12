@@ -1,0 +1,18 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+comments_rss_size: 235616
+comments_updated: 2006-07-31 07:03:03.915914 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=2283&amp;edition=1&amp;ttl=20060625095620
+missing_comments: 
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: fsae
+  created: 2006-06-25 11:16:29 +01:00
+  deleted_at: 2006-06-25 13:00:07.633522 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=981039&amp;tstart=0#981039
+  message_id: 981039
+  modified: 2006-06-25 11:57:44 +01:00
+  text: Anything involving England is going to be violent. They're drunk bastrds, german fans should beat the daylights of these english idiots..
+  thread_id: 2283
+published: 2006-06-25 10:21:39 +01:00
+thread_id: 2283
+title: How can the World Cup be kept violence-free?

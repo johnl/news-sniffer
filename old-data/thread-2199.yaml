@@ -1,0 +1,36 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+comments_rss_size: 292499
+comments_updated: 2006-07-31 19:22:28.023209 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=2199&amp;edition=1&amp;ttl=20060616095312
+missing_comments: 
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Peter_Sym
+  created: 2006-06-16 13:08:41 +01:00
+  deleted_at: 2006-06-16 13:28:04.180285 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=951565&amp;tstart=0#951565
+  message_id: 951565
+  modified: 2006-06-16 13:08:41 +01:00
+  text: Wendy Simpson, Bournemouth, United Kingdom- your DNA fingerprint will not be on your medical record. Its a fairly complex task to create such a profile and there simply isn't enough genecists in the world to fingerprint britain. The NHS genetics service is so underfunded it can't even test every breast cancer to see whether it HER2  or not much less carry out everyone's Orwellian fantasies.
+  thread_id: 2199
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: leftwing
+  created: 2006-06-16 13:19:24 +01:00
+  deleted_at: 2006-06-16 13:49:05.540211 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=951599&amp;tstart=0#951599
+  message_id: 951599
+  modified: 2006-06-16 13:19:24 +01:00
+  text: There is too much beauracracy in the public sector the council is the same!
+  thread_id: 2199
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Nemesis65
+  created: 2006-06-16 13:17:51 +01:00
+  deleted_at: 2006-06-16 13:49:05.540234 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=951597&amp;tstart=0#951597
+  message_id: 951597
+  modified: 2006-06-16 13:17:51 +01:00
+  text: The problem is the the government keeps using compnaies who have already failed in the delivery of previous sytems - EDS is a good documented example. These companies are also regular donors of cash to the Labour Party so their competence is rarely questioned.<br /><br />The systems would be useful but it should be done in house not by hopeless outside consultants.
+  thread_id: 2199
+published: 2006-06-16 09:55:55 +01:00
+thread_id: 2199
+title: Is the new NHS computer system good value for money?

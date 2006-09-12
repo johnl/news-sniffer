@@ -1,0 +1,6 @@
+<h1><%= @thread.title %></h1>
+<p>The following comments were censored from the BBC's 'Have Your Say' section of their news website.</p>
+<p><%= link_to @thread.url, @thread.url %></p>
+<hr/>
+<%= render :partial => "bbchyscomments/comment", :collection => @comments %>
+

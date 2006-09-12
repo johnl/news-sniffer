@@ -1,0 +1,18 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+comments_rss_size: 309110
+comments_updated: 2006-07-31 19:16:12.517243 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=2246&amp;edition=1&amp;ttl=20060622084208
+missing_comments: 
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Steve Roberts
+  created: 2006-06-22 09:43:12 +01:00
+  deleted_at: 2006-06-27 16:49:10.404740 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=971119&amp;tstart=0#971119
+  message_id: 971119
+  modified: 2006-06-22 11:16:34 +01:00
+  text: Now adays all you need is to have a slight limp to get a disabled badge that allows you to ignore all parking signs. In most places whilst there are disabled bays they fill up quickly, badge holders then park any where they can find, causing delivery vans to double park, and the wardens do nothing to the illegally or double parked. If I were to park illegally (not that I do) or even 6" out of my bay, I will get a ticket before I'm out of sight of the car<br /><br />Consistency and Fairness is all I ask
+  thread_id: 2246
+published: 2006-06-22 08:42:46 +01:00
+thread_id: 2246
+title: Are parking fines too harsh?

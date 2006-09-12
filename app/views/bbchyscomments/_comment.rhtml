@@ -1,0 +1,25 @@
+<% c = comment -%>
+<div class="comment">
+   <h3 class="comment"><%= link_to c.hys_thread.title, :controller => 'bbchysthreads', :action => 'show', :id => c.hys_thread.bbcid %></h3>
+   <p class="comment-meta">Written by <%= h c.author %> on <%= c.created_at %>. 
+   <span id="<%= "reccounter#{c.id}" %>"><%= c.votes %> recommendations.</span></p>
+   <% if @search -%>
+     <p><%= c.text.gsub(/(#{@search})/i, '<span class=\'match\'>\0</span>') %></p>
+   <% else -%>
+     <p><%= c.text %></p>
+   <% end -%>
+   <p class="comment-toolbar"><%= link_to 'BBC Link', c.url, 
+    :title => "Permalink to where this comment should be on the BBC's own website" %> |  
+   <%= link_to 'Permalink', { :controller => 'bbchysthreads', :action => 'show', 
+      :id => c.hys_thread.bbcid, :comment_id => c.bbcid, :anchor => c.bbcid, },
+      :title => "Permalink to this comment on News Sniffer" %> | 
+   <span id="recommend-<%= c.id %>">
+   <%= link_to_remote 'Recommend This', { :url => { :controller => 'bbchyscomments', :action => 'vote', :id => c.id } }, 
+    :title => "Vote for this comment"  %>
+   </span>
+   <% if isadmin? -%>
+      | <%= link_to 'mark uncensored', { :action => 'uncensor', :id => c.id }, 
+        :confirm => 'are you sure you want to mark this comment uncensored?' %>
+   <% end -%>
+    </p>
+</div>

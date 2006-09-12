@@ -1,0 +1,268 @@
+body {
+	background: #F3F6ED;
+	color: #333;
+	font: 1em/1.4em sans-serif;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+
+a {
+  color: #4d6175;
+	text-decoration: none;
+}
+
+a:visited {
+}
+
+a:hover {
+	color: #fff;
+	text-decoration: underline;
+  background-color: #4d6175;
+}
+
+input, textarea {
+	background: #F3F6ED;
+	border: #E1D6C6 1px solid;
+  padding: 2px;
+}
+
+h1, h2, h3, h4 {
+	font-weight: normal;
+	letter-spacing: 1px;
+}
+
+hr {
+	border-top: #BBC4A3 1px solid;
+}
+
+#content ul {
+	margin-left: 0;
+	padding-left: 45px;
+}
+
+#content ul li {
+	padding-left: 1.5em;
+}
+
+#rap {
+	font: 0.9em "Trebuchet MS",Georgia, Arial, serif;
+	margin: 0 auto;
+	padding: 0px;
+	text-align: left;
+	width: 910px;
+}
+#header {
+	background: url(img/longheader.png) #FFFFFF no-repeat bottom;
+	border: #FFCC99 0px solid;
+	height: 108px;
+	margin: 0 auto;
+	padding: 0;
+	width: 910px;
+}
+#header ul {
+  margin: 0px;
+  padding: 11px 2em 0 0;
+  text-align: right;
+}
+#header ul li {
+  display: inline;
+  padding-left: 0.9em;
+}
+#header ul li a {
+  color: #fff;
+}
+#main {
+	background: url(img/longrap.png) #FFFFFF center repeat-y;
+  padding: 1em 1em 2em 25px;
+}
+#content {
+  width: 650px;
+  float: left;
+  display: inline;
+  padding-top: 10px; 
+}
+#sidebar {
+  font-size: 1em;
+  display: inline;
+  width: 186px;
+  float: left;
+  margin-right: 20px;
+  padding: 0 0 10px 0;
+}
+#sidebar ul h2 {
+	background: url(img/sidenav_top.jpg) no-repeat center;
+  color: #4d6175;
+	font-size: 1em;
+	font-weight: bold;
+	height: 22px;
+	margin: 10px 0 0 0;
+	padding: 2px;
+  line-height: 1.5em;
+	text-align: center;
+}
+#sidebar ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0px;
+}
+
+#sidebar ul ul {
+	border: #E1D6C6 1px solid;
+	font-size: 0.9em;
+	list-style-type: square;
+  color: #ddd;
+	margin: 0;
+	padding: 5px;
+}
+#sidebar p {
+  color: #333;
+}
+#sidebar ul ul.nobullet {
+  list-style-type: none;
+}
+#sidebar ul ul li {
+  margin-left: 15px;
+}
+#sidebar ul ul.nobullet li {
+  margin: 0;
+}
+
+#farsidebar {
+  width: 160px;
+  float: right;
+  margin: 0 0 1em;
+}
+
+#footer {
+  clear: both;
+	color: #999999;
+	font-size: 0.8em;
+	margin: 0 auto;
+	padding: 7px 0;
+	text-align: center;
+}
+
+p.note {
+        font-size: 0.7em;
+        line-height: 1em;
+}
+
+#searchbox {
+        text-align: center;
+}
+#searchbox input.searchbox {
+  padding: 0.5em;
+  width: 100%;
+}
+
+div.post {
+  padding: 1em 0 2em 0.5em;
+}
+          
+div#footerbar {
+	background: url(img/longfooter.png) #F3F6ED no-repeat center top;
+  height: 26px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+td,th {
+        padding-right: 1em;
+}
+
+div#notice {
+        text-align: center;
+        color: green;
+        padding: 0.5em 1em 0.5em 1em;
+        width: 300px;
+        margin: 0 auto 2em auto;
+}
+div#error {
+        text-align: center;
+        color: red;
+        padding: 0.5em 1em 0.5em 1em;
+        width: 300px;
+        margin: 0 auto 2em auto;
+}
+
+img.itemimage {
+  float: right;
+  border: 1px solid #000;
+  margin: 0 0 1em 1em;
+}
+
+h1, h2, h3 {
+  margin: 0 0 0.2em 0;
+  padding: 0;
+}
+h1 {
+  font-size: 2em;
+}
+h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+h3 {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+h1#itemlabel {
+  text-align: center;
+  font-weight: bold;
+}
+h3#cancompost {
+  text-align: right;
+  font-size: 2em;
+}
+
+a:hover, #sidebar ul ul li a:hover {
+  background-color: 4d6175;
+  color: #fff;
+}
+
+div#randombox {
+  margin-top: 1em;
+  text-align: center;
+}
+div#randombox img {
+  border: 1px solid #000;
+}
+div#farsidebar {
+  float: right;
+  width: 170px;
+  padding-top: 10px;
+}
+
+div.comment {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 0.6em;
+}
+div.comment h3.comment {
+  margin-bottom: -0.6em;
+}
+
+div.counter {
+}
+
+span.match {
+  background-color: #f9ef7a;
+}
+p.comment-meta {
+  font-size: 0.8em;
+  color: #888;
+}
+p.comment-toolbar {
+  font-size: 0.8em;
+  text-align: right;
+}
+
+ins {
+  background-color: #baffb1;
+  text-decoration: none;
+}
+
+del {
+  background-color: #ffc8c8;
+  text-decoration: none;
+}

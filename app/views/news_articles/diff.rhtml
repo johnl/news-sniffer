@@ -1,0 +1,18 @@
+<table>
+<tr>
+<td width="50%">
+<%= link_to '&laquo; Previous version', :action => 'diff',
+  :version_a => @vb.version,
+  :version_b => @prev.version if @prev %></td>
+
+<td width="50%" style="text-align: right">
+<%= link_to 'Next version &raquo;', :action => 'diff',
+  :version_a => @next.version,
+  :version_b => @va.version if @next %></td>
+</tr>
+<tr>
+<th><h3><%= @vb.title %></h3><%= @vb.created_at %></th>
+<th><h3><%= @va.title %></h3><%= @va.created_at %></th>
+</tr>
+<%= @diff %>
+</table>

@@ -1,0 +1,63 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+comments_rss_size: 374785
+comments_updated: 2006-07-31 19:02:37.215373 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=2185&amp;edition=1
+missing_comments: 
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: notimpressed
+  created: 2006-06-16 14:23:01 +01:00
+  deleted_at: 2006-06-22 15:07:26.738960 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=952067&amp;tstart=0#952067
+  message_id: 952067
+  modified: 2006-06-17 17:28:04 +01:00
+  text: Since when do the Japanese dictate anything to anyone.It seems they kill and eat anything with a face it's time these uncivilised people like the rest of us entered the 21st century.I realise that what i'm saying may not be "pc"but it's accurate.I finde the whole concept of hunting and killing these majestic and peaceful,intelligent mammals repugnant and someone should tell them where to stop,before the needless slaughter begins.
+  thread_id: 2185
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Alexander Wardrop
+  created: 2006-06-17 07:06:02 +01:00
+  deleted_at: 2006-06-22 15:07:26.738981 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=954037&amp;tstart=0#954037
+  message_id: 954037
+  modified: 2006-06-17 12:45:10 +01:00
+  text: The whaling ban should not be lifted under any circumstances. Magnificent creatures such as these need to be protected in order that future generations may see them. <br /><br />The greed and arrogance of the Japanese only go to show that they have not abandoned their brutality as evidenced only too well during the last world war. <br /><br />Nations which are anti whaling should consider their positions vis a vis those nations which are pro whaling.
+  thread_id: 2185
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Daniel
+  created: 2006-06-17 02:50:39 +01:00
+  deleted_at: 2006-06-22 15:07:26.739015 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=953891&amp;tstart=0#953891
+  message_id: 953891
+  modified: 2006-06-17 12:33:05 +01:00
+  text: Kill the greedy whalers!
+  thread_id: 2185
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Anthony Martin
+  created: 2006-06-16 13:24:25 +01:00
+  deleted_at: 2006-06-22 15:07:26.739038 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=951672&amp;tstart=0#951672
+  message_id: 951672
+  modified: 2006-06-16 16:28:12 +01:00
+  text: Yet another government who doesn't listen to it's public, whaling is a barbaric and completely unnecessary activity. If the international community can't do anything to prevent this, then consumers should take the action and stop buying products sourced from the countries involved. There aren't enough whales to fuel the whole economy of these countries.
+  thread_id: 2185
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: happyChris1966
+  created: 2006-06-16 14:42:28 +01:00
+  deleted_at: 2006-06-22 15:21:28.076136 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=952172&amp;tstart=0#952172
+  message_id: 952172
+  modified: 2006-06-17 18:18:14 +01:00
+  text: The EU should ensure that Japan knows that if the whaling ban is overturned, then not one product will be allowed into the EU from Japan for sale, not even a paper clip.<br /><br />If they insist in whaling then the EU should consider sending their navies to protect the whale sanctuarys.  If necessary by sinking the Japanese whaling fleet.
+  thread_id: 2185
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: A Sweeting
+  created: 2006-06-16 12:13:42 +01:00
+  deleted_at: 2006-06-22 15:21:28.076234 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=951116&amp;tstart=0#951116
+  message_id: 951116
+  modified: 2006-06-16 15:32:10 +01:00
+  text: Only if we can hunt whaling vessels.
+  thread_id: 2185
+published: 2006-06-16 10:43:31 +01:00
+thread_id: 2185
+title: Should the whaling ban be lifted?

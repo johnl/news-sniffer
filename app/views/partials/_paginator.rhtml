@@ -1,0 +1,5 @@
+ <div class="counter">
+   <%= link_to('&laquo; Previous page', {:page => paginator.current.previous})  + " | " if paginator.current.previous %>
+   <%=pagination_links(paginator, :window_size => 8) %>
+   <%= " | " + link_to(' Next page &raquo;', {:page => paginator.current.next}) if paginator.current.next %>
+ </div>

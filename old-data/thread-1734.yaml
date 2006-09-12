@@ -1,0 +1,36 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+comments_rss_size: 389740
+comments_updated: 2006-07-31 19:24:10.710117 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=1734&amp;edition=1
+missing_comments: 
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: JagGolf
+  created: 2006-05-10 15:08:31 +01:00
+  deleted_at: 2006-05-10 15:35:13.107296 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=793523&amp;tstart=0#793523
+  message_id: 793523
+  modified: 2006-05-10 15:08:31 +01:00
+  text: It's allright for the Northerners as they can still use their horse and cart. Ooops wrong HYS posting.<br />Seriously though it will effect the people in isolated areas more as they will have the furthest to travel. I guess that's another subsidy for us Southerners - Cheers!
+  thread_id: 1734
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: girtholomew
+  created: 2006-05-10 15:36:02 +01:00
+  deleted_at: 2006-05-10 15:55:14.216851 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=793717&amp;tstart=0#793717
+  message_id: 793717
+  modified: 2006-05-10 15:36:02 +01:00
+  text: I wish people would stop using the term 'motorists'. It's not a way of life, it's a necessity for millions of people. People talking about the 'cost' of motoring - think, please, think - the economy is based in large part on the internal combustion engine. Do you propose we rip up roads?? Please use your ******** brains.
+  thread_id: 1734
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: GentlemanKenThompson
+  created: 2006-05-10 15:32:57 +01:00
+  deleted_at: 2006-05-10 15:55:14.216873 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=793689&amp;tstart=0#793689
+  message_id: 793689
+  modified: 2006-05-10 15:32:57 +01:00
+  text: The absolute arrogance of this government beggars belief.<br /><br />we ALREADY pay Road Fund Tax, and thanks to Mr Brown we also pay EXORBITANT FURTHER TAX in FUEL DUTY.<br /><br />So don't kid yourselves, this is just another STEALTH TAX. About as stealthy as an elephant.<br /><br />As for you clowns that advocate using bicycles to get to work, try a 50 mile journey every morning and every evening in all weathers.<br /><br />Don't be so absolutely STUPID!!
+  thread_id: 1734
+published: 2006-05-10 10:18:43 +01:00
+thread_id: 1734
+title: Would you pay by the mile?

@@ -1,0 +1,9 @@
+<h1><%= @article.title %></h1>
+<table>
+<tr><th>Version date</th></tr>
+<% @versions.each do |version| %>
+<tr>
+<td><%= link_to version.created_at, :action => :show_version, :id => @article.id, :version => version.id %></td>
+</tr>
+<% end%>
+</table>

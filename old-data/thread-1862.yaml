@@ -1,0 +1,27 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+comments_rss_size: 372981
+comments_updated: 2006-07-31 19:23:31.720186 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=1862&amp;edition=1
+missing_comments: 
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Andrew Glinn
+  created: 2006-05-22 18:22:16 +01:00
+  deleted_at: 2006-05-22 20:00:23.280143 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=845640&amp;tstart=0#845640
+  message_id: 845640
+  modified: 2006-05-22 18:28:31 +01:00
+  text: yes drugs are a real problem across the world but there is an even larger problem that receives little or no support for the sufferers and others and that is alchoholisiam.<br /><br />if you are a drug usere you get lots of help and support but alchoholics get little or none and the are many more alchoholics in this country than peapole with a drug problem and the death toll for alchoholics compared to drug users is 9 to 1.
+  thread_id: 1862
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Ivan Thomson
+  created: 2006-05-22 19:12:11 +01:00
+  deleted_at: 2006-05-23 11:10:29.939494 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=845935&amp;tstart=0#845935
+  message_id: 845935
+  modified: 2006-05-22 19:14:59 +01:00
+  text: Dealers and users destroy communities and society...<br /><br />So let communities and society destroy users and dealers.<br /><br />Let's get back to good ol' fashion people policing since apparently the cops are miserable at stopping crime.
+  thread_id: 1862
+published: 2006-05-22 15:28:12 +01:00
+thread_id: 1862
+title: Are drugs a problem in your area?

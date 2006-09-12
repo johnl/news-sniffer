@@ -1,0 +1,25 @@
+<table>
+<tr>
+<th>Title</th>
+<th>Versions</th>
+<th><%= link_to 'First Published', :action => 'list' %></th>
+<th><%= link_to 'Last Updated', :action => 'list_revisions' %></th>
+<th>Source</th></tr>
+<% @articles.each do |article| %>
+<tr>
+<% if article.versions_count > 1 %>
+<td><%= link_to h(article.title), :action => :diff, :id => article.id,
+  :version_a => article.versions_count - 1,
+  :version_b => article.versions_count - 2 %></td>
+<% else %>
+<td><%= h(article.title) %></td>
+<% end %>
+<td><%= article.versions_count %></td>
+<td><%= article.created_at.strftime("%a %b %d %H:%M") %></td>
+<td><%= distance_of_time_in_words_to_now article.updated_at %> ago</td>
+<td><%= article.source %></td>
+</tr>
+<% end %>
+</table>
+<hr/>
+<%= render_partial 'partials/paginator', @articles_pages %>

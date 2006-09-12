@@ -1,0 +1,18 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+comments_rss_size: 189550
+comments_updated: 2006-07-31 19:19:38.735836 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=1832&amp;start=0&amp;edition=1&amp;ttl=20060518105854
+missing_comments: 
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: James
+  created: 2006-05-19 17:15:10 +01:00
+  deleted_at: 2006-05-22 13:50:25.679493 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=834579&amp;tstart=0#834579
+  message_id: 834579
+  modified: 2006-05-19 22:16:02 +01:00
+  text: "The Royal Mail already has too much money.  Let it earn \xC2\xA31.75m by SORTING ITS ACT OUT.  The only company worse than the Royal Mail in terms of serving its customers is ntl, the only company of which I am prepared to say I would rather gargle a bucket of someone else's vomit than deal with in any way, shape or form again."
+  thread_id: 1832
+published: 2006-05-18 10:59:12 +01:00
+thread_id: 1832
+title: "Should Royal Mail get \xA31.75bn?"

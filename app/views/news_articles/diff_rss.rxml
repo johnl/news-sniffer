@@ -1,0 +1,27 @@
+xml.instruct!
+
+xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
+  xml.channel do
+
+    xml.title       "'#{@article.title}' latest revisions"
+    xml.link        url_for :only_path => false, :action => 'diff'
+    xml.pubDate     CGI.rfc1123_date @article.updated_at
+    xml.description ""
+
+    @versions.each do |v|
+      next if v.version == 0
+      xml.item do
+        xml.title       v.title
+        link = url_for :only_path => false, :action => 'diff',
+          :id => @article.id,
+          :version_a => v.version, :version_b => v.version - 1
+        xml.link        link
+        xml.description truncate(v.text,240)
+        xml.pubDate     CGI.rfc1123_date v.created_at
+        xml.guid        link
+        xml.author      @article.source
+      end
+    end
+
+  end
+end

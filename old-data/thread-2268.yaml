@@ -1,0 +1,27 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+comments_rss_size: 116853
+comments_updated: 2006-07-31 19:01:30.654776 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=2268&amp;edition=2&amp;ttl=20060623101413
+missing_comments: 
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: lionRobUK
+  created: 2006-06-23 18:17:11 +01:00
+  deleted_at: 2006-06-23 18:35:08.313008 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=978745&amp;tstart=0#978745
+  message_id: 978745
+  modified: 2006-06-23 18:17:11 +01:00
+  text: m_thompson<br />There are penty of other HYS topics, why must every topic by hijacked by Iraq. Get over it!
+  thread_id: 2268
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: m_thompson
+  created: 2006-06-23 18:13:43 +01:00
+  deleted_at: 2006-06-23 18:35:08.313026 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=978751&amp;tstart=0#978751
+  message_id: 978751
+  modified: 2006-06-23 18:13:43 +01:00
+  text: One Mr. Blair once made a claim about a 45 minutes time frame for a certain individual to send a weapon of mass destruction to britain and we went to war for that, now who is gonna show Mr. Blair the red card? or do we just forgive and forget because he sort of apologised and it was somebody having a bad day at work while working on a certain dossier.
+  thread_id: 2268
+published: 2006-06-23 10:43:41 +01:00
+thread_id: 2268
+title: Bad day at the office?

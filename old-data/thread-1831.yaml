@@ -1,0 +1,54 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+comments_rss_size: 451776
+comments_updated: 2006-07-31 19:23:52.888833 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=1831&amp;edition=1&amp;ttl=20060517094722
+missing_comments: 
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: tony
+  created: 2006-05-17 12:53:08 +01:00
+  deleted_at: 2006-05-17 16:50:22.106644 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=824036&amp;tstart=0#824036
+  message_id: 824036
+  modified: 2006-05-17 13:08:52 +01:00
+  text: when we buy a flight ticket to come to the uk, all names must be checked by immigration office, then let in the genuine people, refuse visas to the scums coming in the UK to profit from the system without contributing to the economy. i know lot of people that are in the UK saying they get all benefits, housing, etc, and never worked. This is so humiliating for the UK citizens that participate to the economy. Hunt them, go in bars, resto, do check up
+  thread_id: 1831
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: adam
+  created: 2006-05-17 11:27:11 +01:00
+  deleted_at: 2006-05-17 16:50:22.106666 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=823126&amp;tstart=0#823126
+  message_id: 823126
+  modified: 2006-05-17 14:28:14 +01:00
+  text: they get caught once deport them, get caught twice shoot them !!<br /><br />..bet the number trying to enter our country would be a lot less then.  Ok this is a a bit extreme and way too non PC but something has to be done to get rid of our image as a soft touch. Lets face it we are one of the most northern euro countrys, these immigrants are bypassing a lot of other just as good countrys to get to us. Get rid of the soft touch image and i bet half of those would go elsewhere.
+  thread_id: 1831
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Simon
+  created: 2006-05-18 09:12:55 +01:00
+  deleted_at: 2006-05-18 15:00:22.765450 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=828070&amp;tstart=0#828070
+  message_id: 828070
+  modified: 2006-05-18 09:28:33 +01:00
+  text: Pure and Simple, Just kick them all out we have too many in the United Kingdom anyway!
+  thread_id: 1831
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: luckyjackieboy
+  created: 2006-05-18 09:01:20 +01:00
+  deleted_at: 2006-05-18 16:10:23.456287 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=828078&amp;tstart=0#828078
+  message_id: 828078
+  modified: 2006-05-18 09:28:32 +01:00
+  text: There are cameras all over this country watching our every movement and the police and security services are monitoring our email and telephones.<br />Meanwhile , every day , people are entering this country and staying here. They receive benefits and work,probably not declaring the latter for tax and NI.<br />They use all our facilities , NHS, GP , Schools etc. Free.<br />Then they start telling us how to run our country.<br />There will be a time soon when people will have had enough.
+  thread_id: 1831
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Frank
+  created: 2006-05-18 06:11:11 +01:00
+  deleted_at: 2006-05-22 17:00:33.384483 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=827832&amp;tstart=0#827832
+  message_id: 827832
+  modified: 2006-05-18 15:53:36 +01:00
+  text: For those who spout xenophobes at very comment deemed racist, I'll tell you this country really was 'Great' before the floodgates were open to immigration 30 or so years ago and its been to the country's and the peoples deteriment every since and getting worse. A very tough line is called for including the retraction of citizenship and removal of the undesirable element in our society irrespective of being born in the UK or not.
+  thread_id: 1831
+published: 2006-05-17 09:35:46 +01:00
+thread_id: 1831
+title: How should illegal immigrants be tracked?

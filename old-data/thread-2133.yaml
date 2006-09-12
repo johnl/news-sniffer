@@ -1,0 +1,72 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+comments_rss_size: 177638
+comments_updated: 2006-07-31 07:04:09.880115 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=2133&amp;edition=1&amp;ttl=20060609105859
+missing_comments: 
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: ChigwellChas
+  created: 2006-06-09 12:36:59 +01:00
+  deleted_at: 2006-06-09 12:56:04.515434 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=919990&amp;tstart=0#919990
+  message_id: 919990
+  modified: 2006-06-09 12:36:59 +01:00
+  text: Blimey, John Reilly, such vitriol! I'm guessing you had a bad experience with a football early in your childhood?
+  thread_id: 2133
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: Mark_WE
+  created: 2006-06-09 12:33:35 +01:00
+  deleted_at: 2006-06-09 12:56:04.515456 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=920012&amp;tstart=0#920012
+  message_id: 920012
+  modified: 2006-06-09 12:33:35 +01:00
+  text: Mike Malone are you suggesting with your comment "There are some of us out here with IQ's in double figures who find football boring, tedious and of no entertainment value at all." that most of the people who don't like football have IQs in single figures?<br /><br />Although, having an IQ in double figures still means that you are of below average intelligence! Perhaps if you had an IQ of three figures you mighe be able to enjoy it!
+  thread_id: 2133
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: atomjohn
+  created: 2006-06-09 12:26:42 +01:00
+  deleted_at: 2006-06-09 12:56:04.515475 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=919969&amp;tstart=0#919969
+  message_id: 919969
+  modified: 2006-06-09 12:26:42 +01:00
+  text: My girlfriend likes football which is great!<br /><br />leftwing lefty, United Kingdom<br /><br />Is that the American lady?<br />At least you will have the od ninety minutes to do something useful while she is stuck in front of the telly!
+  thread_id: 2133
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: atomjohn
+  created: 2006-06-09 12:22:18 +01:00
+  deleted_at: 2006-06-09 12:56:04.515498 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=919966&amp;tstart=0#919966
+  message_id: 919966
+  modified: 2006-06-09 12:22:18 +01:00
+  text: My grandpa passes away before i was born :p<br /><br />Girls take higher piority than football anyway.<br />Ka-lok Kan, Gillingham, United Kingdom <br /><br />Condolences ,My mistake - misinterpreted gf - I am not allowed girlfiends any more - not since last October when I was wed!
+  thread_id: 2133
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: atomjohn
+  created: 2006-06-09 12:16:37 +01:00
+  deleted_at: 2006-06-09 12:56:04.515525 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=919911&amp;tstart=0#919911
+  message_id: 919911
+  modified: 2006-06-09 12:16:37 +01:00
+  text: spend time with my gf. nothing is more important if you have a good gf. who cares about football anyway.<br />Ka-lok Kan, Gillingham, United Kingdom<br /><br />Wont your Grand Father want to watch the football?
+  thread_id: 2133
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: mizuno1
+  created: 2006-06-09 12:12:17 +01:00
+  deleted_at: 2006-06-09 12:56:04.515558 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=919887&amp;tstart=0#919887
+  message_id: 919887
+  modified: 2006-06-09 12:12:17 +01:00
+  text: spend time with my gf.  nothing is more important if you have a good gf.  who cares about football anyway.
+  thread_id: 2133
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: timothytheweasel
+  created: 2006-06-09 12:33:24 +01:00
+  deleted_at: 2006-06-09 13:49:04.984612 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=920000&amp;tstart=0#920000
+  message_id: 920000
+  modified: 2006-06-09 12:33:24 +01:00
+  text: I will just turn off the Tele and read a book. Football is dull. It's only fun for unthinking xenophobic cowardly closet case homosexuals who live in fear group dissaproval.
+  thread_id: 2133
+published: 2006-06-09 11:31:35 +01:00
+thread_id: 2133
+title: Are you avoiding the World Cup?

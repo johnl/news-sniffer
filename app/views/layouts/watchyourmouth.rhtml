@@ -1,0 +1,82 @@
+<html>
+<head>
+  <title>BBC Watch Your Mouth<%= " - " + @title if @title %></title>
+  <%= stylesheet_link_tag 'watchyourmouth' %>
+  <%= javascript_include_tag :defaults %>
+  <% @discovery_links.each do |l| %>
+  <%= auto_discovery_link_tag(:rss, l.first, :title => l.last) %>
+  <% end if @discovery_links %>
+</head>
+<body>
+  <div id="rap">
+    <div id="header">
+      <ul id="topnav">
+        <li><%= link_to 'New World Odour', 'http://newworldodour.co.uk/live/' %></li>
+      </ul>
+    </div>
+    <div id="main">
+      <div id="sidebar">
+        <ul>
+          <li id="newsniffer">
+            <h2>News Sniffer</h2>
+            <ul>
+              <li><%= link_to 'About', :controller => 'pages', :action => 'about' %></li>
+            </ul>
+          </li>
+          <li id="menu">
+            <h2>Watch Your Mouth</h2>
+            <ul>
+              <li><%= link_to 'Latest Threads', :controller => 'bbchysthreads', :action => 'all' %></li>
+              <li><%= link_to 'Most Censored Threads', :controller => 'bbchysthreads', :action => 'mostcensored' %></li>
+              <li><%= link_to 'Censored Comments', :controller => 'bbchyscomments', :action => 'list' %></li>
+              <li><%= link_to 'Recommended Comments', :controller => 'bbchyscomments', :action => 'recommended' %></li>
+            </ul>
+          </li>
+          <li>
+            <h2>RSS Feeds</h2>
+            <ul>
+              <li><%= link_to 'Watch Your Mouth', :controller => 'bbchyscomments', :action => 'list_rss' %></li>
+            </ul>
+          </li>
+          <li id="search">
+            <h2>Search Comments</h2>
+            <ul class="nobullet">
+              <li id="searchbox"
+              <%= start_form_tag :controller => 'bbchyscomments', :action => 'search'  %>
+              <%= text_field_tag 'search', @search, :class => 'searchbox' %>
+              <p><%= submit_tag ' Search ' %></p>
+              <%= end_form_tag %>
+              </li>
+            </ul>
+          </li>
+          <% if @random_comment %>
+          <li>
+            <h2>Random Comment</h2>
+            <ul class="nobullet">
+              <li><%= comment_permalink(@random_comment.hys_thread.title, @random_comment) %><br/>
+              <p>&quot;<%= truncate(@random_comment.text, 120) %>&quot;</p></li>
+            </ul>
+          </li>
+          <% end %>
+        </ul>
+      </div>
+      <div id="content">
+
+        <% if flash[:notice] %>
+        <div id="notice"><%= flash[:notice] %></div>
+        <% end %>
+        <% if flash[:error] %>
+        <div id="error"><%= flash[:error] %></div>
+        <% end %>
+
+        <%= @content_for_layout %>
+      </div>
+
+      <div id="footer">
+        <small></small>
+      </div>
+    </div>
+    <div id="footerbar">&nbsp;</div>
+  </div>
+</body>
+</html>

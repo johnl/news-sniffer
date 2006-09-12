@@ -1,0 +1,16 @@
+<h1>BBC 'Have Your Say' Threads</h1>
+<table>
+<tr><th>Details</th><th>Censored</th></tr>
+<% @threads.each do |t| %>
+<tr>
+<td>
+<strong><%= link_to h(t.title), :action => :show, :id => t.bbcid %></strong><br/>
+<small>Started: <%= t.created_at.strftime("%m/%d/%Y") %>, Last updated <%= distance_of_time_in_words_to_now(t.updated_at) %> ago</small>
+</td>
+<td><%= t.censored.count %></td>
+</tr>
+<% end %>
+</table>
+<hr/>
+<%= render_partial 'partials/paginator', @threads_pages %>
+

@@ -1,0 +1,18 @@
+--- !ruby/object:BBCNews::Haveyoursay 
+comments: 
+comments_rss_size: 90728
+comments_updated: 2006-07-31 19:16:58.145233 +01:00
+link: http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=2173&amp;start=0&amp;edition=1&amp;ttl=20060613131054
+missing_comments: 
+- !ruby/object:BBCNews::Haveyoursaycomment 
+  author: felixwatts
+  created: 2006-06-20 12:47:25 +01:00
+  deleted_at: 2006-06-20 14:21:12.356573 +01:00
+  link: http://newsforums.bbc.co.uk/nol/thread.jspa?messageID=963830&amp;tstart=0#963830
+  message_id: 963830
+  modified: 2006-06-20 12:47:25 +01:00
+  text: "I agree with Guidos,<br /><br />Fact: the human population fo earth is growing exponentially.<br /><br />A story about exponential growth: <br /><br />Bacteria repdroduce exponentially. That is, the time for the population to double is constant. Imagine we have a jar of nutrient. At 11AM we place a single bacterium of a species that divides once per minute, in the jar. One hour later, at noon, we note that the jar is full of bacteria. <br /><br />Question: At what time was the jar half full? Answer: 11:59<br /><br />Its one minute to noon people. Control your reproduction."
+  thread_id: 2173
+published: 2006-06-13 13:12:01 +01:00
+thread_id: 2173
+title: Are cities growing too much?
