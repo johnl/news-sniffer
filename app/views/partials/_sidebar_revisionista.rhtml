@@ -35,10 +35,10 @@
             </ul>
           </li>
 <% else -%>
-          <li id="search">
+          <li>
             <h2>Search Articles</h2>
             <ul class="nobullet">
-              <li id="searchbox"
+              <li id="searchbox">
               <%= start_form_tag :controller => 'news_articles', :action => 'search'  %>
               <%= text_field_tag 'search', @search, :class => 'searchbox' %>
               <p><%= submit_tag ' Search ' %></p>

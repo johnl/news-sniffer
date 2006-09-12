@@ -1,3 +1,4 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
   <title>News Sniffer<%= " - " + h(@title) if @title -%></title>
@@ -14,15 +15,14 @@
   	  <div id="nav">
           <ul>
       	    <li><%= link_to 'Home', :controller => 'pages',
-      	      :action => 'summary' %></a></li>
+      	      :action => 'summary' %></li>
       	    <li><%= link_to 'About', :controller => 'pages',
       	      :action => :about %></li>
       	    <li><%= link_to 'Watch Your Mouth',
-      	      :controller => 'bbchysthreads', :action => 'mostcensored' %></li>
+      	      { :controller => 'bbchysthreads', :action => 'mostcensored' }, :title => 'BBC Have Your Say censored comments' %></li>
       	    <li><%= link_to 'Revisionista',
-      	      :controller => 'news_articles', :action => 'list' %></li>
+      	      { :controller => 'news_articles', :action => 'list' }, :title => 'Corporate news article revisions'  %></li>
             <li><a href="/blog/">Blog</a></li>
-          </ul>      	      
           </ul>
   	  </div> 
     </div>
@@ -34,6 +34,7 @@
           controller.controller_name =~ /bbchys/ -%>
         <%= render :partial => "partials/sidebar_revisionista" if 
           controller.controller_name == "news_articles" -%>
+          <li>&nbsp;</li>
         </ul>
       </div>
       <div id="content">

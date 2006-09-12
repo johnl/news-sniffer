@@ -9,10 +9,10 @@
                 :controller => 'bbchyscomments', :action => 'list_rss' %></li>
             </ul>
           </li>
-          <li id="search">
+          <li>
             <h2>Search Comments</h2>
             <ul class="nobullet">
-              <li id="searchbox"
+              <li id="searchbox">
               <%= start_form_tag :controller => 'bbchyscomments', :action => 'search'  %>
               <%= text_field_tag 'search', @search, :class => 'searchbox' %>
               <p><%= submit_tag ' Search ' %></p>
