@@ -5,7 +5,7 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '1.1.4'
+RAILS_GEM_VERSION = '1.1.6'
 
 ENV['ADMIN_PASSWORD'] = "dogmacatma"
 
