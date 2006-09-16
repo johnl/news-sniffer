@@ -13,21 +13,34 @@ namespace "bbc" do
   @comments_rss_url = "http://newsforums.bbc.co.uk/nol/rss/rssmessages.jspa?threadID=%s&lang=en"
   @comments_html_url = "http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=%s"
 
-  @logger = Logger.new('log/newsniffer-bbchys.log')
+  @logger = Logger.new("log/#{RAILS_ENV}-rake.log")
+  
+  def log_debug(msg)
+  	time = Time.now.strftime("%a %d/%m/%y %H:%M:%S")
+    msg = "#{time}: #{msg}"
+  	@logger.info(msg)
+    puts msg
+  end
 
   def log_info(msg)
   	time = Time.now.strftime("%a %d/%m/%y %H:%M:%S")
-  	@logger.info("#{time}: #{msg}")
+    msg = "#{time}: #{msg}"
+  	@logger.info(msg)
+    puts msg
   end
 	
   def log_error(msg)
     time = Time.now.strftime("%a %d/%m/%y %H:%M:%S")
-    @logger.error("#{time}: #{msg}")
+    msg = "#{time}: #{msg}"
+    @logger.error(msg)
+    puts msg
   end
 	
   def log_warn(msg)
     time = Time.now.strftime("%a %d/%m/%y %H:%M:%S")
-    @logger.warn("#{time}: #{msg}")
+    msg = "#{time}: #{msg}"
+    @logger.warn(msg)
+    puts msg
   end
 
   def head_hash(url)
@@ -77,20 +90,7 @@ namespace "bbc" do
     return entries
   end
 
-  desc "check for new hys threads"
-  task :checknewthreads => :environment do
-    lastsize = Variable.geti('thread_rss_filesize')
-    newsize = remote_filesize(@thread_rss_url)
-    if lastsize.to_i == newsize.to_i
-      print "no change in rss\n"
-    else
-      print "rss updated\n"
-      Variable.put('thread_rss_filesize', newsize)
-      Rake::Task[:getnewthreads].invoke
-    end
-  end
-
-  desc "find any new threads"
+  desc "find any new BBC Hys threads"
   task :getnewthreads => :environment do
       
     rssdata = zget(@thread_rss_url)
@@ -98,7 +98,7 @@ namespace "bbc" do
     begin
       rss = SimpleRSS.parse rssdata
     rescue SimpleRSSError
-        print "error parsing rss\n"
+        log_error "getnewthreads: error parsing RSS #{@thread_rss_url}"
         exit
     end
     rss.entries.each do |e|
@@ -107,14 +107,14 @@ namespace "bbc" do
         thread_id = thread_id(link)
         next unless thread_id
         next if HysThread.find_by_bbcid(thread_id)
-        print "new thread: #{thread_id}\n"
+        log_info "getnewthreads: new hysthread: #{thread_id}"
         t = HysThread.new
         t.title = e[:title]
         t.bbcid = thread_id
         t.created_at = Time.parse( e[:pubDate].to_s )
         t.save
       rescue NameError
-        print "skipping. RSS entry didn't look right\n"
+        log_info "getnewthreads: RSS entry didn't look right"
         next
       end
     end
@@ -124,28 +124,25 @@ namespace "bbc" do
     # FIXME: this should be condition on updated_at, once the data is sorted out
     HysThread.find(:all, :order => 'created_at desc', :conditions => find_conditions ).each do |t|
       url = @comments_rss_url.gsub('%s', t.bbcid.to_s)
-      print "id: #{t.bbcid} title: '#{t.title}'\n"
-      #print "url: #{url}\n"
+      log_debug "hysthread: #{t.bbcid} title: '#{t.title}'"
       newsize = remote_filesize(url)
 			if newsize
-				print " * content-length header exists\n"
+				log_debug "hysthread::#{t.bbcid} - content-length header exists"
 			else	
 	      begin
 	        rssdata = zget(url)
 	      rescue OpenURI::HTTPError
-	        print " ! 404 error, skipping"
-					log_error("thread #{t.bbcid}: 404 error")
+					log_error("hysthread:#{t.bbcid}: 404 error")
 	        next
 	      end
       	newsize = rssdata.size
 			end
       lastsize = t.rsssize
       if lastsize.to_i == newsize.to_i
-        print " * no change in comments rss\n"
+        log_debug "hysthread:#{t.bbcid} - no change in comments rss"
         next
       end
-			log_info("thread #{t.bbcid}: comments rss updated - #{t.title}")
-      print " * comments rss updated\n"
+			log_info("hysthread:#{t.bbcid} - comments rss updated - #{t.title}")
       t.rsssize = newsize
       t.save
 			if rssdata.nil?
@@ -154,8 +151,7 @@ namespace "bbc" do
       begin
           rss = SimpleRSS.parse rssdata
       rescue SimpleRSSError
-          print " ! error parsing rss, skipping\n"
-					@logger.error("thread #{t.bbcid}: error passing comments rss")
+					log_error("hysthread:#{t.bbcid} - error parsing comments rss")
           next
       end
       comments = rss.entries.collect { |e| Haveyoursaycomment.instantiate_from_rss(e, t.bbcid) }
@@ -163,8 +159,7 @@ namespace "bbc" do
       oldest_comment = Time.now
       comments.each { |c| oldest_comment = c.modified if c.modified < oldest_comment }
         
-      print " * #{comments.size} comments, oldest: #{oldest_comment}\n"
-			log_info("thread #{t.bbcid}: #{comments.size} comments in rss, #{t.hys_comments.count} in database")
+			log_info("hysthread:#{t.bbcid}: #{comments.size} comments in rss, oldest: #{oldest_comment}, #{t.hys_comments.count} in database")
 
       comment_ids = t.comment_ids_since(oldest_comment)
       censored_ids = t.censored_comment_ids_since(oldest_comment)
@@ -174,8 +169,7 @@ namespace "bbc" do
       new_count = 0
       comments.each do |c|
           next if comment_ids.include?(c.message_id.to_i)
-          #print " * new comment: #{c.message_id}: #{c.modified}\n"
-					log_info("thread #{t.bbcid}: new comment #{c.message_id} created at #{c.created} by #{c.author}")
+					log_info("hysthread:#{t.bbcid}: new comment #{c.message_id} created at #{c.created} by #{c.author}")
           new_count += 1
           nc = HysComment.new
           nc.text = c.text
@@ -185,12 +179,10 @@ namespace "bbc" do
           nc.bbcid = c.message_id
           t.hys_comments << nc
       end
-      print " * #{new_count} new comments\n" if new_count > 0
-			log_info("thread #{t.bbcid}: #{new_count} new comments added to database from rss")
+      log_info "hysthread:#{t.bbcid} - #{new_count} new comments" if new_count > 0
 
       rss_ids.each do |cid|
         next unless censored_ids.include?(cid)
-        print " * missing comment #{cid} reappeared!\n"
         c = HysComment.find_by_bbcid(cid)
         c.censored = 1
         c.save
@@ -210,7 +202,6 @@ namespace "bbc" do
 							next
 						end
           end
-          print " * new missing comment #{cid}\n"
 					log_info("thread #{t.bbcid}: new missing comment #{c.bbcid}, created at  #{c.created_at} by #{c.author}")
           c.censored = 0
           c.save
@@ -219,64 +210,27 @@ namespace "bbc" do
     end
   end
   
-	desc "read new comments and check for censored ones"
+	desc "read new HYS comments and check for censored ones"
   task :getnewcomments => :environment do
 		get_new_comments(['created_at >= now() - INTERVAL 1 month'])
 	end
 
-	desc "check for censored comments on the very latest threads"
+	desc "check for censored HYS comments on the very latest threads"
 	task :get_short_comments => :environment do
 		log_info("get_short_comments started")
 		get_new_comments(['created_at >= now() - INTERVAL 2 day'])
 	end
 	
-	desc "check for censored comments on the medium term threads"
+	desc "check for censored HYS comments on the medium term threads"
 	task :get_medium_comments => :environment do
 		log_info("get_medium_comments started")
 		get_new_comments(['created_at < now() - INTERVAL 2 day and created_at >= now() - INTERVAL 7 day'])
 	end
 	
-	desc "check for censored comments on the long term threads"
+	desc "check for censored HYS comments on the long term threads"
 	task :get_long_comments => :environment do
 		log_info("get_long_comments started")
 		get_new_comments(['created_at < now() - INTERVAL 7 day and created_at >= now() - INTERVAL 2 month'])
 	end
-
-  desc "find any new news articles"
-  task :get_new_articles => :environment do
-    rss = get_rss_entries "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/world/rss.xml"
-    rss += get_rss_entries "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/uk/rss.xml"
-    rss.entries.each do |e|
-      next if NewsArticle.find_by_guid(e.guid)
-      puts "New news article '#{e.title}'"
-      a = NewsArticle.new
-      a.guid = e.guid
-      a.published_at = Time.parse(e.pubDate.to_s)
-      a.source = "bbc"
-      a.title = e.title
-      a.url = e[:link]
-      a.save
-    end
-  end
-
-  desc "Detect and archive news article contents"
-  task :get_new_article_versions => :environment do
-    puts "Finding articles..."
-    now = Time.now
-    NewsArticle.find(:all, :order => 'updated_at desc').each do |article|
-      hours_old = ( (now - article.updated_at) / ( 60 * 60 ) ).to_i + 1
-      tens = ((now.to_i % (60*60*24)) / 600 ) + 1
-      next unless (((now.to_i % (60*60*24)) / 600 ) % hours_old) == 0
-      log_info "processing '#{article.guid}' last updated #{hours_old} hours ago"
-      page_data = zget(article.url)
-      page = NewsPage::BbcNewsPage.new(page_data)
-      page.url = article.url
-      next if page.text_hash.nil? or page.text_hash == article.latest_text_hash
-      log_info "new version found for '#{article.guid}'"
-      nv = NewsArticleVersion.new
-      nv.populate_from_page(page)
-      article.versions << nv
-    end
-  end
 
 end

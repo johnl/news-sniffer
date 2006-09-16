@@ -21,6 +21,7 @@
   :action => 'diff', :id => a.id,
   :version_a => a.versions_count - 1 , 
   :version_b => a.versions_count - 2  %></td>
+<td><%= a.versions_count %> versions</td>
 <td><small><%= distance_of_time_in_words_to_now a.updated_at %> ago</small></td>
 </tr>
 <% end -%>

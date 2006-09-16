@@ -1,5 +1,4 @@
 <h1><%= @version.title %></h1>
 <p><%= link_to @version.news_article.url, @version.news_article.url %></p>
-<p><%= @versions.size %> versions.  
-<%= link_to 'Show diff from previous', :action => 'diff', :id => @article.id, :version_a => @version.id, :version_b => @prev_version.id %></p>
+<p><%= @versions.size %> versions.</p>
 <%= @version.text %>

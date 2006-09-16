@@ -3,7 +3,6 @@
 <tr>
 <th>Title</th>
 <th>Versions</th>
-<th><%= link_to 'First Published', :action => 'list' %></th>
 <th><%= link_to 'Last Updated', :action => 'list_revisions' %></th>
 <th>Source</th></tr>
 <% @articles.each do |article| %>
@@ -11,14 +10,14 @@
 <% if article.versions_count > 1 %>
 <td><%= link_to h(article.title), :action => :diff, :id => article.id,
   :version_a => article.versions_count - 1,
-  :version_b => article.versions_count - 2 %></td>
+  :version_b => article.versions_count - 2 %>
 <% else %>
-<td><%= h(article.title) %></td>
+<td><%= link_to h(article.title), :action => :show, :id => article.id %>
 <% end %>
+<br/><small>First published: <%= article.created_at.strftime("%a %b %d %H:%M") %></small></td>
 <td><%= article.versions_count %></td>
-<td><%= article.created_at.strftime("%a %b %d %H:%M") %></td>
-<td><%= distance_of_time_in_words_to_now article.updated_at %> ago</td>
-<td><%= article.source %></td>
+<td><small><%= article.updated_at.strftime("%a %b %d %H:%M") %></small></td>
+<td><small><%= article.source %></small></td>
 </tr>
 <% end %>
 </table>

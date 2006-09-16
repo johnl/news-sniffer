@@ -34,7 +34,7 @@ class NewsArticlesController < ApplicationController
     @search = session[:na_search]
     @title = @title + " for '#{@search}'" if @search
     @articles_pages, @articles = paginate :news_article, :per_page => 20,
-      :conditions => ["MATCH (news_article_versions.text) AGAINST (? IN BOOLEAN MODE)",
+      :conditions => ["MATCH (news_article_versions.text,news_article_versions.title) AGAINST (? IN BOOLEAN MODE)",
         @search ],
       :include => 'versions',
       :order => "news_articles.updated_at desc"  
@@ -43,13 +43,13 @@ class NewsArticlesController < ApplicationController
   
 
   def show
-    @article = NewsArticle.find(params[:id], :include => :news_article_versions)
-    @versions = @article.news_article_versions
+    @article = NewsArticle.find(params[:id], :include => :versions)
+    @versions = @article.versions
   end
 
   def show_version
     @article = NewsArticle.find(params[:id])
-    @versions = @article.news_article_versions.find(:all, :order => 'id asc')
+    @versions = @article.versions.find(:all, :order => 'id asc')
     @versions.each do |v|
       @version = v
       break if v.id == params[:version].to_i
