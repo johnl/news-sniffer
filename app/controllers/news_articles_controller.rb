@@ -34,10 +34,9 @@ class NewsArticlesController < ApplicationController
     @search = session[:na_search]
     @title = @title + " for '#{@search}'" if @search
     @articles_pages, @articles = paginate :news_article, :per_page => 20,
-      :conditions => ["MATCH (news_article_versions.text,news_article_versions.title) AGAINST (? IN BOOLEAN MODE)",
+      :conditions => ["MATCH (news_article_versions.title, news_article_versions.text) AGAINST (? IN BOOLEAN MODE)",
         @search ],
-      :include => 'versions',
-      :order => "news_articles.updated_at desc"  
+      :include => 'versions'
     render :action => :list  
   end
   

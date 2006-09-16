@@ -50,8 +50,8 @@ class BbchyscommentsController < ApplicationController
     @search = session[:wym_search]
     @title = "Watch Your Mouth - search for '#{@search}'"
     @comments_pages, @comments =
-      paginate :hys_comments, :order => 'modified_at desc',
-        :conditions => ['censored = 0 and MATCH (text) AGAINST (?)', @search]
+      paginate :hys_comments,
+      :conditions => ['censored = 0 and MATCH (text) AGAINST (? IN BOOLEAN MODE)', @search]
     render :action => 'list'
   end
 
