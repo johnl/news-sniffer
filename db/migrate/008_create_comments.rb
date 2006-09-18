@@ -1,7 +1,7 @@
 class CreateComments < ActiveRecord::Migration
   def self.up
 
-    execute "alter table news_article_versions add fulltext(title,text);"
+    execute "alter table news_article_versions add fulltext title_text (title,text);"
 
     create_table :comments do |t|
       t.column :name, :string, :limit => 64
@@ -21,7 +21,7 @@ class CreateComments < ActiveRecord::Migration
   end
 
   def self.down
-    execute "alter table news_article_versions drop index 'title'"
+    execute "alter table news_article_versions drop index 'title_text'"
     remove_index :comments, :link_id
     remove_index :comments, :linktype
     drop_table :comments
