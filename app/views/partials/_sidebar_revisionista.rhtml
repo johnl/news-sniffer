@@ -5,6 +5,8 @@
                 :controller => 'news_articles', :action => 'list' %></li>
               <li><%= link_to 'Latest Revisions',
                 :controller => 'news_articles', :action => 'list_revisions' %></li>
+              <li><%= link_to 'Recommended Revisions',
+                :controller => 'news_articles', :action => 'list_recommended' %></li>
               <li><%= link_to 'Revisions RSS Feed',
                 :controller => 'news_articles', :action => 'list_rss' %></li>
 
@@ -12,11 +14,10 @@
           </li>
 <% if @article and @versions -%>
           <li>
-            <h2>Article</h2>
-            <ul class="nobullet">
-              <li>Source: <%= @article.source %></li>
-              <li>Published: <%= @versions.first.created_at.strftime("%a %b %d %H:%M") %></li>
-              <li><%= link_to 'Link to article', @article.url %></li>
+            <h2>Article Links</h2>
+            <ul>
+              <li><%= link_to 'External link to article', @article.url %></li>
+              <li><%= link_to 'News Sniffer permalink' %></li>
               <li><%= link_to 'Article RSS Feed', :action => :diff_rss, 
                 :id => @article.id %></li>
             </ul>
@@ -26,11 +27,11 @@
             <h2>Versions</h2>
             <ul>
             <% @versions.each do |version| next if version.version == 0 %>
-            <li><%= link_to version.created_at.strftime("%a %b %d %H:%M"),
+            <li><%= link_to "Version #{version.version}",
               :action => 'diff',
               :id => @article.id,
               :version_a => version.version,
-              :version_b => version.version - 1 %></li>
+              :version_b => version.version - 1 %> <small>(<%= version.votes %> votes)</small></li>
             <% end %>
             </ul>
           </li>

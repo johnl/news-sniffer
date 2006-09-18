@@ -5,6 +5,10 @@ class NewsArticleVersion < ActiveRecord::Base
   after_create :inc_counter
   before_destroy :dec_counter
   
+  has_many :comments, :conditions => "linktype = 'NewsArticleVersion'",
+    :foreign_key => 'link_id'
+ 
+  # populate the object from a NewsPage object
   def populate_from_page(page)
       self.text_hash = page.text_hash
       self.title = page.title

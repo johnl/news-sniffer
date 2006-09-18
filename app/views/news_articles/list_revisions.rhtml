@@ -1,0 +1,25 @@
+<h2>News Article Revisions</h2>
+<table>
+<tr>
+<th>Title</th>
+<th>Version</th>
+<th>Votes</th>
+<th>Source</th></tr>
+<% @versions.each do |version| %>
+<tr>
+<% if version.news_article.versions_count > 1 %>
+<td><%= link_to h(truncate(version.title,75)), { :action => :diff, :id => version.news_article.id,
+  :version_a => version.version,
+  :version_b => version.version - 1 }, :title => h(version.title) %>
+<% else %>
+<td><span title="<%= h(version.title) %>"><%= h(truncate(version.title,75)) %></span>
+<% end %>
+</td>
+<td style="text-align:center"><%= version.version %></td>
+<td style="text-align:center"><%= version.votes %></td>
+<td><small><%= version.news_article.source %></small></td>
+</tr>
+<% end %>
+</table>
+<hr/>
+<%= render :partial => 'partials/paginator', :locals => { :paginator => @versions_pages } %>

@@ -12,7 +12,10 @@ class AdminControllerTest < Test::Unit::TestCase
   end
 
   # Replace this with your real tests.
-  def test_truth
-    assert true
+  def test_failed_login
+    post :login, :password => 'wrong'
+    assert_template "login"
+    assert_match /wrong password/i, flash[:error]
   end
+
 end

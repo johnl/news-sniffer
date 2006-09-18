@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
+  <meta http-equiv="content-type" content="text/html;charset=iso-8859-1" />
   <title>News Sniffer<%= " - " + h(@title) if @title -%></title>
   <%= stylesheet_link_tag 'newsniffer' %>
   <%= javascript_include_tag :defaults %>
@@ -21,7 +22,7 @@
       	    <li><%= link_to 'Watch Your Mouth',
       	      { :controller => 'bbchysthreads', :action => 'mostcensored' }, :title => 'BBC Have Your Say censored comments' %></li>
       	    <li><%= link_to 'Revisionista',
-      	      { :controller => 'news_articles', :action => 'list' }, :title => 'Corporate news article revisions'  %></li>
+      	      { :controller => 'news_articles', :action => 'list_revisions' }, :title => 'Corporate news article revisions'  %></li>
             <li><a href="/blog/">Blog</a></li>
           </ul>
   	  </div> 

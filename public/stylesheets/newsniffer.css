@@ -8,7 +8,7 @@ body {
 
 a {
   color: #4d6175;
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 a:visited {
@@ -37,6 +37,7 @@ hr {
 #content {
   margin-left: 190px;
   padding: 0 10px 0 10px;
+  font-size: 1em;
 }
 #content ul {
 	margin-left: 0;
@@ -143,7 +144,7 @@ hr {
 }
 
 #sidebar {
-  font-size: 1em;
+  font-size: 0.9em;
   display: inline;
   width: 186px;
   float: left;
@@ -151,15 +152,15 @@ hr {
   padding: 0 0 10px 0;
 }
 #sidebar ul h2 {
-	background: url(img/sidenav_top.jpg) no-repeat center;
+  background: url(img/sidenav_top.jpg) no-repeat center;
   color: #4d6175;
-	font-size: 1em;
+	font-size: 1.1em;
 	font-weight: bold;
 	height: 22px;
 	margin: 0 0 0 0;
 	padding: 2px;
-  line-height: 1.5em;
-	text-align: center;
+  line-height: 1.6em;
+  text-align: center;
 }
 #sidebar ul {
 	list-style-type: none;
@@ -168,12 +169,12 @@ hr {
 }
 
 #sidebar ul ul {
-	border: #E1D6C6 1px solid;
   color: #4d6175;
 	font-size: 0.9em;
 	list-style-type: square;
 	margin: 0 0 10px 0;
 	padding: 5px;
+  border: #E1D6C6 1px solid;
 }
 #sidebar p {
   color: #333;

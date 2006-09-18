@@ -1,7 +1,6 @@
 class AdminController < ApplicationController
 
-  layout 'watchyourmouth'
-
+  layout 'newsniffer'
 
   def login
     @admin_bar = true

@@ -1,6 +1,33 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 first:
+  latest_text_hash: 0e9da3f45404b2431585e700bfc1b936
+  updated_at: 2006-08-29 14:30:11
+  title: Annan to see Lebanon destruction
+  guid: http://news.bbc.co.uk/1/hi/world/middle_east/5294098.stm
+  versions_count: "2"
+  url: http://news.bbc.co.uk/go/rss/-/1/hi/world/middle_east/5294098.stm
   id: 1
-  versions_count: 1
-another:
+  published_at: 2006-08-29 06:36:06
+  source: bbc
+  created_at: 2006-08-29 06:48:03
+second:
+  latest_text_hash: 112ce178504ea45a02d0d2e66b6ed65d
+  updated_at: 2006-09-01 18:00:28
+  title: Egypts Abdelwahab dies on pitch
+  guid: http://news.bbc.co.uk/sport1/hi/football/africa/5301282.stm
+  versions_count: "1"
+  url: http://news.bbc.co.uk/go/rss/-/sport1/hi/football/africa/5301282.stm
   id: 2
+  published_at: 2006-08-31 10:25:52
+  source: bbc
+  created_at: 2006-08-31 11:36:03
+third:
+  latest_text_hash: 112ce178504ea45a02d0d2e66b6ed65d
+  updated_at: 2006-09-01 18:00:28
+  title: The Monkies killed my baby
+  guid: http://news.bbc.co.uk/sport1/hi/football/africa/5301282.stm
+  versions_count: "2"
+  url: http://news.bbc.co.uk/go/rss/-/sport1/hi/football/africa/5301282.stm
+  id: 3
+  published_at: 2006-08-31 10:25:52
+  source: bbc
+  created_at: 2006-08-31 11:36:03

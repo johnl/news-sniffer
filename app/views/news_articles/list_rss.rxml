@@ -3,23 +3,22 @@ xml.instruct!
 xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
   xml.channel do
 
-    xml.title       "Revisionista latest news revisions"
+    xml.title       "Revisionista latest recommended news revisions"
     xml.link        url_for :only_path => false, :action => :list_rss
-    xml.pubDate     CGI.rfc1123_date @articles.first.updated_at if @articles.any?
-    xml.description "Latest revisions of corporate news articles"
+    xml.pubDate     CGI.rfc1123_date @versions.first.created_at if @versions.any?
+    xml.description "Latest recommended revisions of corporate news articles"
 
-    @articles.each do |article|
-      v = article.versions.last
+    @versions.each do |v|
       xml.item do
-        xml.title       v.title
+        xml.title       "v#{v.version}: #{v.title}"
         link = url_for :only_path => false, :action => 'diff',
-          :id => article.id,
+          :id => v.news_article.id,
           :version_a => v.version, :version_b => v.version - 1
         xml.link        link
         xml.description truncate(v.text,240)
         xml.pubDate     CGI.rfc1123_date v.created_at
         xml.guid        link
-        xml.author      article.source
+        xml.author      v.news_article.source
       end
     end
 

@@ -2,29 +2,46 @@ class NewsArticlesController < ApplicationController
 
   layout 'newsniffer'
   
-  session :off, :except => %w(search)
+  session :off, :except => %w(search vote)
 
   def list
   	@title = "Revisionista latest news article list"
-    @discovery_links = [ [url_for(:action => "list_rss"), "Latest news revisions"] ]
-    @articles_pages, @articles = paginate :news_article, :per_page => 20,
-      :order => "news_articles.created_at desc"
+
+    @articles_pages = Paginator.new self, NewsArticle.count, 16, params[:page].to_i
+    @articles = NewsArticle.find(:all, :include => 'versions', 
+      :order => "news_articles.created_at desc",
+      :limit => @articles_pages.items_per_page, :offset => @articles_pages.current.offset)
+    render :action => 'list_articles'
   end
   
   def list_revisions
   	@title = "Revisionista latest revision list"  
     @discovery_links = [ [url_for(:action => "list_rss"), "Latest news revisions"] ]  
-    @articles_pages, @articles = paginate :news_article, :per_page => 20,
-      :conditions => "versions_count > 1",
-      :order => "news_articles.updated_at desc"  
-    render :action => :list
+    @versions_pages, @versions = paginate :news_article_version, :per_page => 16,
+      :include => 'news_article', :order => "news_article_versions.created_at desc",
+      :conditions => 'news_article_versions.version > 0'
+  end
+  
+  def list_recommended
+    @title = "Revisionista recommended revisions"
+    @discovery_links = [ [url_for(:action => "list_recommended_rss"), "Latest recommended news revisions"] ]  
+    @versions_pages, @versions = paginate :news_article_version, :per_page => 16,
+      :include => 'news_article', :order => "news_article_versions.votes desc,news_article_versions.created_at desc",
+      :conditions => 'news_article_versions.version > 0'
+    render :action => 'list_revisions'
+  end
+  
+  def list_recommended_rss
+    votes = Vote.find(:all, :conditions => "class = 'NewsArticleVersion'", :group => 'relation_id', :order => 'created_at desc')
+    @versions = NewsArticleVersion.find( votes.collect! { |v| v.relation_id } )
+    render :layout => false
   end
   
   def list_rss
-    @articles = NewsArticle.find(:all, :order => 'updated_at desc', 
-      :limit => 15,
-      :conditions => 'versions_count > 1',
-      :include => 'versions')
+    @versions = NewsArticleVersion.find(:all, :order => 'news_article_versions.created_at desc', 
+      :limit => 30,
+      :conditions => 'version > 0',
+      :include => 'news_article')
     render :layout => false
   end
   
@@ -33,11 +50,10 @@ class NewsArticlesController < ApplicationController
     session[:na_search] = params[:search] if params[:search]
     @search = session[:na_search]
     @title = @title + " for '#{@search}'" if @search
-    @articles_pages, @articles = paginate :news_article, :per_page => 20,
-      :conditions => ["MATCH (news_article_versions.title, news_article_versions.text) AGAINST (? IN BOOLEAN MODE)",
-        @search ],
+    @articles_pages, @articles= paginate :news_article, :per_page => 16,
+      :conditions => ["MATCH (news_article_versions.title, news_article_versions.text) AGAINST (?)", @search ],
       :include => 'versions'
-    render :action => :list  
+    render :action => :list_articles
   end
   
 
@@ -80,5 +96,19 @@ class NewsArticlesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     flash[:error] = "Article or version not found"
     redirect_to :action => :list
+  end
+  
+  def vote
+    @version = NewsArticleVersion.find(params[:id])
+    if is_admin?
+      # An admin vote is with 5, and gets unlimited votes
+      5.times { @voted = Vote.vote @version }
+    else
+      @voted = Vote.vote @version, cookies['_session_id']
+    end
+    unless request.xhr?
+      flash[:notice] = 'Thank you for your recommendation'
+      redirect_to :controller => 'news_articles', :action => 'list' #FIXME
+    end
   end
 end

@@ -25,6 +25,7 @@ class NewsPage
   def unhtml(s)
     t = CGI::unescapeHTML(s)
     t = t.gsub(/&apos;/i, "'")
+    t = t.gsub(/&pound;/i, "£")
     t
   end
 
