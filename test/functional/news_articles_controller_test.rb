@@ -23,9 +23,9 @@ class NewsArticlesControllerTest < Test::Unit::TestCase
 
   def test_list_versions
     get :list_revisions
+    assert_no_tag :content => /annan views lebanon devastation version 0/i
     assert_tag :content => /annan views lebanon devastation version 1/i
-    assert_tag :content => /annan views lebanon devastation version 2/i
-    assert_tag :content => /egypt defender version 1/i
+    assert_no_tag :content => /egypt defender version 0/i
   end
 
   def test_search

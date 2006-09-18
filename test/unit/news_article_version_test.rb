@@ -8,11 +8,11 @@ class NewsArticleVersionTest < Test::Unit::TestCase
     a = NewsArticle.find(1)
     v = NewsArticleVersion.new
     a.versions << v
-    assert_equal 2, a.versions.count,
+    assert_equal 3, a.versions.count,
       "new version didn't get associated with article"
     a = NewsArticle.find(1)
-    assert_equal 2, a.versions_count,
+    assert_equal 3, a.versions_count,
       "versions_cache didn't get updated"
-    assert_equal 1, v.version, "doesn't get incremented version number on create"
+    assert_equal 2, v.version, "doesn't get incremented version number on create"
   end
 end
