@@ -59,11 +59,9 @@ namespace "revisionista" do
     puts "Finding articles..."
     now = Time.now
     NewsArticle.find(:all, :order => 'updated_at desc').each do |article|
-      unless ARGV.grep("all")
-        hours_old = ( (now - article.updated_at) / ( 60 * 60 ) ).to_i + 1
-        tens = ((now.to_i % (60*60*24)) / 600 ) + 1
-        next unless (((now.to_i % (60*60*24)) / 600 ) % hours_old) == 0
-      end
+      hours_old = ( (now - article.updated_at) / ( 60 * 60 ) ).to_i + 1
+      tens = ((now.to_i % (60*60*24)) / 600 ) + 1
+      next unless (((now.to_i % (60*60*24)) / 600 ) % hours_old) == 0
       log_info "news article: '#{article.guid}' last updated #{hours_old} hours ago"
       page_data = zget(article.url)
       case article.source

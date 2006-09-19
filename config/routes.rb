@@ -37,6 +37,8 @@ ActionController::Routing::Routes.draw do |map|
   
   map.connect 'articles/rss', :controller => 'news_articles', :action => 'list_rss'
   map.connect 'articles/recommended/rss', :controller => 'news_articles', :action => 'list_recommended_rss'
+
+  map.connect 'articles/search', :controller => 'news_articles', :action => 'search'
   
   map.connect 'articles/:id/diff/:version_b/:version_a',
     :controller => 'news_articles', :action => 'diff'

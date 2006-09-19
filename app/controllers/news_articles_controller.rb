@@ -26,13 +26,15 @@ class NewsArticlesController < ApplicationController
     @title = "Revisionista recommended revisions"
     @discovery_links = [ [url_for(:action => "list_recommended_rss"), "Latest recommended news revisions"] ]  
     @versions_pages, @versions = paginate :news_article_version, :per_page => 16,
-      :include => 'news_article', :order => "news_article_versions.votes desc,news_article_versions.created_at desc",
-      :conditions => 'news_article_versions.version > 0'
+      :include => 'news_article',
+      :order => "news_article_versions.votes desc,news_article_versions.created_at desc",
+      :conditions => 'news_article_versions.version > 0 and news_article_versions.votes > 0'
     render :action => 'list_revisions'
   end
   
   def list_recommended_rss
-    votes = Vote.find(:all, :conditions => "class = 'NewsArticleVersion'", :group => 'relation_id', :order => 'created_at desc')
+    votes = Vote.find(:all, :conditions => "class = 'NewsArticleVersion'", :group => 'relation_id', 
+      :order => 'created_at desc')
     @versions = NewsArticleVersion.find( votes.collect! { |v| v.relation_id } )
     render :layout => false
   end
