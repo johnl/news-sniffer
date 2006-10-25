@@ -1,7 +1,6 @@
 class BbchysthreadsController < ApplicationController
 
   layout 'newsniffer'
-  before_filter :get_random_comment
   session :off
 
   def all
@@ -31,9 +30,11 @@ class BbchysthreadsController < ApplicationController
   end
 
   def show
-    @thread = HysThread.find_by_bbcid(params[:id])
-    @comments = @thread.hardcensored
-    @title = "Watch Your Mouth - '#{@thread.title}'"
+    unless read_fragment("hys_thread_#{params[:id].to_i}")
+      @thread = HysThread.find_by_bbcid(params[:id])
+      @comments = @thread.hardcensored
+      @title = "Watch Your Mouth - '#{@thread.title}'"
+    end
   end
 
 end
