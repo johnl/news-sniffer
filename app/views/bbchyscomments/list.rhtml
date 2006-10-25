@@ -4,6 +4,8 @@
   <br/>
 <% end %>
 
+<% cache("comment_list_" + @comments.collect { |c| [c.id, c.votes, c.updated_at] }.hash.to_s) do -%>
 <%= render :partial => "comment", :collection => @comments %>
+<% end -%>
 
 <%= render_partial 'partials/paginator', @comments_pages %>
