@@ -1,3 +1,4 @@
+        <% cache("sidebar-" + controller.controller_name) do -%>
           <li id="menu">
             <h2>Revisionista</h2>
             <ul>
@@ -12,6 +13,7 @@
 
             </ul>
           </li>
+        <% end -%>
 <% if @article and @versions -%>
           <li>
             <h2>Article Links</h2>

@@ -35,12 +35,10 @@
     </div>
       <div id="sidebar">
         <ul>
-        <% cache("sidebar-" + controller.controller_name) do -%>
         <%= render :partial => "partials/sidebar_wym" if 
           controller.controller_name =~ /bbchys/ -%>
         <%= render :partial => "partials/sidebar_revisionista" if 
           controller.controller_name == "news_articles" -%>
-        <% end -%>
           <li>&nbsp;</li>
         </ul>
       </div>
