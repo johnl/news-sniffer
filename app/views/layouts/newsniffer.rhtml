@@ -3,8 +3,10 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=iso-8859-1" />
   <title>News Sniffer<%= " - " + h(@title) if @title -%></title>
+  <% cache('layout-header') do -%>
   <%= stylesheet_link_tag 'newsniffer' %>
   <%= javascript_include_tag :defaults %>
+  <% end -%>
   <% @discovery_links.each do |l| -%>
   <%= auto_discovery_link_tag(:rss, l.first, :title => l.last) %>
   <% end if @discovery_links -%>
@@ -14,6 +16,7 @@
       <img src="/stylesheets/layout/pinleft.png" alt="" id="pinleft"/>
       <img src="/stylesheets/layout/newsniffer-text.png" alt="News Sniffer" id="logo"/>
   	  <div id="nav">
+      <% cache('layout-nav') do -%>
           <ul>
       	    <li><%= link_to 'Home', :controller => 'pages',
       	      :action => 'summary' %></li>
@@ -25,16 +28,19 @@
       	      { :controller => 'news_articles', :action => 'list_revisions' }, :title => 'Corporate news article revisions'  %></li>
             <li><a href="/blog/">Blog</a></li>
           </ul>
+      <% end -%>
   	  </div> 
     </div>
     <div id="crossbar">
     </div>
       <div id="sidebar">
         <ul>
+        <% cache("sidebar-" + controller.controller_name) do -%>
         <%= render :partial => "partials/sidebar_wym" if 
           controller.controller_name =~ /bbchys/ -%>
         <%= render :partial => "partials/sidebar_revisionista" if 
           controller.controller_name == "news_articles" -%>
+        <% end -%>
           <li>&nbsp;</li>
         </ul>
       </div>
