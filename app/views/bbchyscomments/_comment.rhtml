@@ -1,6 +1,6 @@
 <% c = comment -%>
 <div class="comment">
-   <h3 class="comment"><%= link_to c.hys_thread.title, :controller => 'bbchysthreads', :action => 'show', :id => c.hys_thread.bbcid %></h3>
+   <h3 class="comment"><%= link_to c.hys_thread.title, { :controller => 'bbchysthreads', :action => 'show', :id => c.hys_thread.bbcid }, :id => c.bbcid %></h3>
    <p class="comment-meta">Written by <%= h c.author %> on <%= c.created_at %>. 
    <span id="<%= "reccounter#{c.id}" %>"><%= c.votes %> recommendations.</span></p>
    <p><%= c.text %></p>
@@ -13,9 +13,5 @@
    <%= link_to_remote 'Recommend This', { :url => { :controller => 'bbchyscomments', :action => 'vote', :id => c.id } }, 
     :title => "Vote for this comment"  %>
    </span>
-   <% if isadmin? -%>
-      | <%= link_to 'mark uncensored', { :action => 'uncensor', :id => c.id }, 
-        :confirm => 'are you sure you want to mark this comment uncensored?' %>
-   <% end -%>
     </p>
 </div>
