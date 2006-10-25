@@ -1,3 +1,4 @@
+<% cache do -%>
 <p><strong>News Sniffer</strong> aims to monitor corporate news organisations to uncover bias.
 <%= link_to 'Read more', :action => 'about' %></p>
 
@@ -31,3 +32,4 @@ with <%= number_with_delimiter(@news_article_versions_count, ",") %> different v
 <% end -%>
 </table>
 </div>
+<% end -%>

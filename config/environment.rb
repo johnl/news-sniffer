@@ -56,5 +56,5 @@ end
 
 # Include your application configuration below
 require 'rubyrss'
-#require 'htmldiff'
 require 'diff_html'
+require 'timed_fragment_cache.rb'
