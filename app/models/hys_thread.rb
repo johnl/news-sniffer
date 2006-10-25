@@ -8,7 +8,7 @@ class HysThread < ActiveRecord::Base
   validates_uniqueness_of :bbcid
   validates_presence_of :title
   has_many :censored, :class_name => 'HysComment', :conditions => ['censored = 0']
-  has_many :hardcensored, :class_name => 'HysComment', :conditions => ['censored = 0 and updated_at < (now() - INTERVAL 16 minute)']
+  has_many :hardcensored, :class_name => 'HysComment', :conditions => ['censored = 0 and hys_comments.updated_at < (now() - INTERVAL 16 minute)'], :include => 'hys_thread'
 
   # Return an array of ids of all HysComments from this 
   # thread modified since the time parameter
@@ -26,4 +26,5 @@ class HysThread < ActiveRecord::Base
   def url
     "http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=#{bbcid}"
   end
+
 end
