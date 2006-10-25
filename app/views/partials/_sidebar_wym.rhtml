@@ -1,10 +1,10 @@
           <li id="menu">
             <h2>Watch Your Mouth</h2>
             <ul>
-              <li><%= link_to 'Latest Threads', :controller => 'bbchysthreads', :action => 'all' %></li>
-              <li><%= link_to 'Most Censored Threads', :controller => 'bbchysthreads', :action => 'mostcensored' %></li>
-              <li><%= link_to 'Censored Comments', :controller => 'bbchyscomments', :action => 'list' %></li>
-              <li><%= link_to 'Recommended Comments', :controller => 'bbchyscomments', :action => 'recommended' %></li>
+              <li><%= link_to 'Latest Threads', :controller => 'bbchysthreads', :action => 'all', :page => nil %></li>
+              <li><%= link_to 'Most Censored Threads', :controller => 'bbchysthreads', :action => 'mostcensored', :page => nil %></li>
+              <li><%= link_to 'Censored Comments', :controller => 'bbchyscomments', :action => 'list', :page => nil %></li>
+              <li><%= link_to 'Recommended Comments', :controller => 'bbchyscomments', :action => 'recommended', :page => nil %></li>
               <li><%= link_to 'RSS Feed',
                 :controller => 'bbchyscomments', :action => 'list_rss' %></li>
             </ul>
