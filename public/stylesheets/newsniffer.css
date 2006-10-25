@@ -1,9 +1,9 @@
 body {
-	background: #F3F6ED;
 	color: #333;
 	font: 1em/1.4em "Trebuchet MS", Arial, sans-serif;
 	margin: 0;
 	padding: 0;
+  background: #fff url(img/sidebarbg.png) repeat-y left;
 }
 
 a {
@@ -35,7 +35,7 @@ hr {
 	border-top: #BBC4A3 1px solid;
 }
 #content {
-  margin-left: 190px;
+  margin-left: 200px;
   padding: 0 10px 0 10px;
   font-size: 1em;
 }
@@ -148,11 +148,10 @@ hr {
   display: inline;
   width: 186px;
   float: left;
-  margin: 0 10px 0 5px;
+  margin: 0 0px 0 2px;
   padding: 0 0 10px 0;
 }
 #sidebar ul h2 {
-  background: url(img/sidenav_top.jpg) no-repeat center;
   color: #4d6175;
 	font-size: 1.1em;
 	font-weight: bold;
@@ -174,10 +173,8 @@ hr {
 	list-style-type: square;
 	margin: 0 0 10px 0;
 	padding: 5px;
-  border: #E1D6C6 1px solid;
 }
 #sidebar p {
-  color: #333;
 }
 #sidebar ul ul.nobullet {
   list-style-type: none;
