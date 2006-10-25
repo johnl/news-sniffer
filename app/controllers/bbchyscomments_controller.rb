@@ -1,6 +1,5 @@
 class BbchyscommentsController < ApplicationController
   layout 'newsniffer'
-  before_filter :get_random_comment, :except => %w(vote list_rss)
   before_filter :check_admin, :only => :uncensor
 
   session :off, :only => %w(list_rss)
@@ -24,21 +23,9 @@ class BbchyscommentsController < ApplicationController
   
   def list_rss
     headers["Content-Type"] = "application/xml"
-    rss = RubyRSS.new nil
-    rss.title = "BBC Watch Your Mouth Censored Comment Feed"
-    rss.link = "http://newsniffer.newworldodour.co.uk/"
-    rss.desc = "Comments that were censored from the BBC News 'Have Your Say' section"
-    comments = HysComment.find( :all, :include => 'hys_thread', :order => 'hys_comments.updated_at desc', 
+    @comments = HysComment.find( :all, :include => 'hys_thread', :order => 'hys_comments.updated_at desc', 
       :conditions => ['hys_comments.censored = 0 and hys_comments.updated_at < (now() - INTERVAL 25 minute)'], :limit => 25 )
-    rss.date = comments.first.updated_at.httpdate
-    comments.each do  |c|
-      c_url = url_for( :controller => 'bbchysthreads', 
-        :action => 'show', :id => c.hys_thread.bbcid, :comment_id => c.bbcid ) + "##{c.bbcid}"
-      text = c.text + "<br/><br/>Written by <strong>#{c.author}</strong>"
-      i = RubyRSS::Item.new( c.hys_thread.title, c_url, text, c.updated_at.httpdate )
-      rss.items << i
-    end
-    render :text => rss.generate("rss2.0")
+    render :layout => false
   end
 
   def show
@@ -64,13 +51,14 @@ class BbchyscommentsController < ApplicationController
   end
 
   def vote
-    @comment = HysComment.find(params[:id])
+    @comment = HysComment.find(params[:id], :include => :hys_thread)
     if is_admin?
       # An admin vote is with 5, and gets unlimited votes
       5.times { @voted = Vote.vote @comment }
     else
       @voted = Vote.vote @comment, cookies['_session_id']
     end
+    expire_fragment( "hys_thread_#{@comment.hys_thread.bbcid}" )
     unless request.xhr?
       flash[:notice] = 'Thank you for your recommendation'
       redirect_to :controller => 'bbchyscomments', :action => 'recommend'
