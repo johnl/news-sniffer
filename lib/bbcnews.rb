@@ -28,18 +28,25 @@ module BBCNews
   end
   class BadHaveYourSay < BBCNewsError
   end
+  class StaleHaveYourSay < BBCNewsError
+  end
 
   class Haveyoursaycomment
   
     attr_reader :text, :author, :created, :modified, :thread_id
     attr_accessor :deleted_at
         
-    def self.find_from_rss(thread_id)
+    def self.find_from_rss(thread_id, last_updated = nil)
       rssdata = open("http://newsforums.bbc.co.uk/nol/rss/rssmessages.jspa?threadID=#{thread_id}&numItems=1000", "r").read
       begin
         rss = SimpleRSS.parse rssdata
-      rescue SimpleRSSError
-        return [[], 0]
+      rescue SimpleRSSError => e
+        raise BadHaveYourSay, "SimpleRSS error: #{e.to_s}"
+      end
+      if last_updated
+        if rss.pubDate < last_updated
+          raise StaleHaveYourSay, "RSS pubDate older than last_updated: #{rss.pubDate} < #{last_updtaed}"   
+        end
       end
       [rss.entries.collect { |entry| self.instantiate_from_rss(entry, thread_id) }.uniq, rssdata.size]
     end

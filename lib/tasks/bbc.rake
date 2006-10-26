@@ -124,15 +124,15 @@ namespace "bbc" do
     # FIXME: this should be condition on updated_at, once the data is sorted out
     HysThread.find(:all, :order => 'created_at desc', :conditions => find_conditions ).each do |t|
       url = @comments_rss_url.gsub('%s', t.bbcid.to_s)
-      log_debug "hysthread: #{t.bbcid} title: '#{t.title}'"
+      log_debug "hysthread:#{t.bbcid} title: '#{t.title}'"
       newsize = remote_filesize(url)
 			if newsize
-				log_debug "hysthread::#{t.bbcid} - content-length header exists"
+				log_debug "hysthread:#{t.bbcid} - content-length header exists"
 			else	
 	      begin
 	        rssdata = zget(url)
-	      rescue OpenURI::HTTPError
-					log_error("hysthread:#{t.bbcid}: 404 error")
+	      rescue OpenURI::HTTPError => e
+					log_error("hysthread:#{t.bbcid}: #{e.to_s}")
 	        next
 	      end
       	newsize = rssdata.size
@@ -144,16 +144,21 @@ namespace "bbc" do
       end
 			log_info("hysthread:#{t.bbcid} - comments rss updated - #{t.title}")
       t.rsssize = newsize
-      t.save
 			if rssdata.nil?
 				rssdata = zget(url)
 			end
       begin
           rss = SimpleRSS.parse rssdata
-      rescue SimpleRSSError
-					log_error("hysthread:#{t.bbcid} - error parsing comments rss")
+      rescue SimpleRSSError => e
+					log_error("hysthread:#{t.bbcid} - error parsing comments rss: #{e.to_s}")
           next
       end
+      if !t.last_rss_pubdate.nil? and rss.pubDate < t.last_rss_pubdate
+        log_info("hysthread:#{t.bbcid} - rss pubDate older than last time, ignoring (#{rss.pubDate} < #{t.last_rss_pubdate})")
+        next
+      end
+      t.last_rss_pubdate = rss.pubDate
+      t.save
       comments = rss.entries.collect { |e| Haveyoursaycomment.instantiate_from_rss(e, t.bbcid) }
         
       oldest_comment = Time.now
