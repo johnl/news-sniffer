@@ -146,4 +146,50 @@ class HysThread < ActiveRecord::Base
   def <=>(other)
     self.bbcid <=> other.bbcid
   end
+
+  # Scrape and return a list of comment ids for this thread from the BBC news website html
+  def find_comments_ids_from_html
+    @base_url = "http://newsforums.bbc.co.uk/nol/thread.jspa?threadID="
+
+    @thread_id = 4221
+
+    def thread_url_for(thread_id, page)
+      @base_url + thread_id.to_s + "&start=" + page.to_s
+    end
+
+    @pages = [0]
+    @ids = []
+
+    @pages.each do |page|
+      # download the page html
+      html_url = "#{@base_url}#{self.bbcid}&start=#{page}"
+      logger.info "INFO:HysThread.find_comments_ids_from_html: retrieving page #{page} at #{html_url}"
+      html = HTTP::zget( html_url )
+      if html.nil?
+        logger.warn "WARN:HysThread.find_comments_ids_from_html: couldn't retrieve page #{page}"
+        return nil
+      end
+      
+      # Find any new pages in this page and add them to @pages
+      new_pages = html.scan /thread.jspa\?.*;start=([0-9]+)/
+      new_pages.each do |p|
+        p = p.first.to_i 
+        @pages << p unless @pages.include? p
+      end
+    
+      # Find all the message ids in this page
+      html.scan(/complaint!default.jspa\?messageID=([0-9]+)/).each do |id|
+        id = id.first.to_i
+        @ids << id unless @ids.include? id
+      end
+    end
+    return @ids
+  end
+
+  # Return the first comment if it's the thread comment, describing the thread (usually is)
+  def thread_comment
+    @thread_comment = self.hys_comments.find(:first, :order => 'bbcid desc') unless @thread_comment
+    return @thread_comment if @thread_comment and @thread_comment.author == 'nol-jvs-bmc'
+    nil
+  end
 end
