@@ -1,21 +1,28 @@
-# The HysComment object represents a BBC Have Your Say comment, usually associated
+# The HysComment object represents a BBC Have Your Say comment, always associated
 # with a HysThread object.
 class HysComment < ActiveRecord::Base
   belongs_to :hys_thread
-#  has_many :votes, :foreign_key => 'relation_id', :conditions => ["class = ?", self.class_name]
   validates_uniqueness_of :bbcid
   validates_associated :hys_thread
 
   # Mark the specified (by bbcid) comment as not censored and save
   def self.uncensor(bbcid)
-    c = self.find_by_bbcid(bbcid, :include => :hys_thread)
-    c.update_attribute(:censored, NOTCENSORED)
+    self.find_by_bbcid(bbcid, :include => :hys_thread).uncensor!
+  end
+
+  # Mark this comment as censored and save unless it's known as a thread_comment (see HysThread.thread_comment)
+  def censor!
+    self.update_attribute(:censored, CENSORED) unless self.hys_thread.thread_comment and self.bbcid == self.hys_thread.thread_comment.bbcid
   end
   
   # Mark the specified (by bbcid) comment as censored and save
   def self.censor(bbcid)
-    c = self.find_by_bbcid(bbcid, :include => :hys_thread)
-    c.update_attribute(:censored, CENSORED)
+    self.find_by_bbcid(bbcid, :include => :hys_thread).censor!
+  end
+  
+  # Mark this comment as not censored and save
+  def uncensor!
+    self.update_attribute(:censored, NOTCENSORED)
   end
 
   # Return the url for this comment on the bbc website
