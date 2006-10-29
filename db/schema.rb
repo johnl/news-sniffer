@@ -2,7 +2,18 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 8) do
+ActiveRecord::Schema.define(:version => 10) do
+
+  create_table "comments", :force => true do |t|
+    t.column "name", :string, :limit => 64
+    t.column "text", :text
+    t.column "email", :string, :limit => 64
+    t.column "link_id", :integer
+    t.column "linktype", :string, :limit => 32
+  end
+
+  add_index "comments", ["link_id"], :name => "comments_link_id_index"
+  add_index "comments", ["linktype"], :name => "comments_linktype_index"
 
   create_table "hys_comments", :force => true do |t|
     t.column "hys_thread_id", :integer
@@ -19,6 +30,8 @@ ActiveRecord::Schema.define(:version => 8) do
   add_index "hys_comments", ["hys_thread_id"], :name => "hys_thread_id_key"
   add_index "hys_comments", ["bbcid"], :name => "bbcid_key"
   add_index "hys_comments", ["votes"], :name => "hys_comments_votes_index"
+  add_index "hys_comments", ["updated_at"], :name => "hys_comments_updated_at_index"
+  add_index "hys_comments", ["censored"], :name => "censored"
   add_index "hys_comments", ["text"], :name => "text"
 
   create_table "hys_threads", :force => true do |t|
@@ -27,6 +40,7 @@ ActiveRecord::Schema.define(:version => 8) do
     t.column "bbcid", :integer, :limit => 9
     t.column "title", :string, :default => "", :null => false
     t.column "rsssize", :integer
+    t.column "last_rss_pubdate", :datetime
   end
 
   add_index "hys_threads", ["bbcid"], :name => "bbcid_key"
@@ -39,12 +53,18 @@ ActiveRecord::Schema.define(:version => 8) do
     t.column "version", :integer
     t.column "text", :text
     t.column "text_hash", :string, :limit => 32
+    t.column "comments_count", :integer, :default => 0
+    t.column "votes", :integer, :default => 0
   end
 
   add_index "news_article_versions", ["news_article_id"], :name => "news_article_versions_news_article_id_index"
   add_index "news_article_versions", ["text_hash"], :name => "news_article_versions_text_hash_index"
+  add_index "news_article_versions", ["comments_count"], :name => "news_article_versions_comments_count_index"
+  add_index "news_article_versions", ["votes"], :name => "news_article_versions_votes_index"
   add_index "news_article_versions", ["text"], :name => "text"
   add_index "news_article_versions", ["title"], :name => "title"
+  add_index "news_article_versions", ["title", "text"], :name => "title_2"
+  add_index "news_article_versions", ["title", "text"], :name => "title_text"
 
   create_table "news_articles", :force => true do |t|
     t.column "created_at", :datetime

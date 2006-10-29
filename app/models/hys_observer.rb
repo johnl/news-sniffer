@@ -9,7 +9,7 @@ class HysObserver < ActiveRecord::Observer
 
   def after_update(model)
     if model.is_a? HysComment
-      expire_fragment( "hys_thread_#{model.hys_thread.bbcid}" )
+      expire_fragment( "hys_thread_#{model.hys_thread.bbcid}" ) if model.hys_thread
       #expire_fragment( "hys_comments_recommended_page_" + i.to_s )
     end
   end

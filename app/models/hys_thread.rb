@@ -4,27 +4,146 @@
 # a period of time.
 class HysThread < ActiveRecord::Base
   attr_accessor :ccount
+  attr_reader :oldest_rss_comment
   has_many :hys_comments
   validates_uniqueness_of :bbcid
   validates_presence_of :title
   has_many :censored, :class_name => 'HysComment', :conditions => ['censored = 0']
   has_many :hardcensored, :class_name => 'HysComment', :conditions => ['censored = 0 and hys_comments.updated_at < (now() - INTERVAL 16 minute)'], :include => 'hys_thread'
-
-  # Return an array of ids of all HysComments from this 
-  # thread modified since the time parameter
-  def comment_ids_since(time)
-    hys_comments.find(:all, :conditions => ['modified_at >= ?', time]).collect { |c| c.bbcid }
-  end
   
-  # Return an array of ids of censored HysComments from this
-  # thread modified since the time parameter
-  def censored_comment_ids_since(time)
-    hys_comments.find(:all, :conditions => ['censored = 0 and modified_at >= ?', time]).collect { |c| c.bbcid }
-  end
+  @@comments_rss_url = "http://newsforums.bbc.co.uk/nol/rss/rssmessages.jspa?threadID=%s&lang=en"
+  @@thread_rss_url = "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/talking_point/rss.xml"
 
   # Return the url to the bbc website for this thread
   def url
     "http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=#{bbcid}"
   end
 
+  # Return nill if bbcid isn't in database
+  def self.bbcid_exists?(bbcid)
+    self.connection.execute("select bbcid from hys_threads where bbcid = #{bbcid.to_i}").fetch_row
+  end
+
+  # return a list of HysComment objects instantiated from the RSS feed for this thread
+  def find_comments_from_rss
+      HysThread.benchmark("BENCHMARK:find_comments_from_rss: download and parse rss feed", use_silence = false) do
+      # Download and parse RSS feed.  Return nil if the feed it broken or stale
+      rssurl = @@comments_rss_url.gsub('%s', self.bbcid.to_s)
+      logger.debug "DEBUG:hysthread:#{self.bbcid} title: '#{self.title}'"
+      newsize = HTTP::remote_filesize(rssurl)
+			if newsize
+				logger.debug "DEBUG:hysthread:#{self.bbcid} - content-length header exists"
+			else	
+	      begin
+	        rssdata = HTTP::zget(rssurl)
+	      rescue OpenURI::HTTPError => e
+					logger.error("ERROR:hysthread:#{self.bbcid}: #{e.to_s}")
+          return nil
+	      end
+      	newsize = rssdata.size
+			end
+      lastsize = self.rsssize
+      if lastsize.to_i == newsize.to_i
+        logger.debug "DEBUG:hysthread:#{self.bbcid} - no change in comments rss"
+        return nil
+      end
+			logger.info("INFO:hysthread:#{self.bbcid} - comments rss updated - #{self.title}")
+      self.rsssize = newsize
+			rssdata = HTTP::zget(rssurl) if rssdata.nil?
+      begin
+          @rss = SimpleRSS.parse rssdata
+      rescue SimpleRSSError => e
+					logger.error("ERROR:hysthread:#{self.bbcid} - error parsing comments rss: #{e.to_s}")
+          return nil
+      end
+      if !self.last_rss_pubdate.nil? and @rss.pubDate < self.last_rss_pubdate
+        logger.info("INFO:hysthread:#{self.bbcid} - rss pubDate older than last time, ignoring (#{@rss.pubDate} < #{self.last_rss_pubdate})")
+        return nil
+      end
+      self.last_rss_pubdate = @rss.pubDate
+      self.save
+      end # benchmark
+      
+      # RSS is not broken or stale, so...
+      
+      # Build HysComment object for all entires in the RSS feed and create any comments not already in the database
+      HysThread.benchmark("BENCHMARK:find_comments_from_rss: create any new comments from feed", use_silence = false) do
+      new_count = 0
+      @rsscomments = []
+      @rss.entries.each do |e|
+        c = HysComment.instantiate_from_rss(e, self.id)
+        if c.nil?
+          logger.debug("DEBUG:HysComment.instantiate_from_rss returned nil")      
+          next 
+        end
+        logger.debug("DEBUG:HysComment: #{c.bbcid}")
+        next if @rsscomments.include?(c) # The BBC feeds include duplicates, duh.  we ignore them
+        logger.debug("DEBUG:HysComment not in @rsscomments")
+        
+        # Create this comment if it's not already in the database
+        unless self.comments_ids.include?(c.bbcid)
+          logger.debug("DEBUG:HysComment.bbcid not in comments_ids")
+          new_count += 1
+          c.hys_thread = self
+          c.save!
+          @comments_ids << c.bbcid
+          logger.info("INFO:hysthread:#{self.bbcid} new comment #{c.bbcid} created at #{c.created_at} by #{c.author}")
+        end
+        @rsscomments << c
+      end
+      logger.info "INFO:hysthread:#{self.bbcid} - #{new_count} new comments" if new_count > 0
+      end # benchmark
+      
+      # Work out the date of the oldest comment in the feed.  Feeds are not sorted
+      @oldest_rss_comment = Time.now
+      @rsscomments.each do |c|
+        @oldest_rss_comment = c.modified_at if c.modified_at < @oldest_rss_comment
+      end
+
+      return @rsscomments
+  end
+
+  # Find new threads from rss feed and create them
+  #
+  def self.find_from_rss
+    benchmark("BENCHMARK:find_from_rss", use_silence = false) do
+      rssdata = HTTP::zget(@@thread_rss_url)
+      begin
+        rss = SimpleRSS.parse rssdata
+      rescue SimpleRSSError
+          logger.error "ERROR:find_from_rss: error parsing thread list RSS"
+          return nil
+      end
+      rss.entries.each do |e|
+        begin
+          rsslink = e[:link]
+          bbcid = $1.to_i if rsslink =~ /^.*threadID=([0-9]+).*$/
+          raise NameError, "couldn't get bbcid (threadID) from rsslink (#{rsslink})" if bbcid.nil?
+          next if HysThread.bbcid_exists?(bbcid)
+          t = HysThread.new
+          t.title = e[:title]
+          t.bbcid = bbcid
+          t.created_at = Time.parse( e[:pubDate].to_s )
+          t.save
+        rescue NameError => e
+          logger.error "ERROR:find_from_rss: RSS entry didn't look right: #{e.to_s}"
+          next
+        end
+      end
+    end
+  end
+  
+  # Returns bbcids of all associated hys_comments
+  def comments_ids
+    return @comments_ids unless @comments_ids.nil?
+    @comments_ids = []
+    self.connection.execute("select bbcid from hys_comments where hys_thread_id = #{self.id}").each do |row|
+      @comments_ids << row.first.to_i
+    end
+    @comments_ids
+  end
+  
+  def <=>(other)
+    self.bbcid <=> other.bbcid
+  end
 end

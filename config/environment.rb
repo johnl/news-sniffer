@@ -9,6 +9,9 @@ RAILS_GEM_VERSION = '1.1.6'
 
 ENV['ADMIN_PASSWORD'] = "dogmacatma"
 
+CENSORED = 0
+NOTCENSORED = 1
+
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
@@ -59,3 +62,5 @@ end
 require 'rubyrss'
 require 'diff_html'
 require 'timed_fragment_cache.rb'
+require 'http'
+include HTTP
