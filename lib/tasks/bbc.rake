@@ -119,12 +119,29 @@ namespace "bbc" do
 		log_info("get_long_comments started")
 		wymouth(['created_at < now() - INTERVAL 7 day and created_at >= now() - INTERVAL 2 month'])
 	end
+  
+  desc "validate censored comments against results from html scraping"
+  task :html_short => :environment do
+    log_info("check_against_html started")
+    wymouth_check(['created_at >= now() - INTERVAL 2 day'])
+  end
 
   desc "validate censored comments against results from html scraping"
-  task :check_against_html => :environment do
+  task :html_medium => :environment do
     log_info("check_against_html started")
     wymouth_check(['created_at < now() - INTERVAL 2 day and created_at >= now() - INTERVAL 7 day'])
-    #wymouth_check(['bbcid = 4342'])
+  end
+  
+  desc "validate censored comments against results from html scraping"
+  task :html_long => :environment do
+    log_info("check_against_html started")
+    wymouth_check(['created_at < now() - INTERVAL 7 day and created_at >= now() - INTERVAL 2 month'])
+  end
+  
+  desc "validate censored comments against results from html scraping"
+  task :html_all => :environment do
+    log_info("check_against_html started")
+    wymouth_check('1=1')
   end
 
 end
