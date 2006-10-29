@@ -294,7 +294,8 @@ div#farsidebar {
 
 div.comment {
   border-bottom: 1px solid #ddd;
-  margin-bottom: 0.6em;
+  margin-bottom: 20px;
+  padding: 10px;
 }
 div.comment h3.comment {
   margin-bottom: -0.6em;
@@ -340,4 +341,13 @@ div.bluebox h2.top {
   padding: 2px 5px 2px 5px;
   background-color: #e6eadb;
   font-size: 1em;
+}
+td.published-count, td.censored-count {
+  text-align: center;
+}
+
+div.comment-description {
+  background-color: #EEEDF6;
+  border: 1px solid #ddd;
+  padding: 10px;
 }

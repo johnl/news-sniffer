@@ -10,11 +10,19 @@ class BbchyscommentsController < ApplicationController
     @comments_pages, @comments =
       paginate :hys_comments, :order => 'hys_comments.updated_at desc', 
       :include => 'hys_thread',
-      :conditions => ['censored = 0 and hys_comments.updated_at < (now() - INTERVAL 25 minute)']
+      :conditions => ["censored = #{CENSORED}"]
   end
   
   def recommended
-    @title = "Watch Your Mouth - recommended censored comments"  
+    @title = "Watch Your Mouth - latest recommended censored comments"  
+    @comments_pages, @comments =
+      paginate :hys_comments, :order => 'hys_comments.updated_at desc, votes desc', 
+      :include => 'hys_thread',
+      :conditions => ['votes > 0']
+  end
+  
+  def top_recommended
+    @title = "Watch Your Mouth - top recommended censored comments"  
     @comments_pages, @comments =
       paginate :hys_comments, :order => 'votes desc', 
       :include => 'hys_thread',
@@ -24,7 +32,7 @@ class BbchyscommentsController < ApplicationController
   def list_rss
     headers["Content-Type"] = "application/xml"
     @comments = HysComment.find( :all, :include => 'hys_thread', :order => 'hys_comments.updated_at desc', 
-      :conditions => ['hys_comments.censored = 0 and hys_comments.updated_at < (now() - INTERVAL 25 minute)'], :limit => 25 )
+      :conditions => ["hys_comments.censored = #{CENSORED}"], :limit => 25 )
     render :layout => false
   end
 
@@ -38,7 +46,8 @@ class BbchyscommentsController < ApplicationController
     @title = "Watch Your Mouth - search for '#{@search}'"
     @comments_pages, @comments =
       paginate :hys_comments,
-      :conditions => ['censored = 0 and MATCH (text) AGAINST (? IN BOOLEAN MODE)', @search]
+      :conditions => ["censored = #{CENSORED} and MATCH (text) AGAINST (? IN BOOLEAN MODE)", @search],
+      :include => :hys_thread
     render :action => 'list'
   end
 

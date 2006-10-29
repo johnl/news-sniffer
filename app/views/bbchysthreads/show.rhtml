@@ -1,7 +1,12 @@
 <% cache "hys_thread_#{params[:id].to_i}" do -%>
 <h1><%= @thread.title %></h1>
-<p>The following comments were censored from the BBC's 'Have Your Say' section of their news website.</p>
-<p><%= link_to @thread.url, @thread.url %></p>
-<hr/>
+<p><%= @thread.hys_comments.count("censored = #{NOTCENSORED}") %> published comments with 
+<%= @thread.hys_comments.count("censored = #{CENSORED}") %> censored.</p>
+<% if @thread.thread_comment -%>
+<div class="comment-description"><%= @thread.thread_comment.text %>
+<p><%= link_to "Link to the BBC website for this thread", @thread.url %></p>
+</div>
+<% end -%>
+<p><strong>The following comments were censored</strong> from this thread on the BBC's 'Have Your Say' section of their news website.</p>
 <%= render :partial => "bbchyscomments/comment", :collection => @comments %>
 <% end -%>

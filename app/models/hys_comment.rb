@@ -12,6 +12,7 @@ class HysComment < ActiveRecord::Base
 
   # Mark this comment as censored and save unless it's known as a thread_comment (see HysThread.thread_comment)
   def censor!
+    return nil if self.author =~ /^nol-j.*/ # bbc admin usernames all begin with nol-j
     self.update_attribute(:censored, CENSORED) unless self.hys_thread.thread_comment and self.bbcid == self.hys_thread.thread_comment.bbcid
   end
   

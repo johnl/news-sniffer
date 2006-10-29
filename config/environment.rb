@@ -15,7 +15,9 @@ NOTCENSORED = 1
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
+
 Rails::Initializer.run do |config|
+
 
   config.active_record.schema_format = :sql
   # Settings in config/environments/* take precedence those specified here

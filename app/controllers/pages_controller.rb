@@ -2,7 +2,8 @@ class PagesController < ApplicationController
   layout 'newsniffer'
   
   def summary
-    when_fragment_expired( { :action => 'summary' }, 1.minutes.from_now) do
+    @head_html = '<link rel="pingback" href="http://newssniffer.newworldodour.cookies.uk/blog/xmlrpc.php" />'
+    when_fragment_expired( { :action => 'summary' }, 15.minutes.from_now) do
      @hys_comments = HysComment.find(:all, :order => 'hys_comments.updated_at desc', 
        :group => 'hys_comments.hys_thread_id',
        :conditions => ['censored = 0 and hys_comments.updated_at < (now() - INTERVAL 25 minute)'],

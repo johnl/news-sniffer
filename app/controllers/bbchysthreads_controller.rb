@@ -20,7 +20,7 @@ class BbchysthreadsController < ApplicationController
     @title = "Watch Your Mouth - most censored threads"  
     sql = "select hys_threads.*,count(hys_comments.id) as ccount from
       hys_threads left outer join hys_comments on hys_threads.id =
-      hys_comments.hys_thread_id and hys_comments.censored = 0 group by
+      hys_comments.hys_thread_id and hys_comments.censored = #{CENSORED} group by
       hys_threads.id order by ccount desc "
 
     @threads_pages = Paginator.new self, HysThread.count , 10, @params['page']
@@ -32,7 +32,7 @@ class BbchysthreadsController < ApplicationController
   def show
     unless read_fragment("hys_thread_#{params[:id].to_i}")
       @thread = HysThread.find_by_bbcid(params[:id])
-      @comments = @thread.hardcensored
+      @comments = @thread.censored.find(:all, :order => "hys_comments.updated_at", :include => :hys_thread)
       @title = "Watch Your Mouth - '#{@thread.title}'"
     end
   end

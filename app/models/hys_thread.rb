@@ -8,8 +8,8 @@ class HysThread < ActiveRecord::Base
   has_many :hys_comments
   validates_uniqueness_of :bbcid
   validates_presence_of :title
-  has_many :censored, :class_name => 'HysComment', :conditions => ['censored = 0']
-  has_many :hardcensored, :class_name => 'HysComment', :conditions => ['censored = 0 and hys_comments.updated_at < (now() - INTERVAL 16 minute)'], :include => 'hys_thread'
+  has_many :censored, :class_name => 'HysComment', :conditions => ["censored = #{CENSORED}"]
+  has_many :published, :class_name => 'HysComment', :conditions => ["censored = #{NOTCENSORED}"]
   
   @@comments_rss_url = "http://newsforums.bbc.co.uk/nol/rss/rssmessages.jspa?threadID=%s&lang=en"
   @@thread_rss_url = "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/talking_point/rss.xml"
@@ -143,6 +143,16 @@ class HysThread < ActiveRecord::Base
     @comments_ids
   end
   
+  # Returns bbcids of all associated censored hys_comments
+  def censored_comments_ids
+    return @censored+comments_ids unless @cencored_comments_ids.nil?
+    @censored_comments_ids = []
+    self.connection.execute("select bbcid from hys_comments where hys_thread_id = #{self.id} and censored = #{CENSORED}").each do |row|
+      @censored_comments_ids << row.first.to_i
+    end
+    @censored_comments_ids
+  end
+  
   def <=>(other)
     self.bbcid <=> other.bbcid
   end
@@ -188,8 +198,8 @@ class HysThread < ActiveRecord::Base
 
   # Return the first comment if it's the thread comment, describing the thread (usually is)
   def thread_comment
-    @thread_comment = self.hys_comments.find(:first, :order => 'bbcid desc') unless @thread_comment
-    return @thread_comment if @thread_comment and @thread_comment.author == 'nol-jvs-bmc'
+    @thread_comment = self.hys_comments.find(:first, :order => 'bbcid asc') unless @thread_comment
+    return @thread_comment if @thread_comment and @thread_comment.author =~ /^nol-j.*/
     nil
   end
 end
