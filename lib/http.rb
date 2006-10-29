@@ -1,4 +1,5 @@
 module HTTP
+  require 'open-uri'
   def self.head_hash(url)
     t = url.scan /http:\/\/([^\/]+)\/(.*)$/
     host = t.first.first
