@@ -3,10 +3,7 @@ namespace "revisionista" do
   require 'simple-rss'
   require 'zget'
   require 'digest'
-  require 'htmldiff'
   require 'news_page'
-  include HTMLDiff
-  include BBCNews
   require 'cgi'
   
   def unhtml(s)
