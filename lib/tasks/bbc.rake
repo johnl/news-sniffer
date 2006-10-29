@@ -1,8 +1,12 @@
+CENSORED = 0
+NOTCENSORED = 1
+
 namespace "bbc" do
   require 'open-uri'
   require 'simple-rss'
   require 'hys_thread'
   require 'hys_comment'
+
     
   def log_info(msg)
   	time = Time.now.strftime("%a %d/%m/%y %H:%M:%S")
@@ -28,6 +32,32 @@ namespace "bbc" do
   desc "find any new BBC Hys threads"
   task :getnewthreads => :environment do
     HysThread.find_from_rss
+  end
+
+  def wymouth_check(find_conditions)
+    HysThread.find(:all, :order => 'created_at desc', :conditions => find_conditions ).each do |t|
+      ActiveRecord::Base.logger.debug("DEBUG:HysThread:#{t.bbcid}")
+      html_ids = t.find_comments_ids_from_html
+      if html_ids.nil?
+        log_warn("WARN:wymouth_check found no comment ids from html for  thread #{t.bbcid}")
+        next
+      end
+
+      # Check for comments mark censored that are actually published
+      mis_censored_ids = html_ids - (html_ids - t.censored_comments_ids)
+      #if (html_ids - t.censored_comments_ids).size != html_ids.size
+      if mis_censored_ids.size > 0
+        log_info("INFO:wymouth_check found #{mis_censored_ids.size} published comments marked censored on thread #{t.bbcid}!")
+        t.hys_comments.find_all_by_bbcid(mis_censored_ids).each { |c| c.uncensor! }
+      end
+
+      # Check for comments not mark censored that *are* actually censored
+      mis_published_ids = (t.comments_ids - html_ids) - t.censored_comments_ids
+      if mis_published_ids.size > 0
+        log_info("INFO:wymouth_check found #{mis_published_ids.size} censored comments marked published on thread #{t.bbcid}!")
+        t.hys_comments.find_all_by_bbcid(mis_published_ids).each { |c| c.censor! }
+      end
+    end
   end
 
   # Read the RSS feed, create any new comments and mark any censored as censored
@@ -89,5 +119,12 @@ namespace "bbc" do
 		log_info("get_long_comments started")
 		wymouth(['created_at < now() - INTERVAL 7 day and created_at >= now() - INTERVAL 2 month'])
 	end
+
+  desc "validate censored comments against results from html scraping"
+  task :check_against_html => :environment do
+    log_info("check_against_html started")
+    wymouth_check(['created_at < now() - INTERVAL 2 day and created_at >= now() - INTERVAL 7 day'])
+    #wymouth_check(['bbcid = 4342'])
+  end
 
 end
