@@ -85,9 +85,9 @@ class HysThread < ActiveRecord::Base
           logger.debug("DEBUG:HysComment.bbcid not in comments_ids")
           new_count += 1
           c.hys_thread = self
-          c.save!
-          @comments_ids << c.bbcid
+          c.save
           logger.info("INFO:hysthread:#{self.bbcid} new comment #{c.bbcid} created at #{c.created_at} by #{c.author}")
+          @comments_ids << c.bbcid
         end
         @rsscomments << c
       end
