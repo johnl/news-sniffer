@@ -1,72 +1,55 @@
 namespace "bbc" do
   require 'open-uri'
   require 'simple-rss'
-  require 'zget'
-  require 'bbcnews'
-  require 'digest'
-  require 'htmldiff'
-  require 'news_page'
-  include HTMLDiff
-  include BBCNews
+  require 'hys_thread'
+  require 'hys_comment'
     
-  @comments_html_url = "http://newsforums.bbc.co.uk/nol/thread.jspa?threadID=%s"
-
-  @logger = Logger.new("log/#{RAILS_ENV}-rake.log")
-  
-  def log_debug(msg)
-  	time = Time.now.strftime("%a %d/%m/%y %H:%M:%S")
-    msg = "#{time}: #{msg}"
-  	@logger.info(msg)
-    puts msg
-  end
-
   def log_info(msg)
   	time = Time.now.strftime("%a %d/%m/%y %H:%M:%S")
     msg = "#{time}: #{msg}"
-  	@logger.info(msg)
+  	ActiveRecord::Base.logger.info(msg)
     puts msg
   end
 	
   def log_error(msg)
     time = Time.now.strftime("%a %d/%m/%y %H:%M:%S")
     msg = "#{time}: #{msg}"
-    @logger.error(msg)
+    ActiveRecord::Base.logger.error(msg)
     puts msg
   end
 	
   def log_warn(msg)
     time = Time.now.strftime("%a %d/%m/%y %H:%M:%S")
     msg = "#{time}: #{msg}"
-    @logger.warn(msg)
+    ActiveRecord::Base.logger.warn(msg)
     puts msg
   end
 
   desc "find any new BBC Hys threads"
   task :getnewthreads => :environment do
-    HysThread.find_find_from_rss
+    HysThread.find_from_rss
   end
 
   # Read the RSS feed, create any new comments and mark any censored as censored
-	def get_new_comments(find_conditions)
+	def wymouth(find_conditions)
     # FIXME: this should be condition on updated_at, once the data is sorted out
     HysThread.find(:all, :order => 'created_at desc', :conditions => find_conditions ).each do |t|
-      ActiveRecord::Base.logger.debug("DEBUG: HysThread: #{t.bbcid}")
+      ActiveRecord::Base.logger.debug("DEBUG:HysThread: #{t.bbcid}")
       rsscomments = t.find_comments_from_rss
       if rsscomments.nil?
-        ActiveRecord::Base.logger.debug("DEBUG: HysThread: #{t.bbcid} t.find_comments_from_rss returned nil")
+        ActiveRecord::Base.logger.debug("DEBUG:HysThread: #{t.bbcid} t.find_comments_from_rss returned nil")
         next 
       end
       rsscomments_ids = rsscomments.collect { |c| c.bbcid }
         
-			log_info("hysthread:#{t.bbcid}: #{rsscomments.size} comments in rss, oldest:#{t.oldest_rss_comment}, #{t.hys_comments.count} in database")
+			log_info("INFO:hysthread:#{t.bbcid}: #{rsscomments.size} comments in rss, oldest:#{t.oldest_rss_comment}, #{t.hys_comments.count} in database")
       next if rsscomments.size == 0
 
       # Find any censored comments that reappeared and uncensor them
       reappeared = HysComment.find_all_by_bbcid_and_censored(rsscomments_ids, CENSORED)
       reappeared.each do |c|
-				log_info("thread #{t.bbcid}: missing comment #{c.bbcid} reappeared, created at #{c.created_at} by #{c.author}")
-        c.censored = NOTCENSORED
-        c.save
+				log_info("INFO:thread #{t.bbcid}: missing comment #{c.bbcid} reappeared, created at #{c.created_at} by #{c.author}")
+        c.uncensor!
       end  
 
       # Detect any missing comments!
@@ -79,34 +62,32 @@ namespace "bbc" do
       end
       missing = t.hys_comments.find(:all, :conditions => conds)
       missing.each do |c|
-  			log_info("thread #{t.bbcid}: new missing comment #{c.bbcid}, created at #{c.created_at} by #{c.author}")
-        c.censored = CENSORED
-        c.save
+  			log_info("thread #{t.bbcid}: new missing comment #{c.bbcid}, created at #{c.created_at} by #{c.author}") if c.censor!
       end
     end # HysThread.find loop
   end
   
 	desc "read new HYS comments and check for censored ones"
   task :getnewcomments => :environment do
-		get_new_comments(['created_at >= now() - INTERVAL 1 month'])
+	  wymouth(['created_at >= now() - INTERVAL 1 month'])
 	end
 
 	desc "check for censored HYS comments on the very latest threads"
-	task :get_short_comments => :environment do
+	task :short_mouth => :environment do
 		log_info("get_short_comments started")
-		get_new_comments(['created_at >= now() - INTERVAL 2 day'])
+		wymouth(['created_at >= now() - INTERVAL 2 day'])
 	end
 	
 	desc "check for censored HYS comments on the medium term threads"
-	task :get_medium_comments => :environment do
+	task :medium_mouth => :environment do
 		log_info("get_medium_comments started")
-		get_new_comments(['created_at < now() - INTERVAL 2 day and created_at >= now() - INTERVAL 7 day'])
+		wymouth(['created_at < now() - INTERVAL 2 day and created_at >= now() - INTERVAL 7 day'])
 	end
 	
 	desc "check for censored HYS comments on the long term threads"
-	task :get_long_comments => :environment do
+	task :long_mouth => :environment do
 		log_info("get_long_comments started")
-		get_new_comments(['created_at < now() - INTERVAL 7 day and created_at >= now() - INTERVAL 2 month'])
+		wymouth(['created_at < now() - INTERVAL 7 day and created_at >= now() - INTERVAL 2 month'])
 	end
 
 end
