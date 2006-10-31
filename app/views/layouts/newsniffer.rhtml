@@ -19,16 +19,21 @@
       <img src="/stylesheets/layout/pinleft.png" alt="" id="pinleft"/>
       <img src="/stylesheets/layout/newsniffer-text.png" alt="News Sniffer" id="logo"/>
   	  <div id="nav">
-      <% cache('layout-nav') do -%>
+      <% cache("layout-nav-#{controller.controller_name}") do -%>
           <ul>
-      	    <li><%= link_to 'Home', :controller => 'pages',
-      	      :action => 'summary' %></li>
-      	    <li><%= link_to 'About', :controller => 'pages',
-      	      :action => :about %></li>
+      	    <li><%= link_to 'Home', {:controller => 'pages',
+      	      :action => 'summary' },
+              :class => (controller.controller_name == 'pages' and controller.action_name == 'summary') ? "selected" : "" %></li>
+      	    <li><%= link_to 'About', { :controller => 'pages',
+      	      :action => :about }, :class => (controller.controller_name == 'pages' and controller.action_name != "summary") ? "selected" : "" %></li>
       	    <li><%= link_to 'Watch Your Mouth',
-      	      { :controller => 'bbchysthreads', :action => 'mostcensored' }, :title => 'BBC Have Your Say censored comments' %></li>
+      	      { :controller => 'bbchysthreads', :action => 'mostcensored' }, 
+              :title => 'BBC Have Your Say censored comments',
+              :class => controller.controller_name == "bbchysthreads" ? "selected" : ""%></li>
       	    <li><%= link_to 'Revisionista',
-      	      { :controller => 'news_articles', :action => 'list_revisions' }, :title => 'Corporate news article revisions'  %></li>
+      	      { :controller => 'news_articles', :action => 'list_revisions' }, 
+              :title => 'Corporate news article revisions',
+              :class => controller.controller_name == "news_articles" ? "selected" : ""%></li>
             <li><a href="/blog/">Blog</a></li>
           </ul>
       <% end -%>
@@ -42,6 +47,8 @@
           controller.controller_name =~ /bbchys/ -%>
         <%= render :partial => "partials/sidebar_revisionista" if 
           controller.controller_name == "news_articles" -%>
+        <%= render :partial => "partials/sidebar_pages" if
+          controller.controller_name == 'pages' %>
           <li>&nbsp;</li>
         </ul>
       </div>

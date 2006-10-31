@@ -1,0 +1,16 @@
+        <% cache("sidebar-pages") do -%>
+          <li id="menu">
+            <h2>About</h2>
+            <ul>
+              <li><%= link_to 'About',
+                :controller => 'pages', :action => 'about' %></li>
+              <li><%= link_to 'Watch Your Mouth',
+                :controller => 'pages', :action => 'watch-your-mouth' %></li>
+              <li><%= link_to 'Revisionista',
+                :controller => 'pages', :action => 'revisionista' %></li>
+              <li><%= link_to 'Frequently Asked Questions',
+                :controller => 'pages', :action => 'faq' %></li>
+              <li><%= link_to 'Contact', 'mailto:newssniffer@newworldodour.co.uk' %></li>
+            </ul>
+          </li>
+        <% end -%>

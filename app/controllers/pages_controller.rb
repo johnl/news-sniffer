@@ -1,5 +1,7 @@
 class PagesController < ApplicationController
   layout 'newsniffer'
+
+  session :off
   
   def summary
     @head_html = '<link rel="pingback" href="http://newssniffer.newworldodour.cookies.uk/blog/xmlrpc.php" />'

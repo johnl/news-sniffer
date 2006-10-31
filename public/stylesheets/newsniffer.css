@@ -124,6 +124,12 @@ hr {
   height: 10px;
 }
 
+#nav a.selected {
+  color: #4d6175;
+  border-color: #4d6175;
+  background: #d1dbe8 url(layout/tabbg-selected.png) repeat-x left top;
+}
+
 #nav a:hover {
   color: #000;
 }
