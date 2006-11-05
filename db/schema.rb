@@ -61,9 +61,6 @@ ActiveRecord::Schema.define(:version => 10) do
   add_index "news_article_versions", ["text_hash"], :name => "news_article_versions_text_hash_index"
   add_index "news_article_versions", ["comments_count"], :name => "news_article_versions_comments_count_index"
   add_index "news_article_versions", ["votes"], :name => "news_article_versions_votes_index"
-  add_index "news_article_versions", ["text"], :name => "text"
-  add_index "news_article_versions", ["title"], :name => "title"
-  add_index "news_article_versions", ["title", "text"], :name => "title_2"
   add_index "news_article_versions", ["title", "text"], :name => "title_text"
 
   create_table "news_articles", :force => true do |t|
