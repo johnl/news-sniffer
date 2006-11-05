@@ -19,7 +19,7 @@
       <img src="/stylesheets/layout/pinleft.png" alt="" id="pinleft"/>
       <img src="/stylesheets/layout/newsniffer-text.png" alt="News Sniffer" id="logo"/>
   	  <div id="nav">
-      <% cache("layout-nav-#{controller.controller_name}") do -%>
+      <% cache("layout-nav-#{controller.controller_name}-#{controller.action_name}") do -%>
           <ul>
       	    <li><%= link_to 'Home', {:controller => 'pages',
       	      :action => 'summary' },
@@ -29,7 +29,7 @@
       	    <li><%= link_to 'Watch Your Mouth',
       	      { :controller => 'bbchysthreads', :action => 'mostcensored' }, 
               :title => 'BBC Have Your Say censored comments',
-              :class => controller.controller_name == "bbchysthreads" ? "selected" : ""%></li>
+              :class => controller.controller_name =~ /^bbchys.*/ ? "selected" : ""%></li>
       	    <li><%= link_to 'Revisionista',
       	      { :controller => 'news_articles', :action => 'list_revisions' }, 
               :title => 'Corporate news article revisions',
