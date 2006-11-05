@@ -71,6 +71,10 @@ namespace "revisionista" do
       end
       page.url = article.url
       next if page.text_hash.nil? or page.text_hash == article.latest_text_hash
+      if article.source == "guardian" and article.versions.find_all_by_text_hash(page.text_hash).size > 0
+        log_warn "skipping flip-flopping Guardian news article, id:#{article.id}"
+        next
+      end
       log_info "new version found for '#{article.guid}'"
       nv = NewsArticleVersion.new
       nv.populate_from_page(page)
