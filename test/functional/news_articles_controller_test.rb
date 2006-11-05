@@ -13,7 +13,6 @@ class NewsArticlesControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
 
-  # Replace this with your real tests.
   def test_gets
     [:list, :list_revisions, :list_recommended, :search, :list_recommended_rss, :list_rss].each do |action|
       get action
@@ -30,6 +29,7 @@ class NewsArticlesControllerTest < Test::Unit::TestCase
 
   def test_search
     post :search, :search => 'annan'
+    assert_response :success, "search failed"
     #assert_tag :content => /lebanon devastation/i
   end
 end
