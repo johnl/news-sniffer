@@ -18,7 +18,7 @@ class BbchyscommentsController < ApplicationController
     @comments_pages, @comments =
       paginate :hys_comments, :order => 'hys_comments.updated_at desc, votes desc', 
       :include => 'hys_thread',
-      :conditions => ['votes > 0']
+      :conditions => ["votes > 0 and censored = #{CENSORED}"]
   end
   
   def top_recommended
@@ -26,7 +26,7 @@ class BbchyscommentsController < ApplicationController
     @comments_pages, @comments =
       paginate :hys_comments, :order => 'votes desc', 
       :include => 'hys_thread',
-      :conditions => ['votes > 0']
+      :conditions => ["votes > 0 and censored = #{CENSORED}"]
   end
   
   def list_rss

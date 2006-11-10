@@ -202,4 +202,12 @@ class HysThread < ActiveRecord::Base
     return @thread_comment if @thread_comment and @thread_comment.author =~ /^nol-j.*/
     nil
   end
+  
+  def censored_count 
+    @censored_count ||= self.censored.count
+  end
+  
+  def published_count 
+    @published_count ||= self.published.count
+  end
 end

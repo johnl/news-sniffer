@@ -1,15 +1,15 @@
 <h2>BBC 'Have Your Say' Threads</h2>
 <table>
 <tr><th>Details</th><th>Comments</th><th>Censored</th></tr>
-<% cache("thread_list_" + @threads.hash.to_s) do -%>
+<% cache("thread_list_" + @threads.collect { |t| [t.id, t.updated_at, t.published_count, t.censored_count] }.hash.to_s) do -%>
 <% @threads.each do |t| %>
 <tr>
 <td>
 <strong><%= link_to h(t.title), :action => :show, :id => t.bbcid %></strong><br/>
 <small>Started: <%= t.created_at.to_date %>, Last updated <%= t.updated_at.to_s(:long) %></small>
 </td>
-<td class="published-count"><%= t.published.count %></td>
-<td class="censored-count"><%= t.censored.count %></td>
+<td class="published-count"><%= t.published_count %></td>
+<td class="censored-count"><%= t.censored_count %></td>
 </tr>
 <% end %>
 <% end -%>
