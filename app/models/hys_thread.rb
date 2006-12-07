@@ -11,7 +11,7 @@ class HysThread < ActiveRecord::Base
   has_many :censored, :class_name => 'HysComment', :conditions => ["censored = #{CENSORED}"]
   has_many :published, :class_name => 'HysComment', :conditions => ["censored = #{NOTCENSORED}"]
   
-  @@comments_rss_url = "http://newsforums.bbc.co.uk/nol/rss/rssmessages.jspa?threadID=%s&lang=en"
+  @@comments_rss_url = "http://newsforums.bbc.co.uk/nol/rss/rssmessages.jspa?threadID=%s&lang=en&numItems=200"
   @@thread_rss_url = "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/talking_point/rss.xml"
 
   # Return the url to the bbc website for this thread

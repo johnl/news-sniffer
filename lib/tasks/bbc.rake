@@ -84,7 +84,7 @@ namespace "bbc" do
 
       # Detect any missing comments!
       conds = ["bbcid NOT IN (#{rsscomments_ids.join(',')}) AND censored = #{NOTCENSORED}"]
-      if rsscomments_ids.size >= 400
+      if rsscomments_ids.size >= 200
         # due to the 1 second granularity, we can't regard missing comments with the same timestamp
         # as the oldest_rss_comment as actually missing, if the rss feed is maxed out
         conds[0] += " AND modified_at > ?"
