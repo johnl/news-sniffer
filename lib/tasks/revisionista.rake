@@ -55,7 +55,8 @@ namespace "revisionista" do
   task :get_new_versions => :environment do
     puts "Finding articles..."
     now = Time.now
-    NewsArticle.find(:all, :order => 'updated_at desc').each do |article|
+    NewsArticle.find(:all, :order => 'updated_at desc', 
+        :conditions => "updated_at > now( ) - INTERVAL 40 DAY").each do |article|
       hours_old = ( (now - article.updated_at) / ( 60 * 60 ) ).to_i + 1
       tens = ((now.to_i % (60*60*24)) / 600 ) + 1
       next unless (((now.to_i % (60*60*24)) / 600 ) % hours_old) == 0
