@@ -2,11 +2,15 @@
 <h1><%= @thread.title %></h1>
 <p><%= @thread.hys_comments.count("censored = #{NOTCENSORED}") %> published comments with 
 <%= @thread.hys_comments.count("censored = #{CENSORED}") %> censored.</p>
+<div class="comment-description">
+<% if @thread.description -%>
+<%= @thread.description %>
+<% end -%>
 <% if @thread.thread_comment -%>
-<div class="comment-description"><%= @thread.thread_comment.text %>
+<%= @thread.thread_comment.text %>
+<% end -%>
 <p><%= link_to "Link to the BBC website for this thread", @thread.url %></p>
 </div>
-<% end -%>
 <p><strong>The following comments were censored</strong> from this thread on the BBC's 'Have Your Say' section of their news website.</p>
 <%= render :partial => "bbchyscomments/comment", :collection => @comments %>
 <% end -%>
