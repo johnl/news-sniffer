@@ -200,7 +200,7 @@ class HysThread < ActiveRecord::Base
   # Return the first comment if it's the thread comment, describing the thread (usually is)
   def thread_comment
     @thread_comment = self.hys_comments.find(:first, :order => 'bbcid asc') unless @thread_comment
-    return @thread_comment if @thread_comment and @thread_comment.author =~ /^nol-j.*/
+    return @thread_comment if @thread_comment and @thread_comment.author =~ /^(nol-j|BBC Host).*/
     nil
   end
   
