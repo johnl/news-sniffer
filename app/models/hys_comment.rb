@@ -54,9 +54,9 @@ class HysComment < ActiveRecord::Base
         logger.warn("HysComment.populate_from_rss got a nil bbcid: #{@rsslink}")
         return nil 
       end
-      self.author = entry[:jf_author]
-      self.created_at = Time.parse( entry[:jf_creationDate].to_s )
-      self.modified_at = Time.parse( entry[:jf_modificationDate].to_s )
+      self.author = entry[:dc_creator]
+      self.created_at = Time.parse( entry[:dc_date].to_s )
+      self.modified_at = self.created_at
       return true
     rescue NameError => e
       logger.debug("HysComment.populate_from_rss NameError exception: #{e.to_s}")
