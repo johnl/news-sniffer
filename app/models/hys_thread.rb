@@ -124,6 +124,7 @@ class HysThread < ActiveRecord::Base
           t.title = e[:title]
           t.bbcid = bbcid
           t.created_at = Time.parse( e[:pubDate].to_s )
+          t.description = e[:description]
           t.save
         rescue NameError => e
           logger.error "ERROR:find_from_rss: RSS entry didn't look right: #{e.to_s}"
