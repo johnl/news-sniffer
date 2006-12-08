@@ -1,9 +1,9 @@
 <% c = comment -%>
 <div class="comment">
-   <h3 class="comment"><%= link_to c.hys_thread.title, { :controller => 'bbchysthreads', :action => 'show', :id => c.hys_thread.bbcid }, :id => c.bbcid %></h3>
+   <h3 class="comment"><%= link_to CGI.unescapeHTML(c.hys_thread.title), { :controller => 'bbchysthreads', :action => 'show', :id => c.hys_thread.bbcid }, :id => c.bbcid %></h3>
    <p class="comment-meta">Written by <%= h c.author %> on <%= c.created_at %>. 
    <span id="<%= "reccounter#{c.id}" %>"><%= c.votes %> recommendations.</span></p>
-   <p><%= c.text %></p>
+   <p><%= CGI.unescapeHTML(c.text) %></p>
    <p class="comment-toolbar"><%= link_to 'BBC Link', c.url, 
     :title => "Permalink to where this comment should be on the BBC's own website" %> |  
    <%= link_to 'Permalink', { :controller => 'bbchysthreads', :action => 'show', 
