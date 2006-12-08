@@ -5,7 +5,7 @@
 <% @threads.each do |t| %>
 <tr>
 <td>
-<strong><%= link_to h(t.title), :action => :show, :id => t.bbcid %></strong><br/>
+<strong><%= link_to h(unescapeHTML(t.title)), :action => :show, :id => t.bbcid %></strong><br/>
 <small>Started: <%= t.created_at.to_date %>, Last updated <%= t.updated_at.to_s(:long) %></small>
 </td>
 <td class="published-count"><%= t.published_count %></td>
