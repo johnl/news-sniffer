@@ -55,7 +55,18 @@ class HysComment < ActiveRecord::Base
         return nil 
       end
       self.author = entry[:dc_creator]
-      self.created_at = Time.parse( entry[:dc_date].to_s )
+      # BBC feeds have timestamps in the 24th hour for some innane reason
+      dc_date = entry[:dc_date]
+      if dc_date.class != Time
+        logger.warn("WARN:HysComment.populate_from_rss got an unparsed timestamp on comment:#{self.bbcid} - trying hour 24 workaround")
+        begin
+          dc_date = Time.parse(dc_date.gsub('T24', 'T23'))
+        rescue ArgumentError
+          logger.error("ERROR:HysComment.populate_from_rss got an unparsable timestamp on comment:#{self.bbcid} - '#{entry[:dc_date]}'")
+          return nil
+        end
+      end
+      self.created_at = dc_date
       self.modified_at = self.created_at
       return true
     rescue NameError => e
