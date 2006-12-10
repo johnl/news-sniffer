@@ -39,7 +39,7 @@ namespace "bbc" do
       ActiveRecord::Base.logger.debug("DEBUG:HysThread:#{t.bbcid}")
       html_ids = t.find_comments_ids_from_html
       if html_ids.nil?
-        log_warn("WARN:wymouth_check found no comment ids from html for  thread #{t.bbcid}")
+        log_warn("WARN:wymouth_check found no comment ids from html for thread:#{t.bbcid}")
         next
       end
 
@@ -47,14 +47,14 @@ namespace "bbc" do
       mis_censored_ids = html_ids - (html_ids - t.censored_comments_ids)
       #if (html_ids - t.censored_comments_ids).size != html_ids.size
       if mis_censored_ids.size > 0
-        log_info("INFO:wymouth_check found #{mis_censored_ids.size} published comments marked censored on thread #{t.bbcid}!")
+        log_info("INFO:wymouth_check found #{mis_censored_ids.size} published comments marked censored on thread:#{t.bbcid}!")
         t.hys_comments.find_all_by_bbcid(mis_censored_ids).each { |c| c.uncensor! }
       end
 
       # Check for comments not mark censored that *are* actually censored
       mis_published_ids = (t.comments_ids - html_ids) - t.censored_comments_ids
       if mis_published_ids.size > 0
-        log_info("INFO:wymouth_check found #{mis_published_ids.size} censored comments marked published on thread #{t.bbcid}!")
+        log_info("INFO:wymouth_check found #{mis_published_ids.size} censored comments marked published on thread:#{t.bbcid}!")
         t.hys_comments.find_all_by_bbcid(mis_published_ids).each { |c| c.censor! }
       end
     end
@@ -64,21 +64,21 @@ namespace "bbc" do
 	def wymouth(find_conditions)
     # FIXME: this should be condition on updated_at, once the data is sorted out
     HysThread.find(:all, :order => 'created_at desc', :conditions => find_conditions ).each do |t|
-      ActiveRecord::Base.logger.debug("DEBUG:HysThread: #{t.bbcid}")
+      ActiveRecord::Base.logger.debug("DEBUG:hysthread:#{t.bbcid}")
       rsscomments = t.find_comments_from_rss
       if rsscomments.nil?
-        ActiveRecord::Base.logger.debug("DEBUG:HysThread: #{t.bbcid} t.find_comments_from_rss returned nil")
+        ActiveRecord::Base.logger.debug("DEBUG:hysthread:#{t.bbcid} t.find_comments_from_rss returned nil")
         next 
       end
       rsscomments_ids = rsscomments.collect { |c| c.bbcid }
-        
+
 			log_info("INFO:hysthread:#{t.bbcid}: #{rsscomments.size} comments in rss, oldest:#{t.oldest_rss_comment}, #{t.hys_comments.count} in database")
       next if rsscomments.size == 0
 
       # Find any censored comments that reappeared and uncensor them
       reappeared = HysComment.find_all_by_bbcid_and_censored(rsscomments_ids, CENSORED)
       reappeared.each do |c|
-				log_info("INFO:thread #{t.bbcid}: missing comment #{c.bbcid} reappeared, created at #{c.created_at} by #{c.author}")
+				log_info("INFO:hysthread:#{t.bbcid}: missing comment:#{c.bbcid} reappeared, created at #{c.created_at} by #{c.author}")
         c.uncensor!
       end  
 
@@ -92,7 +92,7 @@ namespace "bbc" do
       end
       missing = t.hys_comments.find(:all, :conditions => conds)
       missing.each do |c|
-  			log_info("thread #{t.bbcid}: new missing comment #{c.bbcid}, created at #{c.created_at} by #{c.author}") if c.censor!
+  			log_info("INFO:hysthread:#{t.bbcid}: new missing comment:#{c.bbcid}, created at #{c.created_at} by #{c.author}") if c.censor!
       end
     end # HysThread.find loop
   end
