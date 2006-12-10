@@ -56,11 +56,11 @@ class HysThread < ActiveRecord::Base
 					logger.error("ERROR:hysthread:#{self.bbcid} - error parsing comments rss: #{e.to_s}")
           return nil
       end
-      if !self.last_rss_pubdate.nil? and @rss.pubDate < self.last_rss_pubdate
-        logger.info("INFO:hysthread:#{self.bbcid} - rss pubDate older than last time, ignoring (#{@rss.pubDate} < #{self.last_rss_pubdate})")
+      if !self.last_rss_pubdate.nil? and @rss.lastBuildDate < self.last_rss_pubdate
+        logger.info("INFO:hysthread:#{self.bbcid} - rss pubDate older than last time, ignoring (#{@rss.lastBuildDate} < #{self.last_rss_pubdate})")
         return nil
       end
-      self.last_rss_pubdate = @rss.pubDate
+      self.last_rss_pubdate = @rss.lastBuildDate
       self.save
       end # benchmark
       
@@ -97,7 +97,8 @@ class HysThread < ActiveRecord::Base
       # Work out the date of the oldest comment in the feed.  Feeds are not sorted
       @oldest_rss_comment = Time.now
       @rsscomments.each do |c|
-        @oldest_rss_comment = c.modified_at if c.modified_at < @oldest_rss_comment
+
+      @oldest_rss_comment = c.modified_at if c.modified_at < @oldest_rss_comment
       end
 
       return @rsscomments
