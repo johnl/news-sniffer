@@ -60,7 +60,7 @@ class HysComment < ActiveRecord::Base
       if dc_date.class != Time
         logger.warn("WARN:HysComment.populate_from_rss got an unparsed timestamp on comment:#{self.bbcid} - trying hour 24 workaround")
         begin
-          dc_date = Time.parse(dc_date.gsub('T24', 'T23'))
+          dc_date = Time.parse(dc_date.gsub('T24', 'T00'))
         rescue ArgumentError
           logger.error("ERROR:HysComment.populate_from_rss got an unparsable timestamp on comment:#{self.bbcid} - '#{entry[:dc_date]}'")
           return nil
