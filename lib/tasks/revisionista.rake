@@ -45,6 +45,7 @@ namespace "revisionista" do
   task :get_new_articles => :environment do
     get_new_articles "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/world/rss.xml"
     get_new_articles "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/uk/rss.xml"
+    get_new_articles "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/uk_politics/rss.xml"
     get_new_articles "guardian", "http://www.guardian.co.uk/rssfeed/0,15065,12,00.xml" # World
     get_new_articles "guardian", "http://www.guardian.co.uk/rssfeed/0,15065,11,00.xml" # UK news
     get_new_articles "independent", "http://news.independent.co.uk/world/index.jsp?service=rss" # World
