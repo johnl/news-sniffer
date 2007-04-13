@@ -5,25 +5,25 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '1.1.6'
+RAILS_GEM_VERSION = '1.2.3' unless defined? RAILS_GEM_VERSION
 
 ENV['ADMIN_PASSWORD'] = "dogmacatma"
 
 CENSORED = 0
 NOTCENSORED = 1
 
+
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
-
 Rails::Initializer.run do |config|
-
-
-  config.active_record.schema_format = :sql
-  # Settings in config/environments/* take precedence those specified here
+  # Settings in config/environments/* take precedence over those specified here
   
-  # Skip frameworks you're not going to use
+  # Skip frameworks you're not going to use (only works if using vendor/rails)
   # config.frameworks -= [ :action_web_service, :action_mailer ]
+
+  # Only load the plugins named here, by default all plugins in vendor/plugins are loaded
+  # config.plugins = %W( exception_notification ssl_requirement )
 
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
@@ -60,6 +60,10 @@ end
 #   inflect.uncountable %w( fish sheep )
 # end
 
+# Add new mime types for use in respond_to blocks:
+# Mime::Type.register "text/richtext", :rtf
+# Mime::Type.register "application/x-mobile", :mobile
+
 # Include your application configuration below
 require 'rubyrss'
 require 'diff_html'
@@ -67,6 +71,5 @@ require 'timed_fragment_cache.rb'
 require 'http'
 include HTTP
 require_gem 'ferret', '>= 0.11', '<0.12'
-#require_gem 'ferret', '0.10.9'
 include Ferret
 require 'drb'

@@ -23,7 +23,7 @@ class BbchysthreadsController < ApplicationController
       hys_comments.hys_thread_id and hys_comments.censored = #{CENSORED} group by
       hys_threads.id order by ccount desc "
 
-    @threads_pages = Paginator.new self, HysThread.count , 10, @params['page']
+    @threads_pages = Paginator.new self, HysThread.count , 10, params['page']
     @threads = HysThread.find_by_sql(sql +
       "limit #{@threads_pages.current.offset},#{@threads_pages.items_per_page}" )
     render :action => 'list'
