@@ -66,3 +66,7 @@ require 'diff_html'
 require 'timed_fragment_cache.rb'
 require 'http'
 include HTTP
+require_gem 'ferret', '>= 0.11', '<0.12'
+#require_gem 'ferret', '0.10.9'
+include Ferret
+require 'drb'

@@ -1,0 +1,37 @@
+<% @title = "Revisionista Search Help" -%>
+<div class="narrow">
+<h1>Revisionista Search Help</h1>
+<h2>Example searches</h2>
+<p>Find all revisions about israel but not about hamas:
+<code class="search-example">israel -hamas</code></p>
+
+<p>Find all revisions from the bbc, about iraq and blair:
+<code class="search-example">source:bbc iraq blair</code></p>
+
+<p>Find all revisions about gordon brown:
+<code class="search-example">"gordon brown"</code></p>
+
+<p>Find all revisions with the word pakistan in the article title
+<code class="search-example">title:pakistan</code></p>
+
+<p>The BBC use different urls to represent the same article.  To find a
+particular BBC article that you have a url for, say
+<code>http://news.bbc.co.uk/1/hi/world/europe/5375834.stm</code>, it's
+usually best to search for the number in the url like this:
+<code class="search-example">url:*5375834*</code></p>
+
+<p>Find all revisions about Nepal, excluding anything about the helicopter crash:
+<code class="search-example">nepal -crash -helicopter</code></p>
+
+<p>Find all revisions with any words beggining with <code>democra</code>, such
+as democracy, democrats, democratic:
+<code class="search-example">democra*</code></p>
+
+<p>Find all revisions with words a bit like <code>mosharaf</code>.  You can use
+this when you aren't sure how to spell something, or when journalists aren't
+sure either (such as Musharraf, which this example will find)
+<code class="search-example">mosharaf~</code></p>
+
+<p>More details on the query language can be found in the <a href="http://lucene.apache.org/java/docs/queryparsersyntax.html" target="_blank">Apache Lucene documention</a>.</p>
+
+

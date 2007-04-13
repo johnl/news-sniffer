@@ -7,6 +7,129 @@ class NewsArticleVersion < ActiveRecord::Base
   
   has_many :comments, :conditions => "linktype = 'NewsArticleVersion'",
     :foreign_key => 'link_id'
+  
+  @@ferret_index = nil
+  
+  after_update :ferret_update
+  after_create :ferret_update
+  after_destroy :ferret_delete
+
+  module SearchResult
+    attr_accessor :total_hits
+    attr_accessor :time
+  end
+  
+  # Execute a search on the ferret index and return matching collection objects
+  def self.ferret_search(search_string, options = {}, activerecord_options = {})
+    versions = {}
+    options = { :limit => 10 }.merge(options)
+    options[:page] = 1 unless options[:page]
+    @@query_parser ||= QueryParser.new(:default_slop => 2,
+      :all_fields => [:text, :title, :url],
+      :or_default => false)
+    query = @@query_parser.parse(search_string)
+    results = nil
+    hits = nil
+    time = nil
+      time = Benchmark.measure do
+        results = NewsArticleVersion.ferret_index.search( query.to_s,
+          :limit => options[:limit], :sort => options[:sort],
+          :offset => (options[:page].to_i-1) * options[:limit] )
+        hits = results.hits
+        # Get the db id 
+        hits_ids = hits.collect { |h| NewsArticleVersion.ferret_index[h.doc][:id] }
+        # Get the db records and put in the "version" hash for ferret ordering
+        NewsArticleVersion.find( hits_ids, activerecord_options ).select { |t| versions[t.id] = t }
+        # put the db records in ferret order
+        hits.collect! { |h| versions[NewsArticleVersion.ferret_index[h.doc][:id].to_i] }
+      end
+    hits.extend(SearchResult)
+    hits.total_hits = results.total_hits
+    hits.time = time.format('%r')
+    return hits
+  end
+ 
+  
+  # Return the Ferret index object for this class.  Initialise if necessary
+  def self.ferret_index(options = {})
+    return @@ferret_index unless @@ferret_index.nil?
+    DRb.start_service
+    @@ferret_index = DRbObject.new(nil, 'druby://127.0.0.1:9001')
+    #@ferret_index
+    #ferret_init_index(options) if @@ferret_index.nil? or options[:create] == true
+    #@@ferret_index
+  end
+
+  def self.ferret_server
+    DRb.start_service("druby://127.0.0.1:9001", NewsArticleVersion.ferret_init_index() )
+    DRb.thread.join
+  end
+  
+  # Initialise ferret index for this class
+  def self.ferret_init_index(options = {})
+    @@ferret_index.close unless @@ferret_index.nil?
+    options = { :create => false }.merge(options)
+    field_infos = Index::FieldInfos.new(:term_vector => :no, :store => :no)
+    field_infos.add_field(:id, :index => :untokenized, :store => :yes)
+    field_infos.add_field(:created_at, :index => :untokenized )
+    field_infos.add_field(:url, :index => :untokenized)
+    field_infos.add_field(:text)
+    field_infos.add_field(:title)
+    field_infos.add_field(:source)
+    @@ferret_index = Index::Index.new(:path => "#{RAILS_ROOT}/ferret_index/#{RAILS_ENV}/news_article_versions", 
+      :field_infos => field_infos, 
+      :id_field => :id, 
+      :key => :id, 
+      :default_input_field => :text,
+      :create => options[:create])
+    @@ferret_index
+  end
+  
+  # Rebuild entire ferret index from database. Recreate index file if first parameter is true.
+  def self.ferret_rebuild(recreate = false)
+    logger.info("Rebuilding ferret index for news_article_versions")
+    NewsArticleVersion.ferret_index(:create => recreate)
+    offset = 0
+    limit = 1000
+    max = self.count
+    until (offset > max) do
+      logger.info("Indexing records #{offset} to #{offset + limit-1}...")
+      self.benchmark("Indexing records #{offset} to #{offset + limit-1}") do
+        self.find(:all, :limit => limit, :offset => offset).each { |t| t.ferret_update }
+        offset += limit
+      end
+    end
+    self.ferret_index.optimize
+    return true
+  end
+  
+
+  # Return a hash for this object suitable for adding to a ferret index
+  def to_ferret_doc
+    hash = {}
+    NewsArticleVersion.ferret_index.field_infos.fields.each do |fieldname|
+      next if fieldname == :content
+      if fieldname == :created_at
+        field = self.created_at.strftime("%Y%m%d")
+      else
+        field = eval("self.#{fieldname}")
+      end
+      field = field.join(' ') if field.is_a? Array
+      hash[fieldname] = field.to_s unless field.nil?
+    end
+    hash[:id] = self.id
+    hash
+  end
+  
+  # Add/update this object to the Ferret index
+  def ferret_update
+    NewsArticleVersion.ferret_index << self.to_ferret_doc
+  end
+
+  # Delete this object from the Ferret index
+  def ferret_delete
+    NewsArticleVersion.ferret_index.delete(self.id.to_s)
+  end
  
   # populate the object from a NewsPage object
   def populate_from_page(page)
@@ -15,6 +138,11 @@ class NewsArticleVersion < ActiveRecord::Base
       # self.created_at = page.date
       self.url = page.url
       self.text = page.content.join('<p>')
+  end
+
+  # news source (via NewsArticle) for ferret indexing
+  def source
+    self.news_article.source
   end
   
   private

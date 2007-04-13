@@ -83,4 +83,45 @@ namespace "revisionista" do
       article.versions << nv
     end
   end
+
+  desc "Add any new revisions to the ferret index"
+  task :update_index => :environment do
+    limit = 1000
+    state_file = RAILS_ROOT + '/tmp/cache/revisionista-update-index-state.yaml'
+    begin
+      state = YAML::load_file(state_file)
+    rescue
+      state = { :last_updated => 0 }
+    end
+    count = [ 1000, NewsArticleVersion.count(:all, :conditions => ["id > ?", state[:last_updated]]) ].min
+
+    unless count == 0
+      NewsArticleVersion.benchmark("Updating #{count} NewsArticleVersions created since #{state[:last_updated]}...") do
+        NewsArticleVersion.find(:all, :limit => limit,
+            :conditions => ["id > ?", state[:last_updated]], :order => 'id asc').each do |version|
+          version.ferret_update
+          state[:last_updated] = version.id
+        end
+      end
+
+      File.open( state_file, 'w' ) do |out|
+       YAML.dump( state, out )
+      end
+    end
+  end
+
+  desc "Rebuild entire revisionista ferret index"
+  task :rebuild_index => :environment do
+    state_file = RAILS_ROOT + '/tmp/cache/revisionista-update-index-state.yaml'
+
+    newest_updated = nil
+    NewsArticleVersion.transaction do 
+      NewsArticleVersion.ferret_rebuild(true)
+      newest_updated = NewsArticleVersion.find(:first, :order => 'id desc').id
+    end
+    state = { :last_updated => newest_updated.id }
+    File.open( state_file, 'w' ) do |out|
+     YAML.dump( state, out )
+    end
+  end
 end

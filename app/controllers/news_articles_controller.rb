@@ -52,10 +52,14 @@ class NewsArticlesController < ApplicationController
     session[:na_search] = params[:search] if params[:search]
     @search = session[:na_search]
     @title = @title + " for '#{@search}'" if @search
-    @articles_pages, @articles= paginate :news_article, :per_page => 16,
-      :conditions => ["MATCH (news_article_versions.title, news_article_versions.text) AGAINST (?)", @search ],
-      :include => 'versions'
-    render :action => :list_articles
+
+    @versions = NewsArticleVersion.ferret_search(@search, {:limit => 16, :page => params[:page]}, {:include => :news_article})
+    @versions_pages = Paginator.new self, @versions.total_hits, 16, params['page']
+    rescue DRb::DRbConnError
+      @search = nil
+      flash.now[:error] = "The search service is currently down."
+    ensure
+      render :action => :search
   end
   
 

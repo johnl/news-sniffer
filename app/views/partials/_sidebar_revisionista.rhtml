@@ -10,7 +10,8 @@
                 :controller => 'news_articles', :action => 'list_recommended' %></li>
               <li><%= link_to 'Revisions RSS Feed',
                 :controller => 'news_articles', :action => 'list_rss' %></li>
-
+              <li><%= link_to 'Search',
+                :controller => 'news_articles', :action => 'search' %></li>
             </ul>
           </li>
         <% end -%>
@@ -35,18 +36,6 @@
               :version_a => version.version,
               :version_b => version.version - 1 %> <small>(<%= version.votes %> votes)</small></li>
             <% end %>
-            </ul>
-          </li>
-<% else -%>
-          <li>
-            <h2>Search Articles</h2>
-            <ul class="nobullet">
-              <li id="searchbox">
-              <%= start_form_tag :controller => 'news_articles', :action => 'search'  %>
-              <%= text_field_tag 'search', @search, :class => 'searchbox' %>
-              <p><%= submit_tag ' Search ' %></p>
-              <%= end_form_tag %>
-              </li>
             </ul>
           </li>
 <% end -%>
