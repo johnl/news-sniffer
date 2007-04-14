@@ -11,7 +11,7 @@ class NewsArticleVersion < ActiveRecord::Base
   @@ferret_index = nil
   
   after_update :ferret_update
-  after_create :ferret_update
+  after_create :ferret_create
   after_destroy :ferret_delete
 
   module SearchResult
@@ -35,14 +35,14 @@ class NewsArticleVersion < ActiveRecord::Base
         results = NewsArticleVersion.ferret_index.search( query.to_s,
           :limit => options[:limit], :sort => options[:sort],
           :offset => (options[:page].to_i-1) * options[:limit] )
-        hits = results.hits
-        # Get the db id 
-        hits_ids = hits.collect { |h| NewsArticleVersion.ferret_index[h.doc][:id] }
-        # Get the db records and put in the "version" hash for ferret ordering
-        NewsArticleVersion.find( hits_ids, activerecord_options ).select { |t| versions[t.id] = t }
-        # put the db records in ferret order
-        hits.collect! { |h| versions[NewsArticleVersion.ferret_index[h.doc][:id].to_i] }
+        # Get the db ids from ferret index
+        hits_ids = results.hits.collect { |h| NewsArticleVersion.ferret_index[h.doc][:id].to_i }
+        # Setup the order field to ensure we get the records in hit order
+        activerecord_options.merge!( { :order => "field(news_article_versions.id, #{hits_ids.join(',')})" } )
+        # Get the db records 
+        hits = NewsArticleVersion.find( hits_ids, activerecord_options)
       end
+    logger.info "ferret search for #{query.to_s} completed in #{time}"
     hits.extend(SearchResult)
     hits.total_hits = results.total_hits
     hits.time = time.format('%r')
@@ -53,11 +53,7 @@ class NewsArticleVersion < ActiveRecord::Base
   # Return the Ferret index object for this class.  Initialise if necessary
   def self.ferret_index(options = {})
     return @@ferret_index unless @@ferret_index.nil?
-    DRb.start_service
-    @@ferret_index = DRbObject.new(nil, 'druby://127.0.0.1:9001')
-    #@ferret_index
-    #ferret_init_index(options) if @@ferret_index.nil? or options[:create] == true
-    #@@ferret_index
+    @@ferret_index = NsDrb.services[:news_article_version_ferret]
   end
 
   def self.ferret_server
@@ -78,8 +74,6 @@ class NewsArticleVersion < ActiveRecord::Base
     field_infos.add_field(:source)
     @@ferret_index = Index::Index.new(:path => "#{RAILS_ROOT}/ferret_index/#{RAILS_ENV}/news_article_versions", 
       :field_infos => field_infos, 
-      :id_field => :id, 
-      :key => :id, 
       :default_input_field => :text,
       :create => options[:create])
     @@ferret_index
@@ -95,7 +89,7 @@ class NewsArticleVersion < ActiveRecord::Base
     until (offset > max) do
       logger.info("Indexing records #{offset} to #{offset + limit-1}...")
       self.benchmark("Indexing records #{offset} to #{offset + limit-1}") do
-        self.find(:all, :limit => limit, :offset => offset).each { |t| t.ferret_update }
+        self.find(:all, :limit => limit, :offset => offset).each { |t| t.ferret_create }
         offset += limit
       end
     end
@@ -120,10 +114,15 @@ class NewsArticleVersion < ActiveRecord::Base
     hash[:id] = self.id
     hash
   end
+
+
+  def ferret_create
+    NewsArticleVersion.ferret_index << self.to_ferret_doc
+  end
   
   # Add/update this object to the Ferret index
   def ferret_update
-    NewsArticleVersion.ferret_index << self.to_ferret_doc
+    NewsArticleVersion.query_update("id:#{self.id}", self.to_ferret_doc)
   end
 
   # Delete this object from the Ferret index

@@ -4,7 +4,7 @@
 <%= text_field_tag 'search', @search, :class => 'searchbox', :size => 40 %> <%= submit_tag ' Search ' %>
 <%= end_form_tag %>
 
-<% unless @search.nil? or @search.empty? -%>
+<% unless @search.nil? or @search.empty? or @versions.nil? -%>
 <p><%= @versions.total_hits %> hits for <strong>'<%=h @search %>'</strong></p>
 <table>
 <tr>

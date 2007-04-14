@@ -18,3 +18,5 @@ config.action_controller.perform_caching             = true
 # config.action_mailer.raise_delivery_errors = false
 #
 ActionController::Base.fragment_cache_store = ActionController::Base.fragment_cache_store = :mem_cache_store, "213.146.154.198"
+
+DRV_SERVICE = { :host => '213.146.154.198', :port => 9001 }

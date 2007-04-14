@@ -70,6 +70,9 @@ require 'diff_html'
 require 'timed_fragment_cache.rb'
 require 'http'
 include HTTP
-require_gem 'ferret', '>= 0.11', '<0.12'
+gem 'ferret', '>= 0.11', '<0.12'
+require 'ferret'
 include Ferret
 require 'drb'
+require 'drb/timeridconv'
+require 'drb_service'
