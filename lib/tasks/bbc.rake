@@ -4,8 +4,8 @@ NOTCENSORED = 1
 namespace "bbc" do
   require 'open-uri'
   require 'simple-rss'
-  require 'hys_thread'
-  require 'hys_comment'
+#  require 'hys_thread'
+#  require 'hys_comment'
 
     
   def log_info(msg)
