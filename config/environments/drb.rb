@@ -18,5 +18,5 @@ config.action_controller.perform_caching             = true
 # config.action_mailer.raise_delivery_errors = false
 
 ActiveRecord::Base.allow_concurrency = true
-#
-ActionController::Base.fragment_cache_store = :file_store, "#{RAILS_ROOT}/tmp/cache/fragment_cache"
+
+config.action_controller.fragment_cache_store = :file_store, "#{RAILS_ROOT}/tmp/cache/fragment_cache/#{RAILS_ENV}"

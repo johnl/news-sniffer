@@ -18,4 +18,4 @@ config.action_controller.perform_caching             = true
 # config.action_mailer.raise_delivery_errors = false
 #
 
-ActionController::Base.fragment_cache_store = NsDrb::services[:fragment_cache]
+config.action_controller.fragment_cache_store = NsDrb::services[:fragment_cache]
