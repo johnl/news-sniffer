@@ -1,8 +1,7 @@
 <h2>BBC 'Have Your Say' Threads</h2>
 <table>
 <tr><th>Details</th><th>Comments</th><th>Censored</th></tr>
-<% cache("thread_list_" + @threads.collect { |t| [t.id, t.updated_at, t.published_count, t.censored_count] }.hash.to_s) do -%>
-<% @threads.each do |t| %>
+<% @threads.each do |t| -%>
 <tr>
 <td>
 <strong><%= link_to h(CGI.unescapeHTML(t.title)), :action => :show, :id => t.bbcid %></strong><br/>
@@ -11,9 +10,7 @@
 <td class="published-count"><%= t.published_count %></td>
 <td class="censored-count"><%= t.censored_count %></td>
 </tr>
-<% end %>
 <% end -%>
 </table>
 <hr/>
 <%= render_partial 'partials/paginator', @threads_pages %>
-
