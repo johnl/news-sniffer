@@ -11,7 +11,7 @@ module NsDrb
 
 
   def self.connect
-#    DRb.install_id_conv DRb::TimerIdConv.new
+    DRb.install_id_conv DRb::TimerIdConv.new
     DRb.start_service
     DRbObject.new(nil, url)
   end
