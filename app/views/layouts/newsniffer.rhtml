@@ -56,12 +56,12 @@
 
         <% if flash[:notice] -%>
         <div id="notice"><%= flash[:notice] %></div>
-        <%= javascript_tag visual_effect :highlight, 'notice',
-        	:duration => 2 %>        
+        <%= javascript_tag visual_effect(:highlight, 'notice',
+        	:duration => 2) %>
         <% end -%>
         <% if flash[:error] -%>
         <div id="error"><%= flash[:error] %></div>
-        <%= javascript_tag visual_effect :highlight, 'error', :duration => 2 %>        
+        <%= javascript_tag visual_effect(:highlight, 'error', :duration => 2)%>
         <% end -%>
 
         <%= yield %>
