@@ -18,11 +18,12 @@ class Index
 end
 end
 
-ferrets = { :news_article_version_ferret => NewsArticleVersion.ferret_init_index() }
+services = { 
+  :news_article_version_ferret => NewsArticleVersion.ferret_init_index(),
+  :fragment_cache => ActiveRecord::Base.allow_concurrency
+  }
 DRb.install_id_conv DRb::TimerIdConv.new
 
-host = DRB_SERVICE[:host]
-port = DRB_SERVICE[:port]
-puts "Starting druby ferret service on #{host}:#{port}"
-server = DRb::DRbServer.new("druby://#{host}:#{port}", ferrets, :verbose => true )
+puts "Starting druby ferret service on #{NsDrb::url}"
+server = DRb::DRbServer.new(NsDrb::url, services, :verbose => true )
 server.thread.join

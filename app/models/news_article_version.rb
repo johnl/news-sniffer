@@ -53,7 +53,7 @@ class NewsArticleVersion < ActiveRecord::Base
   # Return the Ferret index object for this class.  Initialise if necessary
   def self.ferret_index(options = {})
     return @@ferret_index unless @@ferret_index.nil?
-    @@ferret_index = NsDrb.services[:news_article_version_ferret]
+    @@ferret_index = NsDrb::services[:news_article_version_ferret]
   end
 
   def self.ferret_server

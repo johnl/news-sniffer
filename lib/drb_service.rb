@@ -1,14 +1,24 @@
-class NsDrb
+module NsDrb
 
   @@service_hash = nil
 
-  def self.services
-    return @@service_hash unless @@service_hash.nil?
+  def self.url
+    config = YAML.load_file("#{RAILS_ROOT}/config/drb_service.yaml")[RAILS_ENV]
+    host = config["host"]
+    port = config["port"]
+    "druby://#{host}:#{port}"
+  end
+
+
+  def self.connect
 #    DRb.install_id_conv DRb::TimerIdConv.new
     DRb.start_service
-    host = DRB_SERVICE[:host]
-    port = DRB_SERVICE[:port]
-    @@service_hash = DRbObject.new(nil, 'druby://127.0.0.1:9001')
+    DRbObject.new(nil, url)
+  end
+
+  def self.services
+    return @@service_hash unless @@service_hash.nil?
+    @@service_hash = connect
   end
 
 end

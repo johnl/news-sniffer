@@ -16,6 +16,7 @@ config.action_controller.perform_caching             = true
 
 # Disable delivery errors, bad email addresses will be ignored
 # config.action_mailer.raise_delivery_errors = false
-#
 
-ActionController::Base.fragment_cache_store = NsDrb::services[:fragment_cache]
+ActiveRecord::Base.allow_concurrency = true
+#
+ActionController::Base.fragment_cache_store = :file_store, "#{RAILS_ROOT}/tmp/cache/fragment_cache"

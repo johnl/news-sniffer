@@ -12,9 +12,13 @@ ENV['ADMIN_PASSWORD'] = "dogmacatma"
 CENSORED = 0
 NOTCENSORED = 1
 
+require 'drb'
+require 'drb/timeridconv'
+require 'lib/drb_service'
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
+
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here
@@ -73,6 +77,3 @@ include HTTP
 gem 'ferret', '>= 0.11', '<0.12'
 require 'ferret'
 include Ferret
-require 'drb'
-require 'drb/timeridconv'
-require 'drb_service'
