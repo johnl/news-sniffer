@@ -9,7 +9,7 @@ class HysObserver < ActiveRecord::Observer
     yield
   end
 
-  def after_update(model)
+  def after_save(model)
 
     if model.is_a? HysComment
       expire_fragment(/bbc\/threads\/all/)
@@ -25,13 +25,20 @@ class HysObserver < ActiveRecord::Observer
       expire_fragment(/bbc\/threads\/all/)
       expire_fragment(/bbc\/threads\/mostcensored/)
 
-      expire_fragment(/bbchysthreads\/show\/#{model.bbcid}/)
+      expire_fragment(/bbc\/threads\/show\/#{model.bbcid}/)
     end
-
-    if model.is_a? Vote and model.read_attribute('class') == "HysComment"
+    
+    if model.is_a? Vote and model.attributes['class'] == "HysComment"
+      expire_fragment(/bbc\/threads\/all/)
+      expire_fragment(/bbc\/threads\/mostcensored/)
+      
+      expire_fragment(/bbc\/comments\/list/)
       expire_fragment(/bbc\/comments\/recommended/)
       expire_fragment(/bbc\/comments\/top_recommended/)
+      
+      expire_fragment(/bbc\/threads\/show\/#{model.voted_object.hys_thread.bbcid}/)
     end
+
   end
 
 end
