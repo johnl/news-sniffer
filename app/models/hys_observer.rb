@@ -14,6 +14,7 @@ class HysObserver < ActiveRecord::Observer
     if model.is_a? HysComment
       expire_fragment(/bbc\/threads\/all/)
       expire_fragment(/bbc\/threads\/mostcensored/)
+      expire_fragment(/bbc\/comments\/feed/)
 
       expire_fragment(/bbc\/comments\/list/)
       if model.hys_thread

@@ -33,9 +33,14 @@ class BbchyscommentsController < ApplicationController
   
   def list_rss
     headers["Content-Type"] = "application/xml"
-    @comments = HysComment.find( :all, :include => 'hys_thread', :order => 'hys_comments.updated_at desc', 
+    fragment_key = request.env["HTTP_HOST"].gsub(":",".") + request.env["REQUEST_URI"]
+    unless @content = fragment_cache_store.read(fragment_key)
+      @comments = HysComment.find( :all, :include => 'hys_thread', :order => 'hys_comments.updated_at desc', 
       :conditions => ["hys_comments.censored = #{CENSORED}"], :limit => 25 )
-    render :layout => false
+      @content = render_to_string :layout => false
+      fragment_cache_store.write(fragment_key, @content)
+    end
+    render :layout => false, :text => @content
   end
 
   def show
