@@ -1,5 +1,4 @@
 class NewsArticlesController < ApplicationController
-
   layout 'newsniffer'
   
   session :off, :except => %w(vote)
@@ -41,7 +40,7 @@ class NewsArticlesController < ApplicationController
   
   def list_rss
     @versions = NewsArticleVersion.find(:all, :order => 'news_article_versions.created_at desc', 
-      :limit => 30,
+      :limit => 20,
       :conditions => 'version > 0',
       :include => 'news_article')
     render :layout => false
