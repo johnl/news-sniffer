@@ -1,4 +1,3 @@
-        <% cache("sidebar-" + controller.controller_name) do -%>
           <li id="menu">
             <h2>Watch Your Mouth</h2>
             <ul>
@@ -7,19 +6,7 @@
               <li><%= link_to 'Latest Censored', :controller => 'bbchyscomments', :action => 'list', :page => nil %></li>
               <li><%= link_to 'Latest Recommended', :controller => 'bbchyscomments', :action => 'recommended', :page => nil %></li>
               <li><%= link_to 'Top Recommended', :controller => 'bbchyscomments', :action => 'top_recommended', :page => nil %></li>
-              <li><%= link_to 'RSS Feed',
-                :controller => 'bbchyscomments', :action => 'list_rss' %></li>
+              <li><%= link_to 'RSS Feed', :controller => 'bbchyscomments', :action => 'list_rss' %></li>
+              <li><%= link_to 'Search', :controller => 'bbchyscomments', :action => 'search' %></li>
             </ul>
           </li>
-          <li>
-            <h2>Search Comments</h2>
-            <ul class="nobullet">
-              <li id="searchbox">
-              <% form_tag :controller => 'bbchyscomments', :action => 'search' do  %>
-              <%= text_field_tag 'search', @search, :class => 'searchbox' %>
-              <p><%= submit_tag ' Search ' %></p>
-              <% end %>
-              </li>
-            </ul>
-          </li>
-        <% end %>
