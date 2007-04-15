@@ -2,6 +2,7 @@ class BbchysthreadsController < ApplicationController
 
   layout 'newsniffer'
   session :off
+  caches_action :mostcensored, :all, :show
 
   def all
     @title = "Watch Your Mouth - latest threads"
@@ -30,11 +31,9 @@ class BbchysthreadsController < ApplicationController
   end
 
   def show
-    unless read_fragment("hys_thread_#{params[:id].to_i}")
-      @thread = HysThread.find_by_bbcid(params[:id])
-      @comments = @thread.censored.find(:all, :order => "hys_comments.updated_at", :include => :hys_thread)
-      @title = "Watch Your Mouth - '#{@thread.title}'"
-    end
+    @thread = HysThread.find_by_bbcid(params[:id])
+    @title = "Watch Your Mouth - '#{@thread.title}'"
+    @comments = @thread.censored.find(:all, :order => "hys_comments.updated_at", :include => :hys_thread)
   end
 
 end
