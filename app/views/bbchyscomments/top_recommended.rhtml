@@ -1,4 +1,3 @@
-<% cache @comments.collect { |c| [c.id, c.votes, c.updated_at] }.hash.to_s do -%>
 <h1>Top Recommended Censored Comments</h1>
 <p>These comments were most recommended by News Sniffer visitors.</p>
 <% if @search %>
@@ -9,4 +8,3 @@
 <%= render :partial => "comment", :collection => @comments %>
 
 <%= render_partial 'partials/paginator', @comments_pages %>
-<% end -%>
