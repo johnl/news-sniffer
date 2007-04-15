@@ -2,7 +2,7 @@ class NewsArticlesController < ApplicationController
 
   layout 'newsniffer'
   
-  session :off, :except => %w(search vote)
+  session :off, :except => %w(vote)
 
   def list
   	@title = "Revisionista latest news article list"
@@ -48,10 +48,9 @@ class NewsArticlesController < ApplicationController
   end
   
   def search
-   	@title = "Revisionista revision search"
-    session[:na_search] = params[:search] if params[:search]
-    @search = session[:na_search]
-    @title = @title + " for '#{@search}'" if @search
+   	@title = "Revision Search - Revisionista"
+    @search = params[:search] || cookies[:na_search]
+    cookies[:na_search] = @search
 
     @versions = NewsArticleVersion.ferret_search(@search, {:limit => 16, :page => params[:page]}, {:include => :news_article})
     @versions_pages = Paginator.new self, @versions.total_hits, 16, params['page']
