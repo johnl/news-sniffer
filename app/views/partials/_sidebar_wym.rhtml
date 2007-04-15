@@ -15,10 +15,10 @@
             <h2>Search Comments</h2>
             <ul class="nobullet">
               <li id="searchbox">
-              <%= start_form_tag :controller => 'bbchyscomments', :action => 'search'  %>
+              <% form_tag :controller => 'bbchyscomments', :action => 'search' do  %>
               <%= text_field_tag 'search', @search, :class => 'searchbox' %>
               <p><%= submit_tag ' Search ' %></p>
-              <%= end_form_tag %>
+              <% end %>
               </li>
             </ul>
           </li>
