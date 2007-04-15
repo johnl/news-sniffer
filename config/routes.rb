@@ -11,6 +11,7 @@ ActionController::Routing::Routes.draw do |map|
   #
   map.connect 'admin', :controller => 'admin', :action => 'login'
   
+  map.connect 'bbc/threads/show/:id', :controller => 'bbchysthreads', :action => 'show'
   map.connect 'bbc/threads/:action/page/:page', :controller => 'bbchysthreads'
 
   map.connect 'bbc/threads/:action/:id/:comment_id',
