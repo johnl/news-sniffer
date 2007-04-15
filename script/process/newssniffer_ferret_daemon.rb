@@ -26,6 +26,14 @@ class ActionController::Caching::Fragments::FileStore
     puts "fragment read " + args.first
     super *args
   end
+  def delete(*args)
+    puts "fragment delete " + args.first
+    super *args
+  end
+  def delete_matched(*args)
+    puts "fragment delete_matched " + args.first.to_s
+    super *args
+  end
 end
 
 
