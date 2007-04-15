@@ -13,7 +13,7 @@ xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
         link =  url_for( :only_path => false, :controller => 'bbchysthreads', :action => 'show',
           :id => c.hys_thread.bbcid, :comment_id => c.bbcid, :anchor => c.bbcid )
         xml.link(link)
-        xml.description c.text
+        xml.description CGI.unescapeHTML(c.text)
         xml.pubDate     CGI.rfc1123_date c.updated_at
         xml.guid        link
         xml.author      "#{c.author} (via News Sniffer)"
