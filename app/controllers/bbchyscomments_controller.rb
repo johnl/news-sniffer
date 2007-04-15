@@ -50,7 +50,6 @@ class BbchyscommentsController < ApplicationController
       paginate :hys_comments,
       :conditions => ["censored = #{CENSORED} and MATCH (text) AGAINST (? IN BOOLEAN MODE)", @search],
       :include => :hys_thread
-    render :action => 'list'
   end
 
   def uncensor

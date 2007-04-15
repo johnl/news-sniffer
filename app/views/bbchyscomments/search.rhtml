@@ -1,0 +1,11 @@
+<h2>BBC 'Have Your Say' censored comments search</h2>
+<p>
+<% form_tag :controller => 'bbchyscomments', :action => 'search' do  %>
+<%= text_field_tag 'search', @search, :class => 'searchbox', :size => 60 %> <%= submit_tag ' Search ' %>
+<% end %>
+</p>
+<% if @search %>
+<p>hits for <strong>'<%= h(@search) %>'</strong></p>
+<%= render :partial => "comment", :collection => @comments %>
+<%= render_partial 'partials/paginator', @comments_pages %>
+<% end %>
