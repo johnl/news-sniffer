@@ -19,7 +19,6 @@
       <img src="/stylesheets/layout/pinleft.png" alt="" id="pinleft"/>
       <img src="/stylesheets/layout/newsniffer-text.png" alt="News Sniffer" id="logo"/>
   	  <div id="nav">
-      <% cache("layout-nav-#{controller.controller_name}-#{controller.action_name}") do -%>
           <ul>
       	    <li><%= link_to 'Home', {:controller => 'pages',
       	      :action => 'summary' },
@@ -36,7 +35,6 @@
               :class => controller.controller_name == "news_articles" ? "selected" : ""%></li>
             <li><a href="/blog/">Blog</a></li>
           </ul>
-      <% end -%>
   	  </div> 
     </div>
     <div id="crossbar">
