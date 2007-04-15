@@ -5,10 +5,6 @@ class HysObserver < ActiveRecord::Observer
     ActionController::Base.fragment_cache_store.delete_matched(key, nil)
   end
 
-  def self.benchmark(title, log_level = Logger::DEBUG, use_silence = true)
-    yield
-  end
-
   def after_save(model)
 
     if model.is_a? HysComment

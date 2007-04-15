@@ -122,7 +122,7 @@ class NewsArticleVersion < ActiveRecord::Base
   
   # Add/update this object to the Ferret index
   def ferret_update
-    NewsArticleVersion.query_update("id:#{self.id}", self.to_ferret_doc)
+    NewsArticleVersion.ferret_index.query_update("id:#{self.id}", self.to_ferret_doc)
   end
 
   # Delete this object from the Ferret index

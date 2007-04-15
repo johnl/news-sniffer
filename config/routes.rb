@@ -30,11 +30,11 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'articles/list', :controller => 'news_articles', :action => 'list'
   map.connect 'articles/list/page/:page', :controller => 'news_articles', :action => 'list'
   
-  map.connect 'articles/list_by_revision', :controller => 'news_articles', :action => 'list_revisions'
   map.connect 'articles/list_by_revision/page/:page', :controller => 'news_articles', :action => 'list_revisions'
+  map.connect 'articles/list_by_revision', :controller => 'news_articles', :action => 'list_revisions'
   
-  map.connect 'articles/recommended/list', :controller => 'news_articles', :action => 'list_recommended'
   map.connect 'articles/recommended/list/page/:page', :controller => 'news_articles', :action => 'list_recommended'
+  map.connect 'articles/recommended/list', :controller => 'news_articles', :action => 'list_recommended'
   
   map.connect 'articles/rss', :controller => 'news_articles', :action => 'list_rss'
   map.connect 'articles/recommended/rss', :controller => 'news_articles', :action => 'list_recommended_rss'

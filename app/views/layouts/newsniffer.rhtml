@@ -26,11 +26,11 @@
       	    <li><%= link_to 'About', { :controller => 'pages',
       	      :action => :about }, :class => (controller.controller_name == 'pages' and controller.action_name != "summary") ? "selected" : "" %></li>
       	    <li><%= link_to 'Watch Your Mouth',
-      	      { :controller => 'bbchysthreads', :action => 'mostcensored' }, 
+      	      { :controller => 'bbchysthreads', :action => 'mostcensored', :page => nil, }, 
               :title => 'BBC Have Your Say censored comments',
               :class => controller.controller_name =~ /^bbchys.*/ ? "selected" : ""%></li>
       	    <li><%= link_to 'Revisionista',
-      	      { :controller => 'news_articles', :action => 'list_revisions' }, 
+      	      { :controller => 'news_articles', :action => 'list_revisions', :page => nil, }, 
               :title => 'Corporate news article revisions',
               :class => controller.controller_name == "news_articles" ? "selected" : ""%></li>
             <li><a href="/blog/">Blog</a></li>

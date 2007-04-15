@@ -2,6 +2,7 @@ class NewsArticlesController < ApplicationController
   layout 'newsniffer'
   
   session :off, :except => %w(vote)
+  caches_action :list, :list_revisions, :list_recommended, :show, :diff
 
   def list
   	@title = "Revisionista latest news article list"
@@ -39,11 +40,17 @@ class NewsArticlesController < ApplicationController
   end
   
   def list_rss
-    @versions = NewsArticleVersion.find(:all, :order => 'news_article_versions.created_at desc', 
-      :limit => 20,
-      :conditions => 'version > 0',
-      :include => 'news_article')
-    render :layout => false
+    headers["Content-Type"] = "application/xml"
+    fragment_key = (request.env["HTTP_HOST"]||"").gsub(":",".") + request.env["REQUEST_URI"]
+    unless @content = fragment_cache_store.read(fragment_key)
+      @versions = NewsArticleVersion.find(:all, :order => 'news_article_versions.created_at desc', 
+        :limit => 20,
+        :conditions => 'version > 0',
+        :include => 'news_article')
+      @content = render_to_string :layout => false
+      fragment_cache_store.write(fragment_key, @content)
+    end
+    render :layout => false, :text => @content
   end
   
   def search
