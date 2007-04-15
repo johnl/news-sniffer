@@ -2,7 +2,9 @@ class BbchyscommentsController < ApplicationController
   layout 'newsniffer'
   before_filter :check_admin, :only => :uncensor
 
-  session :off, :only => %w(list_rss)
+  session :off, :except => %w(uncensor vote)
+
+  caches_action :list, :recommended, :top_recommended, :show
   
   def list
     @title = "Watch Your Mouth - latest censored comments"  
@@ -41,9 +43,9 @@ class BbchyscommentsController < ApplicationController
   end
 
   def search
-    session[:wym_search] = params[:search] if params[:search]
-    @search = session[:wym_search]
-    @title = "Watch Your Mouth - search for '#{@search}'"
+    @search = cookies[:wym_search] = params[:search] || cookies[:wym_search]
+    cookies[:wym_search] = @search
+    @title = "Comment Search - Watch Your Mouth"
     @comments_pages, @comments =
       paginate :hys_comments,
       :conditions => ["censored = #{CENSORED} and MATCH (text) AGAINST (? IN BOOLEAN MODE)", @search],
@@ -65,9 +67,8 @@ class BbchyscommentsController < ApplicationController
       # An admin vote is with 5, and gets unlimited votes
       5.times { @voted = Vote.vote @comment }
     else
-      @voted = Vote.vote @comment, cookies['_session_id']
+      @voted = Vote.vote @comment, cookies['_session_id'] if request.xhr?
     end
-    expire_fragment( "hys_thread_#{@comment.hys_thread.bbcid}" )
     unless request.xhr?
       flash[:notice] = 'Thank you for your recommendation'
       redirect_to :controller => 'bbchyscomments', :action => 'recommend'
