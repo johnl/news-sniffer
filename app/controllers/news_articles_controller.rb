@@ -55,8 +55,7 @@ class NewsArticlesController < ApplicationController
   
   def search
    	@title = "Revision Search - Revisionista"
-    @search = params[:search] || cookies[:na_search]
-    cookies[:na_search] = @search
+    @search = cookies[:na_search] = params[:search] || cookies[:na_search]
 
     if @search 
       @versions = NewsArticleVersion.ferret_search(@search, {:limit => 16, :page => params[:page]}, {:include => :news_article})
