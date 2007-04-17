@@ -58,8 +58,10 @@ class NewsArticlesController < ApplicationController
     @search = params[:search] || cookies[:na_search]
     cookies[:na_search] = @search
 
-    @versions = NewsArticleVersion.ferret_search(@search, {:limit => 16, :page => params[:page]}, {:include => :news_article})
-    @versions_pages = Paginator.new self, @versions.total_hits, 16, params['page']
+    if @search 
+      @versions = NewsArticleVersion.ferret_search(@search, {:limit => 16, :page => params[:page]}, {:include => :news_article})
+      @versions_pages = Paginator.new self, @versions.total_hits, 16, params['page']
+    end
     rescue DRb::DRbConnError
       @search = nil
       flash.now[:error] = "The search service is currently down."
