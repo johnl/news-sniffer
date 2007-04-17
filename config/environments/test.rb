@@ -18,4 +18,7 @@ config.action_controller.perform_caching             = false
 # ActionMailer::Base.deliveries array.
 config.action_mailer.delivery_method = :test
 
+# Use local services
+NsDrb::local = true
+
 ActionController::Base.fragment_cache_store = :file_store, "#{RAILS_ROOT}/tmp/cache/fragment_cache"

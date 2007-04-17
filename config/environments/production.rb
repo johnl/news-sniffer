@@ -18,4 +18,7 @@ config.action_controller.perform_caching             = true
 # config.action_mailer.raise_delivery_errors = false
 #
 
+# Use remote DRb services
+NsDrb::local = false
+
 config.action_controller.fragment_cache_store = NsDrb::services[:fragment_cache]
