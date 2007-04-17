@@ -1,8 +1,8 @@
 <h2>News Article Search</h2>
 <p><%= link_to "Help with more advanced searches", :controller => "pages", :action => :revisionista_search %></p>
-<%= start_form_tag :controller => 'news_articles', :action => 'search'  %>
+<% form_tag :controller => 'news_articles', :action => 'search', :page => nil do  %>
 <%= text_field_tag 'search', @search, :class => 'searchbox', :size => 40 %> <%= submit_tag ' Search ' %>
-<%= end_form_tag %>
+<% end %>
 
 <% unless @search.nil? or @search.empty? or @versions.nil? -%>
 <p><%= @versions.total_hits %> hits for <strong>'<%=h @search %>'</strong></p>
@@ -28,7 +28,7 @@
 <td><span title="<%= "#{h(version.title)}, first published #{version.news_article.created_at}" %>"><%= h(truncate(version.news_article.title, 75)) %></span></td>
 <% end -%>
 <td><%= version.created_at.strftime('%d %b %Y') %></td>
-<td style="text-align:center"><%= version.version %> of <%= version.news_article.versions_count %></td>
+<td class="version-and-total"><%= version.version %> of <%= version.news_article.versions_count %></td>
 <td><small><%= version.news_article.source %></small></td>
 </tr>
 <% end %>
