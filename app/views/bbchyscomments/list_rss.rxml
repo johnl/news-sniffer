@@ -3,8 +3,8 @@ xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
   xml.channel do
 
     xml.title       "BBC Watch Your Mouth Censored Comment Feed"
-    xml.link        url_for :only_path => false, :controller => 'hys_comments', :action => 'recommended'
-    xml.pubDate     CGI.rfc1123_date @comments.first.updated_at if @comments.any?
+    xml.link        url_for(:only_path => false, :controller => 'hys_comments', :action => 'recommended')
+    xml.pubDate     CGI.rfc1123_date(@comments.first.updated_at) if @comments.any?
     xml.description "Comments that were censored from the BBC News 'Have Your Say' section"
 
     @comments.each do  |c|
@@ -14,7 +14,7 @@ xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
           :id => c.hys_thread.bbcid, :comment_id => c.bbcid, :anchor => c.bbcid )
         xml.link(link)
         xml.description CGI.unescapeHTML(c.text)
-        xml.pubDate     CGI.rfc1123_date c.updated_at
+        xml.pubDate     CGI.rfc1123_date(c.updated_at)
         xml.guid        link
         xml.author      "#{c.author} (via News Sniffer)"
       end
