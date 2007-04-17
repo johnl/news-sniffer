@@ -13,7 +13,7 @@
 <% else %>
 <td><span title="<%= "#{h(article.latest_title)}, first published #{article.created_at}" %>"><%= h(truncate(article.latest_title,75)) %></span></td>
 <% end %>
-<td style="text-align:center"><%= article.versions_count %></td>
+<td class="version"><%= article.versions_count %></td>
 <td><small><%= article.source %></small></td>
 </tr>
 <% end %>
