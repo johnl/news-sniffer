@@ -363,3 +363,7 @@ code.search-example {
   padding: 5px;
   background-color: #ddd;
 }
+
+td.version-and-total, td.version, td.votes {
+  text-align: center;
+}
