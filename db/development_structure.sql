@@ -26,8 +26,7 @@ CREATE TABLE `hys_comments` (
   KEY `bbcid_key` (`bbcid`),
   KEY `hys_comments_votes_index` (`votes`),
   KEY `hys_comments_updated_at_index` (`updated_at`),
-  KEY `censored` (`censored`),
-  FULLTEXT KEY `text` (`text`)
+  KEY `censored` (`censored`)
 ) ENGINE=MyISAM AUTO_INCREMENT=328144 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `hys_threads` (
@@ -58,9 +57,8 @@ CREATE TABLE `news_article_versions` (
   KEY `news_article_versions_news_article_id_index` (`news_article_id`),
   KEY `news_article_versions_text_hash_index` (`text_hash`),
   KEY `news_article_versions_comments_count_index` (`comments_count`),
-  KEY `news_article_versions_votes_index` (`votes`),
-  FULLTEXT KEY `title_and_text` (`title`,`text`)
-) ENGINE=MyISAM AUTO_INCREMENT=59512 DEFAULT CHARSET=latin1;
+  KEY `news_article_versions_votes_index` (`votes`)
+) ENGINE=MyISAM AUTO_INCREMENT=59514 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `news_articles` (
   `id` int(11) NOT NULL auto_increment,
@@ -102,4 +100,4 @@ CREATE TABLE `votes` (
   KEY `votes_relation_id_index` (`relation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO schema_info (version) VALUES (11)
+INSERT INTO schema_info (version) VALUES (13)

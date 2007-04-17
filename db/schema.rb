@@ -2,14 +2,14 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 10) do
+ActiveRecord::Schema.define(:version => 13) do
 
   create_table "comments", :force => true do |t|
-    t.column "name", :string, :limit => 64
-    t.column "text", :text
-    t.column "email", :string, :limit => 64
-    t.column "link_id", :integer
-    t.column "linktype", :string, :limit => 32
+    t.column "name",     :string,  :limit => 64
+    t.column "text",     :text
+    t.column "email",    :string,  :limit => 64
+    t.column "link_id",  :integer
+    t.column "linktype", :string,  :limit => 32
   end
 
   add_index "comments", ["link_id"], :name => "comments_link_id_index"
@@ -17,14 +17,14 @@ ActiveRecord::Schema.define(:version => 10) do
 
   create_table "hys_comments", :force => true do |t|
     t.column "hys_thread_id", :integer
-    t.column "created_at", :datetime
-    t.column "bbcid", :integer, :limit => 9
-    t.column "updated_at", :datetime
-    t.column "text", :text
-    t.column "author", :string, :limit => 128
-    t.column "censored", :integer, :limit => 4, :default => 1
-    t.column "modified_at", :datetime
-    t.column "votes", :integer, :default => 0
+    t.column "created_at",    :datetime
+    t.column "bbcid",         :integer,  :limit => 9
+    t.column "updated_at",    :datetime
+    t.column "text",          :text
+    t.column "author",        :string,   :limit => 128
+    t.column "censored",      :integer,  :limit => 4,   :default => 1
+    t.column "modified_at",   :datetime
+    t.column "votes",         :integer,                 :default => 0
   end
 
   add_index "hys_comments", ["hys_thread_id"], :name => "hys_thread_id_key"
@@ -32,63 +32,62 @@ ActiveRecord::Schema.define(:version => 10) do
   add_index "hys_comments", ["votes"], :name => "hys_comments_votes_index"
   add_index "hys_comments", ["updated_at"], :name => "hys_comments_updated_at_index"
   add_index "hys_comments", ["censored"], :name => "censored"
-  add_index "hys_comments", ["text"], :name => "text"
 
   create_table "hys_threads", :force => true do |t|
-    t.column "created_at", :datetime
-    t.column "updated_at", :datetime
-    t.column "bbcid", :integer, :limit => 9
-    t.column "title", :string, :default => "", :null => false
-    t.column "rsssize", :integer
+    t.column "created_at",       :datetime
+    t.column "updated_at",       :datetime
+    t.column "bbcid",            :integer,  :limit => 9
+    t.column "title",            :string,                :default => "", :null => false
+    t.column "rsssize",          :integer
     t.column "last_rss_pubdate", :datetime
+    t.column "description",      :text
   end
 
   add_index "hys_threads", ["bbcid"], :name => "bbcid_key"
 
   create_table "news_article_versions", :force => true do |t|
     t.column "news_article_id", :integer
-    t.column "title", :string, :limit => 200
-    t.column "url", :string, :limit => 250
-    t.column "created_at", :datetime
-    t.column "version", :integer
-    t.column "text", :text
-    t.column "text_hash", :string, :limit => 32
-    t.column "comments_count", :integer, :default => 0
-    t.column "votes", :integer, :default => 0
+    t.column "title",           :string,   :limit => 200
+    t.column "url",             :string,   :limit => 250
+    t.column "created_at",      :datetime
+    t.column "version",         :integer
+    t.column "text",            :text
+    t.column "text_hash",       :string,   :limit => 32
+    t.column "comments_count",  :integer,                 :default => 0
+    t.column "votes",           :integer,                 :default => 0
   end
 
   add_index "news_article_versions", ["news_article_id"], :name => "news_article_versions_news_article_id_index"
   add_index "news_article_versions", ["text_hash"], :name => "news_article_versions_text_hash_index"
   add_index "news_article_versions", ["comments_count"], :name => "news_article_versions_comments_count_index"
   add_index "news_article_versions", ["votes"], :name => "news_article_versions_votes_index"
-  add_index "news_article_versions", ["title", "text"], :name => "title_text"
 
   create_table "news_articles", :force => true do |t|
-    t.column "created_at", :datetime
-    t.column "updated_at", :datetime
-    t.column "source", :string, :limit => 32
-    t.column "guid", :string, :limit => 200
-    t.column "url", :string, :limit => 250
-    t.column "title", :string, :limit => 200
-    t.column "published_at", :datetime
-    t.column "latest_text_hash", :string, :limit => 32
-    t.column "versions_count", :integer, :default => 0
+    t.column "created_at",       :datetime
+    t.column "updated_at",       :datetime
+    t.column "source",           :string,   :limit => 32
+    t.column "guid",             :string,   :limit => 200
+    t.column "url",              :string,   :limit => 250
+    t.column "title",            :string,   :limit => 200
+    t.column "published_at",     :datetime
+    t.column "latest_text_hash", :string,   :limit => 32
+    t.column "versions_count",   :integer,                 :default => 0
   end
 
   add_index "news_articles", ["guid"], :name => "news_articles_guid_index"
   add_index "news_articles", ["source"], :name => "news_articles_source_index"
 
   create_table "variables", :force => true do |t|
-    t.column "key", :string, :limit => 30
+    t.column "key",   :string, :limit => 30
     t.column "value", :string, :limit => 250
   end
 
   add_index "variables", ["key"], :name => "key_key"
 
   create_table "votes", :force => true do |t|
-    t.column "sessionid", :string, :limit => 32
-    t.column "created_at", :datetime
-    t.column "class", :string, :limit => 32
+    t.column "sessionid",   :string,   :limit => 32
+    t.column "created_at",  :datetime
+    t.column "class",       :string,   :limit => 32
     t.column "relation_id", :integer
   end
 
