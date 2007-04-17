@@ -24,15 +24,11 @@ class NewsArticleVersion < ActiveRecord::Base
     versions = {}
     options = { :limit => 10 }.merge(options)
     options[:page] = 1 unless options[:page]
-    @@query_parser ||= QueryParser.new(:default_slop => 2,
-      :all_fields => [:text, :title, :url],
-      :or_default => false)
-    query = @@query_parser.parse(search_string)
     results = nil
     hits = nil
     time = nil
       time = Benchmark.measure do
-        results = NewsArticleVersion.ferret_index.search( query.to_s,
+        results = NewsArticleVersion.ferret_index.search( search_string,
           :limit => options[:limit], :sort => options[:sort],
           :offset => (options[:page].to_i-1) * options[:limit] )
         # Get the db ids from ferret index
@@ -42,7 +38,7 @@ class NewsArticleVersion < ActiveRecord::Base
         # Get the db records 
         hits = NewsArticleVersion.find( hits_ids, activerecord_options)
       end
-    logger.info "ferret search for #{query.to_s} completed in #{time}"
+    logger.info "ferret search for #{search_string} completed in #{time}"
     hits.extend(SearchResult)
     hits.total_hits = results.total_hits
     hits.time = time.format('%r')
@@ -75,7 +71,10 @@ class NewsArticleVersion < ActiveRecord::Base
     @@ferret_index = Index::Index.new(:path => "#{RAILS_ROOT}/ferret_index/#{RAILS_ENV}/news_article_versions", 
       :field_infos => field_infos, 
       :default_input_field => :text,
-      :create => options[:create])
+      :create => options[:create],
+      :all_fields => [:text, :title, :url],
+      :or_default => false,
+      :default_slow => 2)
     @@ferret_index
   end
   
