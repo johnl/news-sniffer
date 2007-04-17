@@ -14,6 +14,7 @@
   <%= auto_discovery_link_tag(:rss, l.first, :title => l.last) %>
   <% end if @discovery_links -%>
 </head>
+<% cache "#{controller.controller_name}_#{controller.action_name}" do %>
 <body>
     <div id="header">
       <img src="/stylesheets/layout/pinleft.png" alt="" id="pinleft"/>
@@ -43,10 +44,11 @@
         <ul>
         <%= render :partial => "partials/sidebar_wym" if 
           controller.controller_name =~ /bbchys/ -%>
-        <%= render :partial => "partials/sidebar_revisionista" if 
-          controller.controller_name == "news_articles" -%>
         <%= render :partial => "partials/sidebar_pages" if
           controller.controller_name == 'pages' %>
+<% end -%>
+        <%= render :partial => "partials/sidebar_revisionista" if 
+          controller.controller_name == "news_articles" -%>
           <li>&nbsp;</li>
         </ul>
       </div>
