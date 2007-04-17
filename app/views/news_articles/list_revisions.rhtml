@@ -15,8 +15,8 @@
 <td><span title="<%= h(version.title) %>"><%= h(truncate(version.title,75)) %></span>
 <% end %>
 </td>
-<td style="text-align:center"><%= version.version %></td>
-<td style="text-align:center"><%= version.votes %></td>
+<td class="version"><%= version.version %></td>
+<td class="votes"><%= version.votes %></td>
 <td><small><%= version.news_article.source %></small></td>
 </tr>
 <% end %>
