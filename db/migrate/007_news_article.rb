@@ -1,4 +1,4 @@
-class NewsArticle < ActiveRecord::Migration
+class CreateNewsArticle < ActiveRecord::Migration
   def self.up
     create_table "news_articles" do |t|
       t.column :created_at, :datetime
