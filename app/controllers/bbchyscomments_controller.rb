@@ -51,10 +51,15 @@ class BbchyscommentsController < ApplicationController
     @search = cookies[:wym_search] = params[:search] || cookies[:wym_search]
     cookies[:wym_search] = @search
     @title = "Comment Search - Watch Your Mouth"
-    @comments_pages, @comments =
-      paginate :hys_comments,
-      :conditions => ["censored = #{CENSORED} and MATCH (text) AGAINST (? IN BOOLEAN MODE)", @search],
-      :include => :hys_thread
+    if @search 
+      @comments = HysComment.ferret_search("censored:0 #{@search}", {:limit => 16, :page => params[:page]}, {:include => :hys_thread})
+      @comments_pages = Paginator.new self, @comments.total_hits, 16, params[:page]
+    end
+    rescue DRb::DRbConnError
+      @search = nil
+      flash.now[:error] = "The search service is currently down."
+    ensure
+      render :action => :search
   end
 
   def uncensor
