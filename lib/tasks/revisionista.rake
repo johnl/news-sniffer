@@ -112,16 +112,8 @@ namespace "revisionista" do
 
   desc "Rebuild entire revisionista ferret index"
   task :rebuild_index => :environment do
-    state_file = RAILS_ROOT + '/tmp/cache/revisionista-update-index-state.yaml'
-
-    newest_updated = nil
     NewsArticleVersion.transaction do 
       NewsArticleVersion.ferret_rebuild(true)
-      newest_updated = NewsArticleVersion.find(:first, :order => 'id desc').id
-    end
-    state = { :last_updated => newest_updated.id }
-    File.open( state_file, 'w' ) do |out|
-     YAML.dump( state, out )
     end
   end
 end
