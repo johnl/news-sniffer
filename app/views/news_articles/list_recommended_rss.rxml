@@ -4,8 +4,8 @@ xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
   xml.channel do
 
     xml.title       "Revisionista latest recommended news revisions"
-    xml.link        url_for :only_path => false, :action => :list_recommended
-    xml.pubDate     CGI.rfc1123_date @versions.first.created_at if @versions.any?
+    xml.link        url_for(:only_path => false, :action => :list_recommended)
+    xml.pubDate     CGI.rfc1123_date(@versions.first.created_at) if @versions.any?
     xml.description "Latest revisions of corporate news articles"
 
     @versions.each do |v|
@@ -15,7 +15,7 @@ xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
           :id => v.news_article.id,
           :version_a => v.version, :version_b => v.version - 1
         xml.link        link
-        xml.pubDate     CGI.rfc1123_date v.created_at
+        xml.pubDate     CGI.rfc1123_date(v.created_at)
         xml.guid        link
         xml.author      v.news_article.source
       end
