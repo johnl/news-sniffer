@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 
 require File.dirname(__FILE__) + '/../../config/environment'
+require 'drb'
 
 module Ferret::Index
   class Index
@@ -9,7 +10,8 @@ module Ferret::Index
     def search(*args)
       r = nil
       b = Benchmark.measure { r = real_search(*args) }
-      puts "ferret search completed in #{b.to_s}"
+      q = args.first.is_a?(String) ? args.first : ""
+      puts "ferret search for '#{q}' completed in#{b.to_s}"
       return r
     end
     
@@ -37,12 +39,6 @@ class ActionController::Caching::Fragments::FileStore
 end
 
 
-services = { 
-  :news_article_version_ferret => NewsArticleVersion.ferret_init_index(),
-  :fragment_cache => ActionController::Base.fragment_cache_store
-  }
-DRb.install_id_conv DRb::TimerIdConv.new
-
 puts "Starting druby ferret service on #{NsDrb::url}"
-server = DRb::DRbServer.new(NsDrb::url, services, :verbose => true )
+server = DRb::DRbServer.new(NsDrb::url, NsDrb::services, :verbose => true )
 server.thread.join
