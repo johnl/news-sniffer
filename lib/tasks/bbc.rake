@@ -47,14 +47,14 @@ namespace "bbc" do
       mis_censored_ids = html_ids - (html_ids - t.censored_comments_ids)
       #if (html_ids - t.censored_comments_ids).size != html_ids.size
       if mis_censored_ids.size > 0
-        log_info("INFO:wymouth_check found #{mis_censored_ids.size} published comments marked censored on thread:#{t.bbcid}!")
+        log_info("INFO:wymouth_check found #{mis_censored_ids.size} published comments on bbc marked censored on newssniffer thread:#{t.bbcid}!")
         t.hys_comments.find_all_by_bbcid(mis_censored_ids).each { |c| c.uncensor! }
       end
 
       # Check for comments not mark censored that *are* actually censored
       mis_published_ids = (t.comments_ids - html_ids) - t.censored_comments_ids
       if mis_published_ids.size > 0
-        log_info("INFO:wymouth_check found #{mis_published_ids.size} censored comments marked published on thread:#{t.bbcid}!")
+        log_info("INFO:wymouth_check found #{mis_published_ids.size} censored comments on bbc marked published on newssniffer thread:#{t.bbcid}!")
         t.hys_comments.find_all_by_bbcid(mis_published_ids).each { |c| c.censor! }
       end
     end
@@ -142,6 +142,13 @@ namespace "bbc" do
   task :html_all => :environment do
     log_info("check_against_html started")
     wymouth_check('1=1')
+  end
+  
+  desc "Rebuild entire comment ferret index"
+  task :rebuild_index => :environment do
+    HysComment.transaction do 
+      HysComment.ferret_rebuild(true)
+    end
   end
 
 end
