@@ -124,7 +124,7 @@ class HysThread < ActiveRecord::Base
           t = HysThread.new
           t.title = e[:title]
           t.bbcid = bbcid
-          t.created_at = Time.parse( e[:pubDate].to_s )
+          t.created_at = Time.parse( e[:pubDate].to_s ).utc
           t.description = e[:description]
           t.save
         rescue NameError => e

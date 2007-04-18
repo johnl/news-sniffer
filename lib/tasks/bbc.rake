@@ -88,7 +88,7 @@ namespace "bbc" do
         # due to the 1 second granularity, we can't regard missing comments with the same timestamp
         # as the oldest_rss_comment as actually missing, if the rss feed is maxed out
         conds[0] += " AND modified_at > ?"
-        conds << t.oldest_rss_comment
+        conds << t.oldest_rss_comment.utc
       end
       missing = t.hys_comments.find(:all, :conditions => conds)
       missing.each do |c|

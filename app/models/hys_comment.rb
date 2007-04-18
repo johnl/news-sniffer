@@ -192,8 +192,8 @@ class HysComment < ActiveRecord::Base
           return nil
         end
       end
-      self.created_at = dc_date
-      self.modified_at = self.created_at
+      self.created_at = dc_date.utc
+      self.modified_at = self.created_at.utc
       return true
     rescue NameError => e
       logger.debug("HysComment.populate_from_rss NameError exception: #{e.to_s}")
