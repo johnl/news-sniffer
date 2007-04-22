@@ -20,15 +20,16 @@ class NewsPage
 		@title = ""
 	end
 
-  private
-
   def unhtml(s)
+    NewsPage.unhtml(s)
+  end
+
+  def self.unhtml(s)
     t = CGI::unescapeHTML(s)
     t = t.gsub(/&apos;/i, "'")
     t = t.gsub(/&pound;/i, "£")
     t
   end
-
 end
 
 ## BBC News parser - not perfect but difficult to change it now without generating unnecessary 

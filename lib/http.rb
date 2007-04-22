@@ -27,7 +27,7 @@ module HTTP
     r['etag']
   end
       
-      def self.zget(uri)
+  def self.zget(uri)
         @data = nil
         
         begin
@@ -51,6 +51,6 @@ module HTTP
         end
         
         return @data
-      end
+  end
 
 end

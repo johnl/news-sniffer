@@ -1,5 +1,5 @@
-first:
-  latest_text_hash: 0e9da3f45404b2431585e700bfc1b936
+lebanon:
+  latest_text_hash: 0e9da3f45404b2431585e700bfc1b932
   updated_at: 2006-08-29 14:30:11
   title: Annan to see Lebanon destruction
   guid: http://news.bbc.co.uk/1/hi/world/middle_east/5294098.stm
@@ -9,7 +9,7 @@ first:
   published_at: 2006-08-29 06:36:06
   source: bbc
   created_at: 2006-08-29 06:48:03
-second:
+egypt:
   latest_text_hash: 112ce178504ea45a02d0d2e66b6ed65d
   updated_at: 2006-09-01 18:00:28
   title: Egypts Abdelwahab dies on pitch
@@ -20,7 +20,7 @@ second:
   published_at: 2006-08-31 10:25:52
   source: bbc
   created_at: 2006-08-31 11:36:03
-third:
+monkies:
   latest_text_hash: 112ce178504ea45a02d0d2e66b6ed65d
   updated_at: 2006-09-01 18:00:28
   title: The Monkies killed my baby
