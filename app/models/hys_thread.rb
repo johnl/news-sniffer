@@ -25,7 +25,7 @@ class HysThread < ActiveRecord::Base
   end
 
   # return a list of HysComment objects instantiated from the RSS feed for this thread
-  def find_comments_from_rss
+  def find_comments_from_rss(force = false)
       HysThread.benchmark("BENCHMARK:find_comments_from_rss: download and parse rss feed", use_silence = false) do
       # Download and parse RSS feed.  Return nil if the feed it broken or stale
       rssurl = @@comments_rss_url.gsub('%s', self.bbcid.to_s)
@@ -43,7 +43,7 @@ class HysThread < ActiveRecord::Base
       	newsize = rssdata.size
 			end
       lastsize = self.rsssize
-      if lastsize.to_i == newsize.to_i
+      if lastsize.to_i == newsize.to_i and force == false
         logger.debug "DEBUG:hysthread:#{self.bbcid} - no change in comments rss"
         return nil
       end
@@ -56,7 +56,7 @@ class HysThread < ActiveRecord::Base
 					logger.error("ERROR:hysthread:#{self.bbcid} - error parsing comments rss: #{e.to_s}")
           return nil
       end
-      if !self.last_rss_pubdate.nil? and @rss.lastBuildDate < self.last_rss_pubdate
+      if !self.last_rss_pubdate.nil? and @rss.lastBuildDate < self.last_rss_pubdate and force == false
         logger.info("INFO:hysthread:#{self.bbcid} - rss pubDate older than last time, ignoring (#{@rss.lastBuildDate} < #{self.last_rss_pubdate})")
         return nil
       end
@@ -211,5 +211,28 @@ class HysThread < ActiveRecord::Base
   
   def published_count 
     @published_count ||= self.published.count
+  end
+      
+  def html_fixup
+      html_ids = self.find_comments_ids_from_html
+      if html_ids.nil?
+        logger.warn("WARN:html_fixup found no comment ids from html for thread:#{self.bbcid}")
+        return false
+      end
+
+      # Check for comments mark censored that are actually published
+      mis_censored_ids = html_ids - (html_ids - self.censored_comments_ids)
+      #if (html_ids - t.censored_comments_ids).size != html_ids.size
+      if mis_censored_ids.size > 0
+        logger.info("INFO:html_fixup found #{mis_censored_ids.size} published comments on bbc marked censored on newssniffer thread:#{self.bbcid}!")
+        self.hys_comments.find_all_by_bbcid(mis_censored_ids).each { |c| c.uncensor! }
+      end
+
+      # Check for comments not mark censored that *are* actually censored
+      mis_published_ids = (self.comments_ids - html_ids) - self.censored_comments_ids
+      if mis_published_ids.size > 0
+        logger.info("INFO:html_fixup found #{mis_published_ids.size} censored comments on bbc marked published on newssniffer thread:#{self.bbcid}!")
+        self.hys_comments.find_all_by_bbcid(mis_published_ids).each { |c| c.censor! }
+      end
   end
 end

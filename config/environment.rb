@@ -18,7 +18,7 @@ require File.join(File.dirname(__FILE__), 'boot')
 
 require 'drb'
 require 'drb/timeridconv'
-require 'lib/drb_service'
+require 'drb_service'
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here
@@ -44,6 +44,7 @@ Rails::Initializer.run do |config|
   # This is necessary if your schema can't be completely dumped by the schema dumper, 
   # like if you have constraints or database-specific column types
   config.active_record.schema_format = :sql
+  config.active_record.default_timezone = :utc
 
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
