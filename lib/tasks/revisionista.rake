@@ -7,6 +7,8 @@ namespace "revisionista" do
     NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/health/rss.xml"
     NewsArticle.create_from_rss "guardian", "http://www.guardian.co.uk/rssfeed/0,15065,12,00.xml" # World
     NewsArticle.create_from_rss "guardian", "http://www.guardian.co.uk/rssfeed/0,15065,11,00.xml" # UK news
+    NewsArticle.create_from_rss "guardian", "http://www.guardian.co.uk/rssfeed/0,,19,00.xml" # Politics
+    NewsArticle.create_from_rss "guardian", "http://www.guardian.co.uk/rssfeed/0,,29,00.xml" # Environment
     NewsArticle.create_from_rss "independent", "http://news.independent.co.uk/world/index.jsp?service=rss" # World
     NewsArticle.create_from_rss "independent", "http://news.independent.co.uk/uk/index.jsp?service=rss" # UK
   end
