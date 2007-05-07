@@ -5,7 +5,7 @@
 <% end %>
 </p>
 <% if @search %>
-<p><%= @comments.total_hits %> hits for <strong>'<%= h(@search) %>'</strong></p>
+<p><%= @comments.total_hits %> censored comments matching <strong>'<%= h(@search) %>'</strong> (<%= @published_count %> matches for published comments)</p>
 <%= render :partial => "comment", :collection => @comments %>
 <%= render :partial => 'partials/paginator', :locals => { :paginator => @comments_pages } %>
 <% end %>

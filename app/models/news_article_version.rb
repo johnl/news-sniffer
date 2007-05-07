@@ -142,6 +142,12 @@ class NewsArticleVersion < ActiveRecord::Base
   def source
     self.news_article.source
   end
+
+  def <=>(b)
+    if b.is_a? NewsArticleVersion
+      self.id <=> b.id
+    end
+  end
   
   private
   

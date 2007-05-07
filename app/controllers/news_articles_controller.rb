@@ -86,14 +86,14 @@ class NewsArticlesController < ApplicationController
   
   def diff_rss
       @article = NewsArticle.find(params[:id], :include => 'versions')
-      @versions = @article.versions
+      @versions = @article.versions.sort
       render :layout => false
   end
 
   def diff
     @article = NewsArticle.find(params[:id], :include => :versions)
     @discovery_links = [ [url_for(:action => "diff_rss", :id => @article.id), "Latest revisions of this news article"] ]    
-    @versions = @article.versions
+    @versions = @article.versions.sort
     @va = @versions.fetch(params['version_a'].to_i, nil)
     @vb = @versions.fetch(params['version_b'].to_i, nil)
   	@title = "Revisionista '#{@article.title}' diff viewer (#{@vb.version}/#{@va.version})"

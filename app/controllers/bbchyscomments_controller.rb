@@ -52,6 +52,7 @@ class BbchyscommentsController < ApplicationController
     cookies[:wym_search] = @search
     @title = "Comment Search - Watch Your Mouth"
     if @search 
+      @published_count = HysComment.ferret_search("censored:1 #{@search}", :limit => 1 ).total_hits
       @comments = HysComment.ferret_search("censored:0 #{@search}", {:limit => 16, :page => params[:page]}, {:include => :hys_thread})
       @comments_pages = Paginator.new self, @comments.total_hits, 16, params[:page]
     end

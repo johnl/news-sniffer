@@ -37,6 +37,7 @@ class NewsArticle < ActiveRecord::Base
     rss = get_rss_entries(url)
     articles = rss.entries.collect do |e|
       guid = e.guid || e[:link]
+      next if NewsArticle.find_by_guid(guid)
       a = NewsArticle.new
       a.guid = guid
       date = e.pubDate || e[:dc_date]
@@ -49,7 +50,7 @@ class NewsArticle < ActiveRecord::Base
         logger.info "INFO:NewsArticle:new news article found: '#{e.title}'"
         next a
       rescue ActiveRecord::RecordInvalid
-        logger.info "INFO:NewsArticle:news article '#{a.title}' not created: #{a.errors.inspect}"
+        logger.info "INFO:NewsArticle:news article '#{a.title}' not created: #{a.errors.full_messages}"
         next nil
       end
     end
