@@ -33,9 +33,10 @@ class NewsArticlesController < ApplicationController
   end
   
   def list_recommended_rss
-    votes = Vote.find(:all, :conditions => "class = 'NewsArticleVersion'", :group => 'relation_id', 
-      :order => 'created_at desc')
-    @versions = NewsArticleVersion.find( votes.collect! { |v| v.relation_id } )
+    @versions = NewsArticleVersion.find_by_sql("SELECT news_article_versions.created_at, news_article_versions.title, votes, news_article_versions.id, version, news_article_id, news_articles.id, news_articles.source
+      FROM news_article_versions, votes, news_articles 
+      WHERE votes.class = 'NewsArticleVersion' AND votes.relation_id = news_article_versions.id 
+      AND news_article_versions.news_article_id = news_articles.id ORDER BY votes.id desc LIMIT 20")
     render :layout => false
   end
   

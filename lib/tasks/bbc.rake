@@ -144,6 +144,12 @@ namespace "bbc" do
     wymouth_check('1=1')
   end
   
+  desc "validate censored comments against results from html scraping"
+  task :html_one => :environment do
+    log_info("check_against_html started")
+    wymouth_check(['bbcid = ?',ENV['ID']])
+  end
+  
   desc "Rebuild entire comment ferret index"
   task :rebuild_index => :environment do
     HysComment.transaction do 
