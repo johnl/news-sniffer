@@ -147,7 +147,7 @@ class HysThread < ActiveRecord::Base
   
   # Returns bbcids of all associated censored hys_comments
   def censored_comments_ids
-    return @censored+comments_ids unless @cencored_comments_ids.nil?
+    return @censored_comments_ids unless @censored_comments_ids.nil?
     @censored_comments_ids = []
     self.connection.execute("select bbcid from hys_comments where hys_thread_id = #{self.id} and censored = #{CENSORED}").each do |row|
       @censored_comments_ids << row.first.to_i
