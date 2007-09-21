@@ -35,7 +35,7 @@ namespace "bbc" do
   end
 
   def wymouth_check(find_conditions)
-    HysThread.find(:all, :order => 'created_at desc', :conditions => find_conditions ).each do |t|
+    HysThread.find(:all, :order => 'rand()', :conditions => find_conditions ).each do |t|
       ActiveRecord::Base.logger.debug("DEBUG:HysThread:#{t.bbcid}")
       html_ids = t.find_comments_ids_from_html
       if html_ids.nil?
@@ -63,7 +63,7 @@ namespace "bbc" do
   # Read the RSS feed, create any new comments and mark any censored as censored
 	def wymouth(find_conditions)
     # FIXME: this should be condition on updated_at, once the data is sorted out
-    HysThread.find(:all, :order => 'created_at desc', :conditions => find_conditions ).each do |t|
+    HysThread.find(:all, :order => 'updated_at desc', :conditions => find_conditions ).each do |t|
       ActiveRecord::Base.logger.debug("DEBUG:hysthread:#{t.bbcid}")
       rsscomments = t.find_comments_from_rss
       if rsscomments.nil?
@@ -76,7 +76,7 @@ namespace "bbc" do
       next if rsscomments.size == 0
 
       # Find any censored comments that reappeared and uncensor them
-      reappeared = HysComment.find_all_by_bbcid_and_censored(rsscomments_ids, CENSORED)
+      reappeared = HysComment.find_all_by_bbcid_and_censored(rsscomments_ids, CENSORED, :select => [:id, :bbcid, :created_at, :author])
       reappeared.each do |c|
 				log_info("INFO:hysthread:#{t.bbcid}: missing comment:#{c.bbcid} reappeared, created at #{c.created_at} by #{c.author}")
         c.uncensor!
@@ -90,7 +90,7 @@ namespace "bbc" do
         conds[0] += " AND modified_at > ?"
         conds << t.oldest_rss_comment.utc
       end
-      missing = t.hys_comments.find(:all, :conditions => conds)
+      missing = t.hys_comments.find(:all, :conditions => conds, :select => [:id, :bbcid, :created_at, :author])
       missing.each do |c|
   			log_info("INFO:hysthread:#{t.bbcid}: new missing comment:#{c.bbcid}, created at #{c.created_at} by #{c.author}") if c.censor!
       end
