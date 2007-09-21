@@ -61,9 +61,11 @@ namespace "bbc" do
   end
 
   # Read the RSS feed, create any new comments and mark any censored as censored
-	def wymouth(find_conditions)
+	def wymouth(find_conditions, options = {})
     # FIXME: this should be condition on updated_at, once the data is sorted out
-    HysThread.find(:all, :order => 'updated_at desc', :conditions => find_conditions ).each do |t|
+    HysThread.find(:all, :order => options[:order] || 'updated_at desc', 
+                   :conditions => find_conditions, :limit => options[:limit] ).each do |t|
+      GC.start
       ActiveRecord::Base.logger.debug("DEBUG:hysthread:#{t.bbcid}")
       rsscomments = t.find_comments_from_rss
       if rsscomments.nil?
@@ -84,7 +86,7 @@ namespace "bbc" do
 
       # Detect any missing comments!
       conds = ["bbcid NOT IN (#{rsscomments_ids.join(',')}) AND censored = #{NOTCENSORED}"]
-      if rsscomments_ids.size >= 200
+      if rsscomments_ids.size >= 400
         # due to the 1 second granularity, we can't regard missing comments with the same timestamp
         # as the oldest_rss_comment as actually missing, if the rss feed is maxed out
         conds[0] += " AND modified_at > ?"
@@ -117,7 +119,7 @@ namespace "bbc" do
 	desc "check for censored HYS comments on the long term threads"
 	task :long_mouth => :environment do
 		log_info("get_long_comments started")
-		wymouth(['created_at < now() - INTERVAL 7 day and created_at >= now() - INTERVAL 2 month'])
+		wymouth(['created_at < now() - INTERVAL 7 day and created_at >= now() - INTERVAL 2 month'], :limit => 20, :order => 'rand()')
 	end
   
   desc "validate censored comments against results from html scraping"
