@@ -11,6 +11,10 @@ class NewsArticle < ActiveRecord::Base
   # Retrieve the news page from the web, parse it and create a new version if detected
   # returns the saved NewsArticleVersion
   def update_from_source
+    if versions.count > 35
+      NSLOG.warn "NewsArticle:skipping article id:#{id} because too many versions"
+      return nil
+    end
     page_data = HTTP::zget(url)
     page = page_parser.new(page_data)
     page.url = url
