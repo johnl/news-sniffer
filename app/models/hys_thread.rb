@@ -11,7 +11,7 @@ class HysThread < ActiveRecord::Base
   has_many :censored, :class_name => 'HysComment', :conditions => ["censored = #{CENSORED}"]
   has_many :published, :class_name => 'HysComment', :conditions => ["censored = #{NOTCENSORED}"]
   
-  @@comments_rss_url = "http://newsforums.bbc.co.uk/nol/rss/rssmessages.jspa?threadID=%s&lang=en&numItems=200"
+  @@comments_rss_url = "http://newsforums.bbc.co.uk/nol/rss/rssmessages.jspa?threadID=%s&lang=en&numItems=400"
   @@thread_rss_url = "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/talking_point/rss.xml"
 
   # Return the url to the bbc website for this thread
@@ -28,8 +28,9 @@ class HysThread < ActiveRecord::Base
   def find_comments_from_rss(force = false)
       HysThread.benchmark("BENCHMARK:find_comments_from_rss: download and parse rss feed", use_silence = false) do
       # Download and parse RSS feed.  Return nil if the feed it broken or stale
-      rssurl = @@comments_rss_url.gsub('%s', self.bbcid.to_s)
+      rssurl = @@comments_rss_url.gsub('%s', self.bbcid.to_s) + "&random=#{rand(999999)}"
       logger.debug "DEBUG:hysthread:#{self.bbcid} title: '#{self.title}'"
+                       rssdata = nil
       newsize = HTTP::remote_filesize(rssurl)
 			if newsize
 				logger.debug "DEBUG:hysthread:#{self.bbcid} - content-length header exists"
