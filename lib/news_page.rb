@@ -63,7 +63,12 @@ class GuardianUkNewsPage < NewsPage
   def parse_page(page_data)
     super
     # Get title
-    @title = unhtml($2) if page_data =~ /<title>([^|]+)\| (.*)<\/title>/i
+    @title = unhtml($2) if page_data =~ /<title>(.*)<\/title>/i
+    @title.gsub!(/Special reports/i, '')
+    @title.gsub!(/|/, '')
+    @title.gsub!(/Guardian Unlimited [a+z]+/i, '')
+    @title.gsub!(/Guardian Unlimited/i, '')
+    @title.strip!
     # Get publish date
     page_data =~ /<!-- artifact_id=(.*), built ([^)]+) -->/i
     begin
@@ -75,6 +80,8 @@ class GuardianUkNewsPage < NewsPage
     if page_data =~ /<div id="GuardianArticleBody">(.*)<br id="articleend">/mi
       @content = $1
 			@content.gsub!(/\n|\r|\t/, ' ')
+      # Remove script, was causing lots of versions
+      @content.gsub!(/<script.*?>.+?<\/script>/, ' ')
       # strip out unwanted tags
 			@content.gsub!(/<\/?(div|img|tr|td|!--|table|script|font|hr|br|iframe|a)[^>]*>/i, ' ')
 			@content.gsub!(/<\/p>/i, ' ')
