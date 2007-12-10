@@ -3,7 +3,7 @@ development:
   port: 9001
 
 drb:
-  host: mule.trantor.org.uk
+  host: localhost
   port: 9001
 
 production:

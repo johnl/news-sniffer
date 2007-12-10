@@ -61,7 +61,7 @@ class HysThread < ActiveRecord::Base
         logger.info("INFO:hysthread:#{self.bbcid} - rss pubDate older than last time, ignoring (#{@rss.lastBuildDate} < #{self.last_rss_pubdate})")
         return nil
       end
-      self.last_rss_pubdate = @rss.lastBuildDate
+      self.last_rss_pubdate = @rss.lastBuildDate.utc
       self.save
       end # benchmark
       
