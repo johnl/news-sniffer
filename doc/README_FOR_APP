@@ -14,12 +14,12 @@ though may be retired permanently.
 
 == Requirements
 
- * MySQL (SQLite will not work).
- * Rails 1.2.3
- * Drb
- * Ferret
- * diff-lcs gem 
- * Internet connection
+* MySQL (SQLite will not work).
+* Rails 1.2.3
+* Drb
+* Ferret
+* diff-lcs gem 
+* Internet connection
 
 == Architecture
 
@@ -57,3 +57,18 @@ scrapes the news articles and checks to see if they changed.
 Known bug: the <tt>RAILS_ROOT/tmp/cache/fragment_cache</tt> directory must exist
 before the rake tasks will execute.
 
+== Plans for the future
+
+Things have been stagnating a bit but this is how I think News Sniffer/Revisionista
+should develop:
+
+* Remove the Watch Your Mouth/Have Your Say system
+* Merge the Revisionista name into News Sniffer and have the whole News Sniffer system be devoted to news article watching
+* Implement a REST based API for the backend systems to use, rather than the whole direct MySQL access/Drb mess.  This would handle all the db writes, Ferret updates and cache expiry - though it obviously needs to be authenticated.
+* Probably do away with the result page caching.  It's messy and slow.  I'm sure the rendering and SQL can be imprlib/news_page.rboved so performance is acceptable without.
+* Add NewsPage scraper versioning, so improvements can be made to the parsers without causing new revisions to be erroneously detected
+* Replace the custom Ferret implementation with acts_as_ferret, or possibly even Xapian/Sphynx?
+* Show exactly which parts of each line changed (currently we only show which lines)
+* Highlight changes in headlines too
+* User comments, so changes can be discussed by visitors
+* Changes taggable by users?  Maybe this will help classify the types of changes (typo, new facts, political)
