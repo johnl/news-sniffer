@@ -2,12 +2,11 @@ class NewsArticle < ActiveRecord::Base
   has_many :versions, :class_name => 'NewsArticleVersion', 
     :order => 'version desc', :dependent => :destroy
   validates_length_of :title, :minimum => 5
-  validates_presence_of :source
+  validates_presence_of :source # bbc, guardian, indepdent?
   validates_presence_of :guid
-  validates_length_of :url, :minimum => 10
   validates_uniqueness_of :guid
-
-
+  validates_length_of :url, :minimum => 10
+  
   # Retrieve the news page from the web, parse it and create a new version if detected
   # returns the saved NewsArticleVersion
   def update_from_source
@@ -93,6 +92,8 @@ class NewsArticle < ActiveRecord::Base
   protected
   
   def validate_on_create
+      # Quick hack to avoid bbc sport articles that crop up on various feeds and
+      # are rarely interesting to us
       if url =~ /http:\/\/news.bbc.co.uk.*\/sport1\//
 #        logger.info "INFO:NewsArticle:Skipping bbc sport news article: #{NewsPage::NewsPage.unhtml(url)}"
         errors.add :url, 'seems to be a bbc sport url'

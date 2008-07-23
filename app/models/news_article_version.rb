@@ -51,11 +51,6 @@ class NewsArticleVersion < ActiveRecord::Base
     return @@ferret_index unless @@ferret_index.nil?
     @@ferret_index = NsDrb::services[:news_article_version_ferret]
   end
-
-  def self.ferret_server
-    DRb.start_service("druby://127.0.0.1:9001", NewsArticleVersion.ferret_init_index() )
-    DRb.thread.join
-  end
   
   # Initialise ferret index for this class
   def self.ferret_init_index(options = {})
@@ -114,7 +109,7 @@ class NewsArticleVersion < ActiveRecord::Base
     hash
   end
 
-
+  # Add newly created objects to the Ferret index
   def ferret_create
     NewsArticleVersion.ferret_index << self.to_ferret_doc
   end

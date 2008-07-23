@@ -5,3 +5,4 @@ log/*
 config/database.yml
 tmp/cache
 tmp/sessions
+doc/app

@@ -1,2 +1,59 @@
-Use this README file to introduce your application and point to useful places in the API for learning more.
-Run "rake appdoc" to generate API documentation for your models and controllers.
+== Newssniffer
+
+Newssniffer is a project to monitor news media organisations.
+
+It started out as "Watch Your Mouth" which detected when the BBC censored comments
+from their "Have Your Say" discussion forum.  Then "Revisionista" was added that
+monitored News articles and highlighted the changes.
+
+The "Watch Your Mouth" project has become more difficult to maintain as the BBC
+tweaked their rss feeds.  With the BBC making changes to the way their forums are
+moderated it has become much more difficult to catch censored comments.  So, it
+has been removed from this code tree for now and will be maintained separately,
+though may be retired permanently.
+
+== Requirements
+
+ * MySQL (SQLite will not work).
+ * Rails 1.2.3
+ * Drb
+ * Ferret
+ * diff-lcs gem 
+ * Internet connection
+
+== Architecture
+
+The architecture of News sniffer is rather complex, due to the requirement that 
+the backend monitoring systems could be run on different machines than the web
+front end.  This allows distribution of resources (it can take rather a lot of 
+bandwidth to monitor so many news articles) but also allows moving the backends 
+around to prevent news organisations from blocking them.
+
+The backends have a VPN connection to the web server (which in the current
+deployment is also the database server).  They talk directly to the MySQL database 
+and use a Ruby Drb service to update the Ferret search index and expire the fragment
+caches.
+
+== Drb service
+
+To get the app running (even in development mode) you must run the Drb server.  
+It is designed to be run under the "drb" environment, so configure the database.yml 
+for that environment too.  The port and host it listens on can be configured using 
+the <tt>config/drb_service.yaml</tt> file.
+
+Run it like this:
+
+<tt>
+$ RAILS_ENV=drb ruby script/drb_daemon
+</tt>
+
+== Backend processes
+
+The backend processes are executed using rake tasks.  The
+<tt>revisionista:get_new_articles</tt> task grabs rss feeds and finds new news 
+articles to watch.  The <tt>revisionista:get_new_versions</tt> task then screen 
+scrapes the news articles and checks to see if they changed.
+
+Known bug: the <tt>RAILS_ROOT/tmp/cache/fragment_cache</tt> directory must exist
+before the rake tasks will execute.
+
