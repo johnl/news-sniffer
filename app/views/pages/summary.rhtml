@@ -3,20 +3,6 @@
 <%= link_to 'Read more', :action => 'about' %></p>
 
 <div class="bluebox" style="width: 36em">
-<h2 class="top">Watch Your Mouth: Latest censored threads</h2>
-<p>Currently monitoring <%= number_with_delimiter(@hys_comments_count, ",") %> comments 
-and found <%= number_with_delimiter(@hys_comments_censored_count, ",") %> censored.</p>
-<table>
-<% @hys_comments.each do |c| -%>
-<tr><td><%= link_to c.hys_thread.title, :controller => 'bbchysthreads',
-  :action => 'show', :id => c.hys_thread.bbcid %></td>
-<td><small><%= distance_of_time_in_words_to_now c.updated_at %> ago</small></td>
-</tr>
-<% end -%>
-</table>
-</div>
-
-<div class="bluebox" style="width: 36em">
 <h2 class="top">Revisionista: Latest news article revisions</h2>
 <p>Currently monitoring <%= number_with_delimiter(@news_articles_count, ",") %> news articles 
 with <%= number_with_delimiter(@news_article_versions_count, ",") %> different versions.</p>

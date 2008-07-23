@@ -1,1 +1,7 @@
 nbproject
+db/development.sqlite3
+ferret_index
+log/*
+config/database.yml
+tmp/cache
+tmp/sessions

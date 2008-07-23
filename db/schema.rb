@@ -15,36 +15,6 @@ ActiveRecord::Schema.define(:version => 13) do
   add_index "comments", ["link_id"], :name => "comments_link_id_index"
   add_index "comments", ["linktype"], :name => "comments_linktype_index"
 
-  create_table "hys_comments", :force => true do |t|
-    t.column "hys_thread_id", :integer
-    t.column "created_at",    :datetime
-    t.column "bbcid",         :integer,  :limit => 9
-    t.column "updated_at",    :datetime
-    t.column "text",          :text
-    t.column "author",        :string,   :limit => 128
-    t.column "censored",      :integer,  :limit => 4,   :default => 1
-    t.column "modified_at",   :datetime
-    t.column "votes",         :integer,                 :default => 0
-  end
-
-  add_index "hys_comments", ["hys_thread_id"], :name => "hys_thread_id_key"
-  add_index "hys_comments", ["bbcid"], :name => "bbcid_key"
-  add_index "hys_comments", ["votes"], :name => "hys_comments_votes_index"
-  add_index "hys_comments", ["updated_at"], :name => "hys_comments_updated_at_index"
-  add_index "hys_comments", ["censored"], :name => "censored"
-
-  create_table "hys_threads", :force => true do |t|
-    t.column "created_at",       :datetime
-    t.column "updated_at",       :datetime
-    t.column "bbcid",            :integer,  :limit => 9
-    t.column "title",            :string,                :default => "", :null => false
-    t.column "rsssize",          :integer
-    t.column "last_rss_pubdate", :datetime
-    t.column "description",      :text
-  end
-
-  add_index "hys_threads", ["bbcid"], :name => "bbcid_key"
-
   create_table "news_article_versions", :force => true do |t|
     t.column "news_article_id", :integer
     t.column "title",           :string,   :limit => 200

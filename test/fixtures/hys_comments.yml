@@ -1,9 +1,0 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-first:
-  id: 1
-  bbcid: 83833
-  hys_thread_id: 1
-another:
-  id: 2
-  bbcid: 73773
-  hys_thread_id: 1
