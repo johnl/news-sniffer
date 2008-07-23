@@ -25,7 +25,7 @@ module NewsPage
     end
 
     def self.unhtml(s)
-      t = CGI::unescapeHTML(s)
+      t = CGI::unescapeHTML(s.to_s)
       t = t.gsub(/&apos;/i, "'")
       t = t.gsub(/&pound;/i, "£")
       t
