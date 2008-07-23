@@ -8,7 +8,7 @@
 #
 RAILS_GEM_VERSION = '1.2.3' unless defined? RAILS_GEM_VERSION
 
-ENV['ADMIN_PASSWORD'] = "dogmacatma"
+ENV['ADMIN_PASSWORD'] = "password"
 
 CENSORED = 0
 NOTCENSORED = 1
