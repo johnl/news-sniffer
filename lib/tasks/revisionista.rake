@@ -38,4 +38,11 @@ namespace "revisionista" do
       NewsArticleVersion.ferret_rebuild(true)
     end
   end
+  
+  def log_info(msg)
+  	time = Time.now.strftime("%a %d/%m/%y %H:%M:%S")
+    msg = "#{time}: #{msg}"
+  	ActiveRecord::Base.logger.info(msg)
+    puts msg
+  end
 end
