@@ -10,38 +10,6 @@ CREATE TABLE `comments` (
   KEY `comments_linktype_index` (`linktype`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `hys_comments` (
-  `id` int(11) NOT NULL auto_increment,
-  `hys_thread_id` int(11) default NULL,
-  `created_at` datetime default NULL,
-  `bbcid` mediumint(9) default NULL,
-  `updated_at` datetime default NULL,
-  `text` text,
-  `author` varchar(128) default NULL,
-  `censored` tinyint(4) default '1',
-  `modified_at` datetime default NULL,
-  `votes` int(11) default '0',
-  PRIMARY KEY  (`id`),
-  KEY `hys_thread_id_key` (`hys_thread_id`),
-  KEY `bbcid_key` (`bbcid`),
-  KEY `hys_comments_votes_index` (`votes`),
-  KEY `hys_comments_updated_at_index` (`updated_at`),
-  KEY `censored` (`censored`)
-) ENGINE=MyISAM AUTO_INCREMENT=328144 DEFAULT CHARSET=latin1;
-
-CREATE TABLE `hys_threads` (
-  `id` int(11) NOT NULL auto_increment,
-  `created_at` datetime default NULL,
-  `updated_at` datetime default NULL,
-  `bbcid` mediumint(9) default NULL,
-  `title` varchar(255) NOT NULL,
-  `rsssize` int(11) default NULL,
-  `last_rss_pubdate` datetime default NULL,
-  `description` text,
-  PRIMARY KEY  (`id`),
-  KEY `bbcid_key` (`bbcid`)
-) ENGINE=MyISAM AUTO_INCREMENT=725 DEFAULT CHARSET=latin1;
-
 CREATE TABLE `news_article_versions` (
   `id` int(11) NOT NULL auto_increment,
   `news_article_id` int(11) default NULL,
@@ -58,7 +26,7 @@ CREATE TABLE `news_article_versions` (
   KEY `news_article_versions_text_hash_index` (`text_hash`),
   KEY `news_article_versions_comments_count_index` (`comments_count`),
   KEY `news_article_versions_votes_index` (`votes`)
-) ENGINE=MyISAM AUTO_INCREMENT=59514 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=181 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `news_articles` (
   `id` int(11) NOT NULL auto_increment,
@@ -74,7 +42,7 @@ CREATE TABLE `news_articles` (
   PRIMARY KEY  (`id`),
   KEY `news_articles_guid_index` (`guid`),
   KEY `news_articles_source_index` (`source`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=451 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `schema_info` (
   `version` int(11) default NULL

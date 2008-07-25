@@ -1,6 +1,8 @@
 == Newssniffer
 
-Newssniffer is a project to monitor news media organisations.
+Newssniffer is a project to monitor news media organisations released under the
+terms of the GNU Affero General Public License v3 or any later version.  See the 
+LICENSE file for more info.
 
 It started out as "Watch Your Mouth" which detected when the BBC censored comments
 from their "Have Your Say" discussion forum.  Then "Revisionista" was added that
@@ -72,3 +74,4 @@ should develop:
 * Highlight changes in headlines too
 * User comments, so changes can be discussed by visitors
 * Changes taggable by users?  Maybe this will help classify the types of changes (typo, new facts, political)
+* um, more tests.
