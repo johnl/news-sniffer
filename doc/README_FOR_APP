@@ -49,6 +49,12 @@ Run it like this:
 $ RAILS_ENV=drb ruby script/drb_daemon
 </tt>
 
+== Database
+
+To get started, use the db/schema.rb - don't use the migrations as they'll create
+a whole bunch of hys/wym stuff that is no longer relevant.  You can use the migrations
+from then on though.
+
 == Backend processes
 
 The backend processes are executed using rake tasks.  The
