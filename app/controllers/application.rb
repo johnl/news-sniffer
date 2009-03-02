@@ -18,7 +18,7 @@
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
   helper :all
-  protect_from_forgery
+#  protect_from_forgery
 
   def get_random_comment
     @random_comment = HysComment.find(:all,

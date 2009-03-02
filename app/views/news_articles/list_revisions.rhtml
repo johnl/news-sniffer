@@ -22,4 +22,4 @@
 <% end %>
 </table>
 <hr/>
-<%= render :partial => 'partials/paginator', :locals => { :paginator => @versions_pages } %>
+<%= will_paginate @versions %>

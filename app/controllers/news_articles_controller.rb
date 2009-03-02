@@ -34,7 +34,7 @@ class NewsArticlesController < ApplicationController
   def list_revisions
   	@title = "Revisionista latest revision list"  
     @discovery_links = [ [url_for(:action => "list_rss"), "Latest news revisions"] ]  
-    @versions_pages, @versions = paginate :news_article_version, :per_page => 16,
+    @versions = NewsArticleVersion.paginate :per_page => 16, :page => params[:page]  || 1,
       :include => 'news_article', :order => "news_article_versions.created_at desc",
       :conditions => 'news_article_versions.version > 0'
   end
@@ -76,8 +76,9 @@ class NewsArticlesController < ApplicationController
     @search = cookies[:na_search] = params[:search] || cookies[:na_search]
 
     if @search 
-      @versions = NewsArticleVersion.ferret_search(@search, {:limit => 16, :page => params[:page]}, {:include => :news_article})
-      @versions_pages = Paginator.new self, @versions.total_hits, 16, params['page']
+      @versions = NewsArticleVersion.ferret_search(@search, 
+                                                   {:limit => 16, :page => params[:page]}, 
+                                                   {:include => :news_article})
     end
     rescue DRb::DRbConnError
       @search = nil
