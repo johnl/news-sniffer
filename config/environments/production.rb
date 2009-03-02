@@ -21,4 +21,4 @@ config.action_controller.perform_caching             = true
 # Use remote DRb services
 NsDrb::local = false
 
-config.action_controller.fragment_cache_store = NsDrb::services[:fragment_cache]
+ActionController::Base.cache_store = NsDrb::services[:fragment_cache]
