@@ -28,7 +28,7 @@ module NsDrb
   def self.local_services
     { 
       :news_article_version_ferret => NewsArticleVersion.ferret_init_index(),
-      :fragment_cache => ActionController::Caching::Fragments::FileStore.new("#{RAILS_ROOT}/tmp/cache/fragment_cache/#{RAILS_ENV}")
+      :fragment_cache => ActiveSupport::Cache::FileStore.new("#{RAILS_ROOT}/tmp/cache/fragment_cache/#{RAILS_ENV}")
     }
   end
 
