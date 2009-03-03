@@ -19,4 +19,4 @@
 <% end %>
 </table>
 <hr/>
-<%= render :partial => 'partials/paginator', :locals => { :paginator => @articles_pages } %>
+<%= will_paginate @articles %>

@@ -23,11 +23,8 @@ class NewsArticlesController < ApplicationController
 
   def list
   	@title = "Revisionista latest news article list"
-
-    @articles_pages = Paginator.new self, NewsArticle.count, 16, params[:page].to_i
-    @articles = NewsArticle.find(:all, :include => 'versions', 
-      :order => "news_articles.created_at desc",
-      :limit => @articles_pages.items_per_page, :offset => @articles_pages.current.offset)
+    @articles = NewsArticle.paginate :include => 'versions', :page => params[:page] || 1,
+      :order => "news_articles.created_at desc"
     render :action => 'list_articles'
   end
   
@@ -42,10 +39,10 @@ class NewsArticlesController < ApplicationController
   def list_recommended
     @title = "Revisionista recommended revisions"
     @discovery_links = [ [url_for(:action => "list_recommended_rss"), "Latest recommended news revisions"] ]  
-    @versions_pages, @versions = paginate :news_article_version, :per_page => 16,
-      :include => 'news_article',
-      :order => "news_article_versions.votes desc,news_article_versions.created_at desc",
-      :conditions => 'news_article_versions.version > 0 and news_article_versions.votes > 0'
+    @versions = NewsArticleVersion.paginate(:per_page => 16, :page => params[:page] || 1,
+                                            :include => 'news_article',
+      :order => "news_article_versions.votes desc, news_article_versions.created_at desc",
+      :conditions => 'news_article_versions.version > 0 and news_article_versions.votes > 0')
     render :action => 'list_revisions'
   end
   
@@ -59,32 +56,19 @@ class NewsArticlesController < ApplicationController
   
   def list_rss
     headers["Content-Type"] = "application/xml"
-    fragment_key = (request.env["HTTP_HOST"]||"").gsub(":",".") + request.env["REQUEST_URI"]
-    unless @content = fragment_cache_store.read(fragment_key)
-      @versions = NewsArticleVersion.find(:all, :order => 'news_article_versions.created_at desc', 
-        :limit => 20,
-        :conditions => 'version > 0',
-        :include => 'news_article')
-      @content = render_to_string :layout => false
-      fragment_cache_store.write(fragment_key, @content)
-    end
-    render :layout => false, :text => @content
+    @versions = NewsArticleVersion.find(:all, :order => 'news_article_versions.created_at desc', 
+                                        :limit => 20,
+                                        :conditions => 'version > 0',
+                                        :include => 'news_article')
+    render :layout => false
   end
   
   def search
    	@title = "Revision Search - Revisionista"
     @search = cookies[:na_search] = params[:search] || cookies[:na_search]
-
-    if @search 
-      @versions = NewsArticleVersion.ferret_search(@search, 
-                                                   {:limit => 16, :page => params[:page]}, 
-                                                   {:include => :news_article})
-    end
-    rescue DRb::DRbConnError
-      @search = nil
-      flash.now[:error] = "The search service is currently down."
-    ensure
-      render :action => :search
+    @versions = NewsArticleVersion.paginate(:limit => 16, :page => params[:page],
+                                            :include => :news_article)
+    render :action => :search
   end
   
 
