@@ -24,14 +24,20 @@ class NewsArticle < ActiveRecord::Base
   validates_uniqueness_of :guid
   validates_length_of :url, :minimum => 10
   
-  # Retrieve the news page from the web, parse it and create a new version if detected
-  # returns the saved NewsArticleVersion
+  # Retrieve the news page from the web, parse it and create a new
+  # version if necessary, returning the saved NewsArticleVersion
   def update_from_source
     if versions.count > 35
       NSLOG.warn "NewsArticle:skipping article id:#{id} because too many versions"
       return nil
     end
     page_data = HTTP::zget(url)
+    update_from_page_data(page_data)
+  end
+
+  # Parse the given page html and create a new version if necessary,
+  # returning the saved NewsArticleVersion
+  def update_from_page_data(page_data)
     page = page_parser.new(page_data)
     page.url = url
     return nil if page.text_hash.nil? or page.text_hash == latest_text_hash
