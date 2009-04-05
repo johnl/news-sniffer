@@ -50,4 +50,17 @@ describe NewsArticle do
     nav.should be_nil
     na.versions.count.should == 1
   end    
+
+  it "should create a new version when its page content changes" do
+    na = NewsArticle.create!(@expenses_row_article)
+    na.versions.count.should == 0
+    page_data_1 = File.read("spec/fixtures/web_pages/7984711-A.stm.html")
+    nav1 = na.update_from_page_data(page_data_1)
+    na.versions.count.should == 1
+    page_data_2 = File.read("spec/fixtures/web_pages/7984711-B.stm.html")
+    nav2 = na.update_from_page_data(page_data_2)
+    na.versions.count.should == 2
+    na.reload
+    na.latest_text_hash.should == nav2.text_hash
+  end    
 end
