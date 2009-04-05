@@ -19,7 +19,6 @@ class NewsArticlesController < ApplicationController
   layout 'newsniffer'
   
   session :off, :except => %w(vote)
-  caches_action :list, :list_revisions, :list_recommended
 
   def list
   	@title = "Revisionista latest news article list"

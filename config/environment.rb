@@ -54,7 +54,6 @@ Rails::Initializer.run do |config|
   config.time_zone = 'UTC'
 
   config.active_record.schema_format = :sql
-  config.active_record.observers = :revisionista_observer
 
   # The internationalization framework can be changed to have another default locale (standard is :en) or more load paths.
   # All files from config/locales/*.rb,yml are added automatically.
