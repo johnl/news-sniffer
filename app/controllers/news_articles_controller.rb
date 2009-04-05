@@ -18,8 +18,6 @@
 class NewsArticlesController < ApplicationController
   layout 'newsniffer'
   
-  session :off, :except => %w(vote)
-
   def list
   	@title = "Revisionista latest news article list"
     @articles = NewsArticle.paginate :include => 'versions', :page => params[:page] || 1,

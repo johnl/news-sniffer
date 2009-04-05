@@ -18,8 +18,6 @@
 class PagesController < ApplicationController
   layout 'newsniffer'
 
-  session :off
-  
   def summary
     @head_html = '<link rel="pingback" href="http://www.newworldodour.co.uk/blog/xmlrpc.php" />'
     @news_articles = NewsArticle.find(:all, :conditions => "versions_count > 1",
