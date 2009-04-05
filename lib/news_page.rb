@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #    News Sniffer
 #    Copyright (C) 2007-2008 John Leach
 #
@@ -58,9 +59,10 @@ module NewsPage
       @title = unhtml($1) if page_data =~ /<meta name="Headline" content="(.*)"/i
       if page_data =~ /<meta name="OriginalPublicationDate" content="(.*)"/i
         begin
-          @date = Time.parse($1)
+          # OPD is in GMT/UTC, which DateTime seems to use by default
+          @date = DateTime.parse($1)
         rescue ArgumentError
-          @date = Time.now()
+          @date = Time.now.utc
         end
       end
       if page_data =~ /S SF -->(.*?)<!-- E BO/m or page_data =~ /S BO -->(.*?)<!-- E BO/m
