@@ -16,8 +16,3 @@ config.action_view.debug_rjs                         = true
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
 
-
-# Use remote DRb services
-NsDrb::local = false
-
-#ActionController::Base.cache_store = NsDrb::services[:fragment_cache]

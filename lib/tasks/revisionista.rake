@@ -32,13 +32,6 @@ namespace "revisionista" do
     end
   end
 
-  desc "Rebuild entire revisionista ferret index"
-  task :rebuild_index => :environment do
-    NewsArticleVersion.transaction do 
-      NewsArticleVersion.ferret_rebuild(true)
-    end
-  end
-  
   def log_info(msg)
   	time = Time.now.strftime("%a %d/%m/%y %H:%M:%S")
     msg = "#{time}: #{msg}"

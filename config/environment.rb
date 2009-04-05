@@ -11,10 +11,6 @@ ENV['ADMIN_PASSWORD'] = "password"
 CENSORED = 0
 NOTCENSORED = 1
 
-require 'drb'
-require 'drb/timeridconv'
-require 'lib/drb_service'
-
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
@@ -91,5 +87,3 @@ require 'rubyrss'
 require 'diff_html'
 require 'http'
 include HTTP
-require 'ferret'
-include Ferret
