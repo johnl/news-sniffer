@@ -86,4 +86,5 @@ NSLOG = Logger.new("#{RAILS_ROOT}/log/newssniffer-#{RAILS_ENV}.log", 'weekly')
 require 'rubyrss'
 require 'diff_html'
 require 'http'
+require 'zlib'
 include HTTP
