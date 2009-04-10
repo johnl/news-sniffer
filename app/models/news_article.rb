@@ -23,12 +23,15 @@ class NewsArticle < ActiveRecord::Base
   validates_presence_of :guid
   validates_uniqueness_of :guid
   validates_length_of :url, :minimum => 10
-  
+
+  named_scope :recently_updated, :order => 'news_articles.updated_at desc', 
+    :conditions => "news_articles.updated_at > now() - INTERVAL 40 DAY"
+
   # Retrieve the news page from the web, parse it and create a new
   # version if necessary, returning the saved NewsArticleVersion
   def update_from_source
     if versions.count > 35
-      NSLOG.warn "NewsArticle:skipping article id:#{id} because too many versions"
+      logger.warn "NewsArticle:skipping article id:#{id} because too many versions"
       return nil
     end
     page_data = HTTP::zget(url)
@@ -41,11 +44,6 @@ class NewsArticle < ActiveRecord::Base
     page = page_parser.new(page_data)
     page.url = url
     return nil if page.text_hash.nil? or page.text_hash == latest_text_hash
-    if source == "guardian" and versions.find_all_by_text_hash(page.text_hash).size > 0
-      NSLOG.warn "NewsArticle:skipping flip-flopping Guardian news article, id:#{id}"
-      return nil
-    end
-    NSLOG.info "NewsArticle:new version found for '#{guid}'"
     nv = NewsArticleVersion.new
     nv.populate_from_page(page)
     transaction do
@@ -77,10 +75,10 @@ class NewsArticle < ActiveRecord::Base
       a.url = e[:link]
       begin
         a.save!
-        NSLOG.info "NewsArticle:new news article found: '#{e.title}'"
+        logger.info "NewsArticle:new news article found: '#{e.title}'"
         next a
       rescue ActiveRecord::RecordInvalid
-        NSLOG.info "NewsArticle:news article '#{a.title}' not created: #{a.errors.full_messages}"
+        logger.info "NewsArticle:news article '#{a.title}' not created: #{a.errors.full_messages}"
         next nil
       end
     end
@@ -96,7 +94,7 @@ class NewsArticle < ActiveRecord::Base
       rss = SimpleRSS.parse(rssdata)
       entries = rss.entries
     rescue SimpleRSSError
-      NSLOG.error "NewsArticle:get_rss_entires:RSS malformed: #{url}"
+      logger.error "NewsArticle:get_rss_entires:RSS malformed: #{url}"
       entries = []
     end
     return entries
@@ -107,12 +105,10 @@ class NewsArticle < ActiveRecord::Base
     case source
       when "bbc"
         NewsPage::BbcNewsPage
-      when "guardian"
-        NewsPage::GuardianUkNewsPage
-      when "independent"
-        NewsPage::IndependentUkNewsPage
     end
   end
+
+
   
   protected
   

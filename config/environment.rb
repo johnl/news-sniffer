@@ -80,9 +80,6 @@ Rails::Initializer.run do |config|
   # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
 end
 
-
-NSLOG = Logger.new("#{RAILS_ROOT}/log/newssniffer-#{RAILS_ENV}.log", 'weekly')
-
 require 'rubyrss'
 require 'diff_html'
 require 'http'

@@ -9,6 +9,7 @@ describe NewsArticle do
       :guid => '7984711',
       :url => 'http://news.bbc.co.uk/1/hi/uk_politics/7984711.stm'
     }
+    @more_valid_attributes = @valid_attributes.merge({ :guid => '7984712' })
     @expenses_row_article = @valid_attributes
   end
 
@@ -66,4 +67,11 @@ describe NewsArticle do
     na.reload
     na.versions_count.should == 1
   end  
+
+  it "should exclude articles over 40 days old when using the recently_updated scope" do
+    na = a_news_article
+    na = NewsArticle.create!(@more_valid_attributes.merge({ :updated_at => Time.now - 40.days}))
+    NewsArticle.count.should == 2
+    NewsArticle.recently_updated.count.should == 1
+  end
 end
