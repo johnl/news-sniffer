@@ -24,12 +24,6 @@ class NewsArticleVersion < ActiveRecord::Base
   
   has_many :comments, :conditions => "linktype = 'NewsArticleVersion'",
     :foreign_key => 'link_id'
-  
-  module SearchResult
-    attr_accessor :total_hits
-    attr_accessor :time
-  end
-  
  
   # populate the object from a NewsPage object
   def populate_from_page(page)
