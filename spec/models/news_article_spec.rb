@@ -1,6 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe NewsArticle do
+
   before(:each) do
     @valid_attributes = { 
       :title => 'PM Brown plays down expenses row',
@@ -12,7 +13,7 @@ describe NewsArticle do
   end
 
   it "should create a new instance given valid attributes" do
-    NewsArticle.create!(@valid_attributes)
+    a_news_article
   end
 
   it "should create new NewsArticles when given an rss feed url" do
@@ -24,43 +25,45 @@ describe NewsArticle do
   end
 
   it "should create a NewsArticleVersion from the content of its web page" do
-    na = NewsArticle.create!(@valid_attributes)
-    na.latest_text_hash.should be_nil
+    na = a_news_article
     nav = na.update_from_source
-    na.latest_text_hash.should == nav.text_hash
     nav.should be_a_kind_of NewsArticleVersion
-    nav.title.should == na.title
     na.versions.count.should == 1
   end
 
   it "should create a NewsArticleVersion when given a string containing html" do
-    na = NewsArticle.create!(@expenses_row_article)
-    page_data = File.read("spec/fixtures/web_pages/7984711-A.stm.html")
-    nav = na.update_from_page_data(page_data)
+    na = a_news_article
+    nav = na.update_from_page_data(some_news_page_html)
     nav.should be_a_kind_of NewsArticleVersion
+    nav.new_record?.should == false
   end
 
   it "should not create duplicate NewsArticleVersions" do
-    na = NewsArticle.create!(@expenses_row_article)
-    na.versions.count.should == 0
-    page_data = File.read("spec/fixtures/web_pages/7984711-A.stm.html")
-    nav = na.update_from_page_data(page_data)
-    na.versions.count.should == 1
-    nav = na.update_from_page_data(page_data)
+    na = a_news_article_with_one_version
+    nav = na.update_from_page_data(some_news_page_html)
     nav.should be_nil
     na.versions.count.should == 1
   end    
 
   it "should create a new version when its page content changes" do
-    na = NewsArticle.create!(@expenses_row_article)
-    na.versions.count.should == 0
-    page_data_1 = File.read("spec/fixtures/web_pages/7984711-A.stm.html")
-    nav1 = na.update_from_page_data(page_data_1)
-    na.versions.count.should == 1
-    page_data_2 = File.read("spec/fixtures/web_pages/7984711-B.stm.html")
-    nav2 = na.update_from_page_data(page_data_2)
+    na = a_news_article_with_two_versions
     na.versions.count.should == 2
+  end
+
+  it "should update the latest_text_hash when a new version is created" do
+    na = a_news_article_with_two_versions
+    na.latest_text_hash.should == na.versions.find(:first, :order => 'id desc').text_hash
+  end
+
+  it "should increment the versions_count field when a new version is created" do
+    na = a_news_article_with_two_versions
+    na.versions_count.should == 2
+  end
+
+  it "should decrement the versions_count field when a new version if destroyed" do
+    na = a_news_article_with_two_versions
+    na.versions.first.destroy
     na.reload
-    na.latest_text_hash.should == nav2.text_hash
-  end    
+    na.versions_count.should == 1
+  end  
 end

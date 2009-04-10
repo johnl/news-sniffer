@@ -45,3 +45,28 @@ Spec::Runner.configure do |config|
   # 
   # For more information take a look at Spec::Runner::Configuration and Spec::Runner
 end
+
+def a_news_article
+  NewsArticle.create!(@valid_attributes)
+end
+
+def some_news_page_html
+  @a_news_page ||= File.read("spec/fixtures/web_pages/7984711-A.stm.html")
+end
+
+def some_news_page_html_with_a_change
+  @a_news_page_with_a_change ||= File.read("spec/fixtures/web_pages/7984711-B.stm.html")
+end
+
+def a_news_article_with_one_version
+  na = a_news_article
+  na.update_from_page_data(some_news_page_html)
+  na.reload
+end
+
+def a_news_article_with_two_versions
+  na = a_news_article
+  na.update_from_page_data(some_news_page_html)
+  na.update_from_page_data(some_news_page_html_with_a_change)
+  na.reload
+end
