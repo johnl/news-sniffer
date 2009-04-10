@@ -46,10 +46,12 @@ class NewsArticle < ActiveRecord::Base
       return nil
     end
     NSLOG.info "NewsArticle:new version found for '#{guid}'"
-    update_attribute(:latest_text_hash, page.text_hash)
     nv = NewsArticleVersion.new
     nv.populate_from_page(page)
-    versions << nv
+    transaction do
+      update_attribute(:latest_text_hash, page.text_hash)
+      versions << nv
+    end
     nv
   end
 
