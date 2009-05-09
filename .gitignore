@@ -1,5 +1,5 @@
 nbproject
-db/development.sqlite3
+db/*.sqlite3
 ferret_index
 log/*
 config/database.yml

@@ -1,5 +1,5 @@
 #    News Sniffer
-#    Copyright (C) 2007-2008 John Leach
+#    Copyright (C) 2007-2009 John Leach
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
@@ -14,7 +14,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#
+# A NewsArticle represents an article that usually has one or many versions.
 class NewsArticle < ActiveRecord::Base
   has_many :versions, :class_name => 'NewsArticleVersion', 
     :order => 'version desc', :dependent => :destroy
@@ -24,8 +24,12 @@ class NewsArticle < ActiveRecord::Base
   validates_uniqueness_of :guid
   validates_length_of :url, :minimum => 10
 
-  named_scope :recently_updated, :order => 'news_articles.updated_at desc', 
-    :conditions => "news_articles.updated_at > now() - INTERVAL 40 DAY"
+  named_scope :recently_updated, lambda {  
+    { 
+      :order => 'news_articles.updated_at desc', 
+      :conditions => ["news_articles.updated_at > ?", Time.now - 40.days]
+    }
+  }
 
   # Retrieve the news page from the web, parse it and create a new
   # version if necessary, returning the saved NewsArticleVersion
@@ -35,19 +39,19 @@ class NewsArticle < ActiveRecord::Base
       return nil
     end
     page_data = HTTP::zget(url)
-    update_from_page_data(page_data)
+    if page = WebPageParser::ParserFactory.parser_for(:url => url, :page => page_data)
+      update_from_page(page)
+    end
   end
 
   # Parse the given page html and create a new version if necessary,
   # returning the saved NewsArticleVersion
-  def update_from_page_data(page_data)
-    page = page_parser.new(page_data)
-    page.url = url
-    return nil if page.text_hash.nil? or page.text_hash == latest_text_hash
+  def update_from_page(page)
+    return nil if page.hash.nil? or page.hash == latest_text_hash
     nv = NewsArticleVersion.new
     nv.populate_from_page(page)
     transaction do
-      update_attribute(:latest_text_hash, page.text_hash)
+      update_attribute(:latest_text_hash, page.hash)
       versions << nv
     end
     nv
@@ -71,7 +75,7 @@ class NewsArticle < ActiveRecord::Base
       date = e.pubDate || e[:dc_date]
       a.published_at = Time.parse(date.to_s)
       a.source = source
-      a.title = NewsPage::NewsPage.unhtml(e.title)
+      a.title = e.title
       a.url = e[:link]
       begin
         a.save!
@@ -100,23 +104,12 @@ class NewsArticle < ActiveRecord::Base
     return entries
   end
 
-  # Return the NewsPage parser for this news source
-  def page_parser
-    case source
-      when "bbc"
-        NewsPage::BbcNewsPage
-    end
-  end
-
-
-  
   protected
   
   def validate_on_create
       # Quick hack to avoid bbc sport articles that crop up on various feeds and
       # are rarely interesting to us
       if url =~ /http:\/\/news.bbc.co.uk.*\/sport1\//
-#        logger.info "INFO:NewsArticle:Skipping bbc sport news article: #{NewsPage::NewsPage.unhtml(url)}"
         errors.add :url, 'seems to be a bbc sport url'
       end
   end

@@ -4,6 +4,7 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.dirname(__FILE__) + "/../config/environment" unless defined?(RAILS_ROOT)
 require 'spec/autorun'
 require 'spec/rails'
+require 'web-page-parser'
 
 Spec::Runner.configure do |config|
   # If you're not using ActiveRecord you should remove these
@@ -60,13 +61,16 @@ end
 
 def a_news_article_with_one_version
   na = a_news_article
-  na.update_from_page_data(some_news_page_html)
+  p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+  na.update_from_page(p)
   na.reload
 end
 
 def a_news_article_with_two_versions
   na = a_news_article
-  na.update_from_page_data(some_news_page_html)
-  na.update_from_page_data(some_news_page_html_with_a_change)
+  p1 = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+  p2 = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html_with_a_change)
+  na.update_from_page(p1)
+  na.update_from_page(p2)
   na.reload
 end

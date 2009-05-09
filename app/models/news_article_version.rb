@@ -27,11 +27,11 @@ class NewsArticleVersion < ActiveRecord::Base
  
   # populate the object from a NewsPage object
   def populate_from_page(page)
-      self.text_hash = page.text_hash
-      self.title = page.title
-      # self.created_at = page.date
-      self.url = page.url
-      self.text = page.content.join('<p>')
+    self.text_hash = page.hash
+    self.title = page.title
+    # self.created_at = page.date
+    self.url = page.url
+    self.text = page.content.join("\n")
   end
 
   # news source (via NewsArticle) for ferret indexing

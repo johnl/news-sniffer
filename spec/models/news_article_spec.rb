@@ -34,14 +34,16 @@ describe NewsArticle do
 
   it "should create a NewsArticleVersion when given a string containing html" do
     na = a_news_article
-    nav = na.update_from_page_data(some_news_page_html)
+    p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+    nav = na.update_from_page(p)
     nav.should be_a_kind_of NewsArticleVersion
     nav.new_record?.should == false
   end
 
   it "should not create duplicate NewsArticleVersions" do
     na = a_news_article_with_one_version
-    nav = na.update_from_page_data(some_news_page_html)
+    p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+    nav = na.update_from_page(p)
     nav.should be_nil
     na.versions.count.should == 1
   end    
