@@ -104,7 +104,8 @@ class NewsArticlesController < ApplicationController
     @next = @versions.fetch(@va.version + 1, nil) 
     @prev = @versions.fetch(@vb.version - 1, nil) if @vb.version > 0
 
-    @diff = HTMLDiff::diff(@vb.text.split('<p>'), @va.text.split('<p>'))
+    # FIXME: Needs to do <p> tags for old bbc news articles
+    @diff = HTMLDiff::diff(@vb.text.split("\n"), @va.text.split("\n"))
   rescue ActiveRecord::RecordNotFound
     flash[:error] = "Article or version not found"
     redirect_to :action => :list
