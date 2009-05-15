@@ -1,4 +1,4 @@
-namespace "revisionista" do
+ namespace "revisionista" do
   desc "find any new Revisionista news articles"
   task :get_new_articles => :environment do
     NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/world/rss.xml"
@@ -11,14 +11,9 @@ namespace "revisionista" do
 
   desc "Detect and archive Revisionista news article contents"
   task :get_new_versions => :environment do
-    puts "Finding articles..."
-    now = Time.now
-    NewsArticle.recently_updated.each do |article|
-      hours_old = ( (now - article.updated_at) / ( 60 * 60 ) ).to_i + 1
-      tens = ((now.to_i % (60*60*24)) / 600 ) + 1
-      next unless (((now.to_i % (60*60*24)) / 600 ) % hours_old) == 0
-      log_info "NewsArticle: '#{article.guid}' last updated #{hours_old} hours ago"
-
+   puts "Finding articles..."
+     NewsArticle.recently_updated.each do |article|
+      log_info "NewsArticle: '#{article.guid}' last updated #{article.updated_at}"
       article.update_from_source
     end
   end
