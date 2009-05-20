@@ -47,8 +47,9 @@ Spec::Runner.configure do |config|
   # For more information take a look at Spec::Runner::Configuration and Spec::Runner
 end
 
-def a_news_article
-  NewsArticle.create!(@valid_attributes)
+def a_news_article(options = { })
+  @guid_count = @guid_count.to_i + 1
+  NewsArticle.create! @valid_attributes.merge(:guid => @guid_count).merge(options)
 end
 
 def some_news_page_html

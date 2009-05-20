@@ -47,7 +47,41 @@ describe NewsArticle do
     nav.should be_nil
     na.versions.count.should == 1
   end    
+  
+  describe "next_check_after" do
+    it "should default to asap on create" do
+      a_news_article.next_check_after.should be_close(Time.now, 10)
+    end
 
+    it "should be set to 30.minutes after the first version is found" do
+      na = a_news_article
+      p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+      na.update_from_page(p)
+      na.next_check_after.should be_close(Time.now + 30.minutes, 10)
+    end
+    
+    it "should be reset to 30 minutes when a new version is found" do
+      na = a_news_article
+      p1 = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+      na.update_from_page(p1)
+      p2 = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html_with_a_change)
+      na.update_from_page(p2)
+      na.next_check_after.should be_close(Time.now + 30.minutes, 10)
+    end
+    
+    it "should increase by 20% when a check is made but a new version is not found" do
+      na = a_news_article
+      p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+      period = 30.minutes
+      30.times do
+        na.update_from_page(p)
+        na.next_check_after.should be_close(Time.now + period, 10)
+        period = (period * 1.2).round
+      end
+    end
+    
+  end
+  
   it "should create a new version when its page content changes" do
     na = a_news_article_with_two_versions
     na.versions.count.should == 2
@@ -63,17 +97,32 @@ describe NewsArticle do
     na.versions_count.should == 2
   end
 
-  it "should decrement the versions_count field when a new version if destroyed" do
+  it "should decrement the versions_count field when a new version is destroyed" do
     na = a_news_article_with_two_versions
     na.versions.first.destroy
     na.reload
     na.versions_count.should == 1
   end  
 
-  it "should exclude articles over 40 days old when using the recently_updated scope" do
-    na = a_news_article
-    na = NewsArticle.create!(@more_valid_attributes.merge({ :updated_at => Time.now - 40.days}))
-    NewsArticle.count.should == 2
-    NewsArticle.recently_updated.count.should == 1
+  describe "due_check scope" do
+    it "should exclude articles over 40 days overdue" do
+      a = a_news_article(:next_check_after => Time.now + 41.days)
+      NewsArticle.due_check.size.should == 0
+    end
+    
+    it "should order articles by how overdue an update they are" do
+      now = Time.now
+      a = a_news_article(:next_check_after => now - 1.hour)
+      b = a_news_article(:next_check_after => now - 2.hours)
+      NewsArticle.due_check.should == [b,a]
+    end
+    
+    it "should not include articles not overdue an update yet" do
+      now = Time.now
+      a = a_news_article(:next_check_after => now - 1.hour)
+      b = a_news_article(:next_check_after => now + 1.hour)
+      NewsArticle.due_check.should == [a]
+    end
+    
   end
 end

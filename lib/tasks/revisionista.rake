@@ -12,8 +12,8 @@
   desc "Detect and archive Revisionista news article contents"
   task :get_new_versions => :environment do
    puts "Finding articles..."
-     NewsArticle.recently_updated.each do |article|
-      log_info "NewsArticle: '#{article.guid}' last updated #{article.updated_at}"
+     NewsArticle.due_check.find_each do |article|
+      log_info "NewsArticle: '#{article.guid}' last updated #{article.last_version_at}"
       article.update_from_source
     end
   end

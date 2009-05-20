@@ -24,37 +24,45 @@ class NewsArticle < ActiveRecord::Base
   validates_uniqueness_of :guid
   validates_length_of :url, :minimum => 10
 
-  named_scope :recently_updated, lambda {  
+  before_validation :set_initial_next_check_period, :unless => :next_check_after?
+    
+  named_scope :core_fields, :select => "id, url, guid, latest_text_hash"
+  
+  named_scope :due_check, lambda { 
     { 
-      :order => 'news_articles.updated_at desc', 
-      :conditions => ["news_articles.updated_at > ?", Time.now - 40.days]
+      :order => 'next_check_after asc',
+      :conditions => ["check_period < ? AND next_check_after < ?", 40.days.to_i, Time.now.utc],
     }
   }
-
+  
   # Retrieve the news page from the web, parse it and create a new
   # version if necessary, returning the saved NewsArticleVersion
   def update_from_source
-    if versions.count > 35
-      logger.warn "NewsArticle:skipping article id:#{id} because too many versions"
-      return nil
-    end
     page_data = HTTP::zget(url)
     if page = WebPageParser::ParserFactory.parser_for(:url => url, :page => page_data)
       update_from_page(page)
     end
   end
 
-  # Parse the given page html and create a new version if necessary,
-  # returning the saved NewsArticleVersion
+  # Create a new version from the parsed html if it changed, returning
+  # the saved NewsArticleVersion
   def update_from_page(page)
-    return nil if page.hash.nil? or page.hash == latest_text_hash
-    nv = NewsArticleVersion.new
-    nv.populate_from_page(page)
-    transaction do
-      update_attribute(:latest_text_hash, page.hash)
-      versions << nv
+    if page.hash.nil? or page.hash == latest_text_hash
+      set_next_check_period
+      save
+      nil
+    else
+      nv = versions.build
+      nv.populate_from_page(page)
+      transaction do
+        self.latest_text_hash = page.hash
+        reset_next_check_period
+        save
+        self.last_version_at = Time.now
+        nv.save
+      end
+      nv
     end
-    nv
   end
 
   # Return the title of the latest version of this article
@@ -68,6 +76,9 @@ class NewsArticle < ActiveRecord::Base
   def self.create_from_rss(source, url)
     rss = get_rss_entries(url)
     articles = rss.entries.collect do |e|
+      url = e[:link]
+      page = WebPageParser::ParserFactory.parser_for(:url => url, :page => nil)
+      next if page.nil?
       guid = e.guid || e[:link]
       next if NewsArticle.find_by_guid(guid)
       a = NewsArticle.new
@@ -76,7 +87,7 @@ class NewsArticle < ActiveRecord::Base
       a.published_at = Time.parse(date.to_s)
       a.source = source
       a.title = e.title
-      a.url = e[:link]
+      a.url = url
       begin
         a.save!
         logger.info "NewsArticle:new news article found: '#{e.title}'"
@@ -112,5 +123,26 @@ class NewsArticle < ActiveRecord::Base
       if url =~ /http:\/\/news.bbc.co.uk.*\/sport1\//
         errors.add :url, 'seems to be a bbc sport url'
       end
+  end
+
+  private
+  
+  def set_next_check_period
+    if check_period == 0
+      self.check_period = 30.minutes 
+    else
+      self.check_period = (check_period * 1.2).round
+    end
+    self.next_check_after = Time.now + self.check_period
+  end
+  
+  def reset_next_check_period
+    self.check_period = 30.minutes
+    self.next_check_after = Time.now + self.check_period
+  end
+  
+  def set_initial_next_check_period
+    self.check_period = 0
+    self.next_check_after = Time.now
   end
 end
