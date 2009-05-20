@@ -20,8 +20,6 @@ module HTTP
   require 'zlib'
   
   def self.zget(url)
-    purl = URI.parse(url)
-
     @c ||= Curl::Easy.new do |c|
       c.timeout = 8
       c.connect_timeout = 8
@@ -35,9 +33,9 @@ module HTTP
     @c.perform
     raw_body = StringIO.new(@c.body_str)
     body = nil
-    body = Zlib::GzipReader.new(raw_body) rescue nil
-    body = Zlib::Deflate.new(raw_body) rescue nil unless body
-    (body || raw_body).read
+    body = Zlib::GzipReader.new(raw_body.rewind) rescue nil
+    body = Zlib::DeflateReader.new(raw_body.rewind) rescue nil unless body
+    (body || (raw_body.rewind;raw_body)).read
   end
   
 end
