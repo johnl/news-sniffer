@@ -16,18 +16,16 @@
 
 # A NewsArticle represents an article that usually has one or many versions.
 class NewsArticle < ActiveRecord::Base
-  has_many :versions, :class_name => 'NewsArticleVersion', 
-    :order => 'version desc', :dependent => :destroy
+  has_many :versions, :class_name => 'NewsArticleVersion', :dependent => :destroy, :autosave => true
   validates_length_of :title, :minimum => 5
-  validates_presence_of :source # bbc, guardian, indepdent?
+  validates_presence_of :source # bbc, guardian, independent?
   validates_presence_of :guid
   validates_uniqueness_of :guid
   validates_length_of :url, :minimum => 10
+  attr_readonly :versions_count
 
   before_validation :set_initial_next_check_period, :unless => :next_check_after?
     
-  named_scope :core_fields, :select => "id, url, guid, latest_text_hash"
-  
   named_scope :due_check, lambda { 
     { 
       :order => 'next_check_after asc',
@@ -41,6 +39,8 @@ class NewsArticle < ActiveRecord::Base
     page_data = HTTP::zget(url)
     if page = WebPageParser::ParserFactory.parser_for(:url => url, :page => page_data)
       update_from_page(page)
+    else
+      logger.warn("ParserFactory not created for NewsArticle #{id}")
     end
   end
 
@@ -48,30 +48,33 @@ class NewsArticle < ActiveRecord::Base
   # the saved NewsArticleVersion
   def update_from_page(page)
     if page.hash.nil? or page.hash == latest_text_hash
+      # Content didn't change
       set_next_check_period
+      logger.info("NewsArticle #{id} no changes, next_check_after: #{next_check_after}")
       save
       nil
     else
-      nv = versions.build
-      nv.populate_from_page(page)
-      transaction do
-        self.latest_text_hash = page.hash
-        reset_next_check_period
-        save
-        self.last_version_at = Time.now
-        nv.save
+      # Content changed!
+      version = versions.build
+      version.populate_from_page(page)
+      begin
+        transaction do
+          self.title = page.title
+          self.latest_text_hash = page.hash
+          self.last_version_at = Time.now
+          reset_next_check_period
+          version.save! # explicitly saved to raise more useful validation exception
+          save!
+        end
+      rescue StandardError => e
+        logger.error("NewsArticle #{id} error with new version: #{e.to_s}")
+        raise e
       end
-      nv
+      logger.info("NewsArticle #{id} new version found #{version.id}")
+      version
     end
   end
 
-  # Return the title of the latest version of this article
-  def latest_title
-    v = self.versions[-1]
-    return v.title unless v.nil?
-    return self.title
-  end
-    
   # Given a URL to an rss feed, and the source identifier, created any new NewsArticles
   def self.create_from_rss(source, url)
     rss = get_rss_entries(url)
@@ -115,18 +118,6 @@ class NewsArticle < ActiveRecord::Base
     return entries
   end
 
-  protected
-  
-  def validate_on_create
-      # Quick hack to avoid bbc sport articles that crop up on various feeds and
-      # are rarely interesting to us
-      if url =~ /http:\/\/news.bbc.co.uk.*\/sport1\//
-        errors.add :url, 'seems to be a bbc sport url'
-      end
-  end
-
-  private
-  
   def set_next_check_period
     if check_period == 0
       self.check_period = 30.minutes 

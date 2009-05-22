@@ -104,6 +104,14 @@ describe NewsArticle do
     na.versions_count.should == 1
   end  
 
+  it "should update last_version_at field after a new version is created" do
+    na = a_news_article
+    na.last_version_at.should be_nil
+    p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+    na.update_from_page(p)
+    na.last_version_at.should be_close(Time.now, 5)
+  end
+
   describe "due_check scope" do
     it "should exclude articles over 40 days overdue" do
       a = a_news_article(:next_check_after => Time.now + 41.days)

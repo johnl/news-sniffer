@@ -9,16 +9,16 @@
   <tr>
   <% if article.versions_count > 1 %>
   <td>
-    <%= link_to h(truncate(article.latest_title, :length => 75)), 
+    <%= link_to h(truncate(article.title, :length => 75)), 
                   { :action => :diff, :id => article.id,
                     :version_a => article.versions_count - 1,
                     :version_b => article.versions_count - 2 },
-                    :title => "#{h(article.latest_title)}, first published #{article.created_at}" %>
+                    :title => "#{h(article.title)}, first published #{article.created_at}" %>
   </td>
   <% else %>
   <td>
-    <span title="<%= "#{h(article.latest_title)}, first published #{article.created_at}" %>">
-      <%= h(truncate(article.latest_title, :length => 75)) %>
+    <span title="<%= "#{h(article.title)}, first published #{article.created_at}" %>">
+      <%= h(truncate(article.title, :length => 75)) %>
     </span>
   </td>
   <% end %>

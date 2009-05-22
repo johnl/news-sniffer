@@ -1,27 +1,43 @@
- namespace "revisionista" do
-  desc "find any new Revisionista news articles"
-  task :get_new_articles => :environment do
-    NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/world/rss.xml"
-    NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/uk/rss.xml"
-    NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/uk_politics/rss.xml"
-    NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/health/rss.xml"
-    NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/world/middle_east/rss.xml"
-    NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/world/americas/rss.xml"
-  end
+require 'stacked_logger'
 
-  desc "Detect and archive Revisionista news article contents"
-  task :get_new_versions => :environment do
-   puts "Finding articles..."
-     NewsArticle.due_check.find_each do |article|
-      log_info "NewsArticle: '#{article.guid}' last updated #{article.last_version_at}"
-      article.update_from_source
+def setup_logger
+  logger = ActiveRecord::Base.logger = StackedLogger.new(ActiveRecord::Base.logger, STDOUT)
+  logger.level = Logger::INFO
+  logger
+end
+
+namespace "revisionista" do
+  namespace :articles do
+    desc "Hit the RSS feeds looking for new articles"
+    task :update => :environment do
+      logger = setup_logger
+      logger.info "revisionista:articles:update"
+      NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/world/rss.xml"
+      NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/uk/rss.xml"
+      NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/uk_politics/rss.xml"
+      NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/health/rss.xml"
+      NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/world/middle_east/rss.xml"
+      NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/world/americas/rss.xml"
+      NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/business/rss.xml"
+      NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/technology/rss.xml"
     end
   end
 
-  def log_info(msg)
-  	time = Time.now.strftime("%a %d/%m/%y %H:%M:%S")
-    msg = "#{time}: #{msg}"
-  	ActiveRecord::Base.logger.info(msg)
-    puts msg
+  namespace "versions" do
+    desc "Check articles for new versions"
+    task :update => :environment do
+      logger = setup_logger
+      logger.info "revisionista:versions:update"
+      # Can't use find_in_batches here due to ordering and the with_scope bug
+      NewsArticle.due_check.all(:limit => 1000) do |article|
+        begin
+          article.update_from_source
+        rescue StandardError => e
+          logger.error "NewsArticle #{article.id} " + e.to_s
+        end
+      end
+    end
+    
   end
+
 end

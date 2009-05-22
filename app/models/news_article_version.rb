@@ -19,7 +19,7 @@ class NewsArticleVersion < ActiveRecord::Base
   belongs_to :news_article, :counter_cache => 'versions_count'
   before_validation :set_new_version
   
-  validates_presence_of :version
+  validates_presence_of :version, :title, :text, :text_hash
   validates_presence_of :news_article
  
   # populate the object from a NewsPage object
@@ -40,7 +40,7 @@ class NewsArticleVersion < ActiveRecord::Base
   private
   
   def set_new_version
-    self.version = self.news_article.versions_count
+    self.version = news_article.versions_count
   end
   
 end
