@@ -7,7 +7,8 @@ describe NewsArticle do
       :title => 'PM Brown plays down expenses row',
       :source => 'bbc',
       :guid => '7984711',
-      :url => 'http://news.bbc.co.uk/1/hi/uk_politics/7984711.stm'
+      :url => 'http://news.bbc.co.uk/1/hi/uk_politics/7984711.stm',
+      :parser => 'BbcNewsPageParserV2'
     }
     @more_valid_attributes = @valid_attributes.merge({ :guid => '7984712' })
     @expenses_row_article = @valid_attributes
@@ -15,14 +16,6 @@ describe NewsArticle do
 
   it "should create a new instance given valid attributes" do
     a_news_article
-  end
-
-  it "should create new NewsArticles when given an rss feed url" do
-    articles = NewsArticle.create_from_rss("bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml")
-    articles.size.should > 10
-    articles.first.should be_a_kind_of NewsArticle
-    articles.last.should be_a_kind_of NewsArticle
-    articles.first.new_record?.should == false
   end
 
   it "should create a NewsArticleVersion from the content of its web page" do

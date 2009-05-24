@@ -1,5 +1,5 @@
 class NewsArticleFeed < ActiveRecord::Base
-  validates_presence_of :name, :url
+  validates_presence_of :name, :url, :source
   validates_uniqueness_of :name, :url
   validates_numericality_of :check_period, :greater_than_or_equal_to => 300
   validates_presence_of :next_check_after
@@ -17,7 +17,11 @@ class NewsArticleFeed < ActiveRecord::Base
   end
   
   def update_next_check_after
-    self.next_check_after = Time.now + check_period.to_i
+    if new_record?
+      self.next_check_after = Time.now
+    else  
+      self.next_check_after = Time.now + check_period.to_i
+    end
   end
   
   # Parse the feed and create any new NewsArticles

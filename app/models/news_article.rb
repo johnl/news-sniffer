@@ -19,7 +19,7 @@ class NewsArticle < ActiveRecord::Base
   has_many :versions, :class_name => 'NewsArticleVersion', :dependent => :destroy, :autosave => true
   validates_length_of :title, :minimum => 5
   validates_presence_of :source # bbc, guardian, independent?
-  validates_presence_of :guid
+  validates_presence_of :guid, :parser
   validates_uniqueness_of :guid
   validates_length_of :url, :minimum => 10
   attr_readonly :versions_count

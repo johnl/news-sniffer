@@ -7,7 +7,8 @@ describe NewsArticleVersion do
       :title => 'PM Brown plays down expenses row',
       :source => 'bbc',
       :guid => '7984711',
-      :url => 'http://news.bbc.co.uk/1/hi/uk_politics/7984711.stm'
+      :url => 'http://news.bbc.co.uk/1/hi/uk_politics/7984711.stm',
+      :parser => 'BbcNewsPageParserV2'
     }
     @more_valid_attributes = @valid_attributes.merge({ :guid => '7984712' })
     @expenses_row_article = @valid_attributes

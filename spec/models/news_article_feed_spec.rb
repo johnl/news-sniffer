@@ -5,12 +5,12 @@ describe NewsArticleFeed do
     @valid_attributes = {
       :name => "BBC World News",
       :url => "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/world/rss.xml",
-      :check_period => 300, :next_check_after => Time.now
+      :check_period => 300, :next_check_after => Time.now, :source => 'bbc'
     }
     @more_valid_attributes = {
       :name => "BBC Policitcal News",
       :url => "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/uk_politics/rss.xml",
-      :check_period => 300, :next_check_after => Time.now
+      :check_period => 300, :next_check_after => Time.now, :source => 'bbc'
     }
   end
 
@@ -18,9 +18,17 @@ describe NewsArticleFeed do
     NewsArticleFeed.create!(@valid_attributes)
   end
   
-  it "should set a default next_check_after if not set" do
-    a = NewsArticleFeed.create(@valid_attributes.merge(:next_check_after => nil))
-    a.next_check_after.should be_close(Time.now + a.check_period, 10)
+  describe "next_check_after" do
+    it "should be set to asap on create" do
+      a = NewsArticleFeed.create(@valid_attributes.merge(:next_check_after => nil))
+      a.next_check_after.should be_close(Time.now, 10)
+    end
+    
+    it "should be set to Time.now + check_period when update_next_check_after is called" do
+      a = NewsArticleFeed.create(@valid_attributes.merge(:next_check_after => nil))
+      a.update_next_check_after!
+      a.next_check_after.should be_close(Time.now + a.check_period, 10)
+    end
   end
   
   describe "due_check scope" do
@@ -50,4 +58,24 @@ describe NewsArticleFeed do
     it "should convert html entities in titles to utf8"
     
   end
+
+  describe "create_from_rss" do
+    it "should create new NewsArticles when given rss feed data" do
+      f = NewsArticleFeed.create!(@valid_attributes)
+      articles = f.create_news_articles(some_rss_feed_xml)
+      articles.size.should be_close(57, 10)
+      articles.first.should be_a_kind_of NewsArticle
+      articles.collect { |e| e.class }.uniq.size.should == 1  
+      articles.first.new_record?.should == false
+    end
+
+    it "should set the source on new NewsArticles" do
+      f = NewsArticleFeed.create!(@valid_attributes)
+      articles = f.create_news_articles(some_rss_feed_xml)
+      articles.first.source.should == @valid_attributes[:source]
+    end
+    
+  end
+
+  
 end
