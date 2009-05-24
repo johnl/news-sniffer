@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090519224058) do
+ActiveRecord::Schema.define(:version => 20090524004512) do
 
   create_table "comments", :force => true do |t|
     t.string  "name",     :limit => 64
@@ -21,6 +21,18 @@ ActiveRecord::Schema.define(:version => 20090519224058) do
 
   add_index "comments", ["link_id"], :name => "comments_link_id_index"
   add_index "comments", ["linktype"], :name => "comments_linktype_index"
+
+  create_table "news_article_feeds", :force => true do |t|
+    t.string   "url"
+    t.string   "name"
+    t.integer  "check_period",     :default => 0
+    t.datetime "next_check_after"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "source"
+  end
+
+  add_index "news_article_feeds", ["next_check_after"], :name => "index_news_article_feeds_on_next_check_after"
 
   create_table "news_article_versions", :force => true do |t|
     t.integer  "news_article_id"
@@ -52,6 +64,7 @@ ActiveRecord::Schema.define(:version => 20090519224058) do
     t.datetime "next_check_after"
     t.integer  "check_period",                    :default => 0
     t.datetime "last_version_at"
+    t.string   "parser"
   end
 
   add_index "news_articles", ["check_period", "next_check_after"], :name => "index_news_articles_on_check_period_and_next_check_after"

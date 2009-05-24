@@ -12,14 +12,11 @@ namespace "revisionista" do
     task :update => :environment do
       logger = setup_logger
       logger.info "revisionista:articles:update"
-      NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/world/rss.xml"
-      NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/uk/rss.xml"
-      NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/uk_politics/rss.xml"
-      NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/health/rss.xml"
-      NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/world/middle_east/rss.xml"
-      NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/world/americas/rss.xml"
-      NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/business/rss.xml"
-      NewsArticle.create_from_rss "bbc", "http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/technology/rss.xml"
+      NewsArticleFeed.due_check.each do |feed|
+        logger.info("NewsArticleFeed #{feed.id}")
+        feed.create_news_articles
+        feed.update_next_check_after!
+      end
     end
   end
 
@@ -37,7 +34,6 @@ namespace "revisionista" do
         end
       end
     end
-    
   end
 
 end

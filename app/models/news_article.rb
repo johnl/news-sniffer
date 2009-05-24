@@ -37,7 +37,12 @@ class NewsArticle < ActiveRecord::Base
   # version if necessary, returning the saved NewsArticleVersion
   def update_from_source
     page_data = HTTP::zget(url)
-    if page = WebPageParser::ParserFactory.parser_for(:url => url, :page => page_data)
+    if parser
+      page = eval("WebPageParser::#{parser}").new(:url => url, :page => page_data)
+    else
+      page = WebPageParser::ParserFactory.parser_for(:url => url, :page => page_data)
+    end
+    if page
       update_from_page(page)
     else
       logger.warn("ParserFactory not created for NewsArticle #{id}")
@@ -75,49 +80,9 @@ class NewsArticle < ActiveRecord::Base
     end
   end
 
-  # Given a URL to an rss feed, and the source identifier, created any new NewsArticles
-  def self.create_from_rss(source, url)
-    rss = get_rss_entries(url)
-    articles = rss.entries.collect do |e|
-      url = e[:link]
-      page = WebPageParser::ParserFactory.parser_for(:url => url, :page => nil)
-      next if page.nil?
-      guid = e.guid || e[:link]
-      next if NewsArticle.find_by_guid(guid)
-      a = NewsArticle.new
-      a.guid = guid
-      date = e.pubDate || e[:dc_date]
-      a.published_at = Time.parse(date.to_s)
-      a.source = source
-      a.title = e.title
-      a.url = url
-      begin
-        a.save!
-        logger.info "NewsArticle:new news article found: '#{e.title}'"
-        next a
-      rescue ActiveRecord::RecordInvalid
-        logger.info "NewsArticle:news article '#{a.title}' not created: #{a.errors.full_messages}"
-        next nil
-      end
-    end
-    articles.compact
-  end
 
   private
  
-  # retrieve and parse the given rss feed url and return an array of SimpleRSS entry items
-  def self.get_rss_entries(url)
-    rssdata = HTTP::zget(url)
-    begin
-      rss = SimpleRSS.parse(rssdata)
-      entries = rss.entries
-    rescue SimpleRSSError
-      logger.error "NewsArticle:get_rss_entires:RSS malformed: #{url}"
-      entries = []
-    end
-    return entries
-  end
-
   def set_next_check_period
     if check_period == 0
       self.check_period = 30.minutes 
