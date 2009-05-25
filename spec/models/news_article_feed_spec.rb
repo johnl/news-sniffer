@@ -75,6 +75,13 @@ describe NewsArticleFeed do
       articles.first.source.should == @valid_attributes[:source]
     end
     
+    it "should not create NewsArticles for entries that match NewsArticleFeedFilters" do
+      NewsArticleFeedFilter.create!(:name => "Test", :url_filter => 'bbc')
+      f = NewsArticleFeed.create!(@valid_attributes)
+      articles = f.create_news_articles(some_rss_feed_xml)
+      articles.size.should == 0      
+    end
+    
   end
 
   

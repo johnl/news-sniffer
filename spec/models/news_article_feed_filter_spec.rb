@@ -23,6 +23,10 @@ describe NewsArticleFeedFilter do
     @naff.allows?(:url => @good_url).should == true
   end
   
+  it "should match links against the url filter" do
+    @naff.allows?(:link => @bad_url).should == false
+  end  
+  
   it "should not match urls when there is no url filter defined" do
     NewsArticleFeedFilter.new.allows?(:url => @bad_url).should == true
   end
@@ -42,7 +46,6 @@ describe NewsArticleFeedFilter do
   it "should validate url_filter as a regular expression" do
     naff = NewsArticleFeedFilter.new(@valid_attributes.merge(:url_filter => '.*\1'))
     naff.valid?.should == false
-    
   end
   
   it "should match titles against the title filter"

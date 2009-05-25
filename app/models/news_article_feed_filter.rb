@@ -21,7 +21,7 @@ class NewsArticleFeedFilter < ActiveRecord::Base
   
   # Takes a hash of an rss feed entry and checks it against the filters
   def allows?(entry)
-    url_filter_allows?(entry[:url])
+    url_filter_allows?(entry[:url] || entry[:link])
   end
     
   def url_filter_allows?(url)

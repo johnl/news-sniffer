@@ -27,7 +27,8 @@ class NewsArticleFeed < ActiveRecord::Base
   # Parse the feed and create any new NewsArticles
   def create_news_articles(rssdata = nil)
     rss = get_rss_entries(rssdata)
-    articles = rss.entries.collect do |e|
+    entries = NewsArticleFeedFilter.filter(rss.entries)
+    articles = entries.collect do |e|
       url = e[:link]
       page = WebPageParser::ParserFactory.parser_for(:url => url, :page => nil)
       next nil if page.nil?
@@ -43,7 +44,7 @@ class NewsArticleFeed < ActiveRecord::Base
       a.parser = page.class.to_s.split('::').last
       begin
         a.save!
-        logger.info "NewsArticleFeed #{id}, NewsArticle #{a.id} discovered"
+        logger.debug "NewsArticleFeed #{id}, NewsArticle #{a.id} discovered"
         next a
       rescue ActiveRecord::RecordInvalid
         logger.error "NewsArticleFeed #{id}, NewsArticle '#{a.guid}' not created: #{a.errors.full_messages}"
