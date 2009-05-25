@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090524004512) do
+ActiveRecord::Schema.define(:version => 20090525160820) do
 
   create_table "comments", :force => true do |t|
     t.string  "name",     :limit => 64
@@ -21,6 +21,15 @@ ActiveRecord::Schema.define(:version => 20090524004512) do
 
   add_index "comments", ["link_id"], :name => "comments_link_id_index"
   add_index "comments", ["linktype"], :name => "comments_linktype_index"
+
+  create_table "news_article_feed_filters", :force => true do |t|
+    t.string   "name"
+    t.string   "url_filter"
+    t.string   "title_filter"
+    t.string   "category_filter"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "news_article_feeds", :force => true do |t|
     t.string   "url"
