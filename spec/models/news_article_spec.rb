@@ -73,6 +73,14 @@ describe NewsArticle do
       end
     end
     
+    it "should increase when a check is made but a new version is invalid" do
+      na = a_news_article
+      p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html_with_no_title)
+      na.update_from_page(p)
+      na.reload
+      na.next_check_after.should be_close(Time.now + 30.minutes, 10)
+    end
+    
   end
   
   it "should create a new version when its page content changes" do

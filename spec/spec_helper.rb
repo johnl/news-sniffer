@@ -60,6 +60,10 @@ def some_news_page_html_with_a_change
   @a_news_page_with_a_change ||= File.read("spec/fixtures/web_pages/7984711-B.stm.html")
 end
 
+def some_news_page_html_with_no_title
+  @some_news_page_html_with_no_title ||= File.read("spec/fixtures/web_pages/7984711-invalid.html")
+end
+
 def a_news_article_with_one_version
   na = a_news_article
   p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)

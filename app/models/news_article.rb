@@ -71,9 +71,12 @@ class NewsArticle < ActiveRecord::Base
           version.save! # explicitly saved to raise more useful validation exception
           save!
         end
-      rescue StandardError => e
-        logger.error("NewsArticle #{id} error with new version: #{e.to_s}")
-        raise e
+      rescue ActiveRecord::RecordInvalid => e
+        reload
+        set_next_check_period
+        logger.error("NewsArticle #{id} RecordInvalid: #{e}, next_check_after: #{next_check_after}")
+        save!
+        return nil
       end
       logger.info("NewsArticle #{id} new version found #{version.id}")
       version
