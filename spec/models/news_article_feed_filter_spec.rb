@@ -27,6 +27,24 @@ describe NewsArticleFeedFilter do
     NewsArticleFeedFilter.new.allows?(:url => @bad_url).should == true
   end
   
+  it "should check all hashes in a list" do
+    r = @naff.filter([{ :url => @good_url }, { :url => @bad_url }])
+    r.should == [{ :url => @good_url}]
+  end
+  
+  it "should check all hashes in a list against all filters in the db" do
+    NewsArticleFeedFilter.create!(:name => 'Horses', :url_filter => 'horses')
+    NewsArticleFeedFilter.create!(:name => 'Snakes', :url_filter => 'snakes')
+    r = NewsArticleFeedFilter.filter([{ :url => 'snakes' }, { :url => 'horses' }, { :url => 'cats'}])
+    r.should == [{ :url => 'cats' }]
+  end
+  
+  it "should validate url_filter as a regular expression" do
+    naff = NewsArticleFeedFilter.new(@valid_attributes.merge(:url_filter => '.*\1'))
+    naff.valid?.should == false
+    
+  end
+  
   it "should match titles against the title filter"
   it "should not match titles when there is no title filter defined"
   it "should match categories against the category filter"
