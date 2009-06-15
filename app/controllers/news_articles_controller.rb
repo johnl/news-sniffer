@@ -24,7 +24,13 @@ class NewsArticlesController < ApplicationController
       :order => "news_articles.created_at desc"
     render :action => 'list_articles'
   end
-  
+
+  def search
+    @title = "Revisionista search"
+    @search = cookies[:na_search] = params[:search] || cookies[:na_search]
+    @versions = NewsArticleVersion.xapian_search(@search)
+  end
+
   def list_revisions
   	@title = "Revisionista latest revision list"  
     @discovery_links = [ [url_for(:action => "list_rss"), "Latest news revisions"] ]  
@@ -60,13 +66,6 @@ class NewsArticlesController < ApplicationController
     render :layout => false
   end
   
-  def search
-   	@title = "Revision Search - Revisionista"
-    @search = cookies[:na_search] = params[:search] || cookies[:na_search]
-    @versions = NewsArticleVersion.paginate(:limit => 16, :page => params[:page],
-                                            :include => :news_article)
-    render :action => :search
-  end
   
 
   def show

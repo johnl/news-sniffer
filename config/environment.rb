@@ -34,6 +34,7 @@ Rails::Initializer.run do |config|
   
   config.gem 'web-page-parser'
   config.gem "diff-lcs", :lib => "diff/lcs"
+  config.gem "xapian-fu", :lib => 'xapian_fu'
   
 
   # Only load the plugins named here, in the order given. By default, all plugins 
@@ -88,3 +89,4 @@ require 'diff_html'
 require 'http'
 require 'zlib'
 include HTTP
+require 'xapian_fu'

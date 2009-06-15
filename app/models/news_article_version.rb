@@ -21,7 +21,7 @@ class NewsArticleVersion < ActiveRecord::Base
   
   validates_presence_of :version, :title, :text, :text_hash
   validates_presence_of :news_article
- 
+  
   # populate the object from a NewsPage object
   def populate_from_page(page)
     self.text_hash = page.hash
@@ -35,6 +35,43 @@ class NewsArticleVersion < ActiveRecord::Base
     if b.is_a? NewsArticleVersion
       self.id <=> b.id
     end
+  end
+  
+  def to_xapian_doc
+    XapianFu::XapianDoc.new(:id => id, :title => title, :text => text)
+  end
+  
+  def self.xapian_search(query)
+    docs = xapian_db_ro.search(query)
+    doc = { }
+    docs.each { |d| doc_hash[d.id] = d }
+    versions = find(doc_hash.keys)
+    versions.sort_by do |v|
+      doc_hash[v.id].weight
+    end.reverse
+  end
+
+  def self.xapian_db_ro
+    @xapian_db_ro ||= XapianFu::XapianDb.new(:dir => File.join(RAILS_ROOT, 'xapian/news_article_versions'))
+  end
+  
+  def self.xapian_db
+    @xapian_db ||= XapianFu::XapianDb.new(:dir => File.join(RAILS_ROOT, 'xapian/news_article_versions'),
+                                        :create => true,
+                                        :store => [:id])
+  end
+  
+  def self.xapian_rebuild
+    logger.info("starting xapian_rebuild for NewsArticleVersion")
+    find_in_batches do |batch|
+      xapian_db.transaction do
+        bm = Benchmark.measure do
+          batch.each { |nv| xapian_db << nv.to_xapian_doc }
+        end        
+        puts logger.info("#{batch.size} versions indexed in %.2f seconds (#{(batch.size/bm.total).round}/second)" % bm.total)
+      end
+    end
+    xapian_db.flush
   end
   
   private
