@@ -70,44 +70,35 @@ class NewsArticlesController < ApplicationController
   
 
   def show
-    @article = NewsArticle.find(params[:id], :include => :versions)
-    @versions = @article.versions
+    @article = NewsArticle.find(params[:id])
+    @versions = @article.versions.find(:all, :order => 'version asc', :select => "id, votes, version, title, created_at")
   end
 
   def show_version
     @article = NewsArticle.find(params[:id])
-    @versions = @article.versions.find(:all, :order => 'id asc')
-    @versions.each do |v|
-      @version = v
-      break if v.id == params[:version].to_i
-      @prev_version = v
-    end
+    @versions = @article.versions.find(:all, :order => 'version asc', :select => "id, votes, version, title")
+    @version = @article.versions.find(params[:version])
   end
   
   def diff_rss
-      @article = NewsArticle.find(params[:id], :include => 'versions')
-      @versions = @article.versions.sort
-      render :layout => false
+    @article = NewsArticle.find(params[:id])
+    @versions = @article.versions.find(:all, :order => 'version desc', :select => "id, created_at, version, title")    
+    render :layout => false
   end
 
   def diff
-    @article = NewsArticle.find(params[:id], :include => :versions)
+    @article = NewsArticle.find(params[:id])
     @discovery_links = [ [url_for(:action => "diff_rss", :id => @article.id), "Latest revisions of this news article"] ]    
-    @versions = @article.versions.sort
-    @va = @versions.fetch(params['version_a'].to_i, nil)
-    @vb = @versions.fetch(params['version_b'].to_i, nil)
-  	@title = "Revisionista '#{@article.title}' diff viewer (#{@vb.version}/#{@va.version})"
-    if @va.nil? or @vb.nil?
-      raise ActiveRecord::RecordNotFound, "version not found"
-    end
+    @versions = @article.versions.find(:all, :order => 'version asc', :select => "id, votes, version, title")
+    @va = @article.versions.find_by_version!(params[:version_a])
+    @vb = @article.versions.find_by_version!(params[:version_b])
     
     @next = @versions.fetch(@va.version + 1, nil) 
     @prev = @versions.fetch(@vb.version - 1, nil) if @vb.version > 0
 
-    # FIXME: Needs to do <p> tags for old bbc news articles
-    @diff = HTMLDiff::diff(@vb.text.split("\n"), @va.text.split("\n"))
-  rescue ActiveRecord::RecordNotFound
-    flash[:error] = "Article or version not found"
+    @diff = HTMLDiff::diff(@vb.text.split(/\n|<p>/), @va.text.split(/\n|<p>/))
+  rescue ActiveRecord::RecordNotFound => e
+    flash[:error] = e.message
     redirect_to :action => :list
   end
   

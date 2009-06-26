@@ -1,9 +1,26 @@
 <h1><%= @article.title %></h1>
 <table>
-<tr><th>Version date</th></tr>
+<tr>
+  <th class="version">Version</th>
+  <th class="created_at">Created at</th>
+	<th class="period">Period</th>
+  <th class="title">Title</th>
+</tr>
 <% @versions.each do |version| %>
 <tr>
-<td><%= link_to version.created_at, :action => :show_version, :id => @article.id, :version => version.id %></td>
+<td>
+  <%= link_to version.version, :action => :show_version, :id => @article.id, :version => version.id %>
+<td>
+  <%= version.created_at.to_s(:long) %>
+</td>
+<td>
+  <% if @prev_date %>
+    <%= distance_of_time_in_words(@prev_date, version.created_at) %> later
+  <% end %>
+<td>
+	<%= h(version.title) %>
+</td>
 </tr>
+<% @prev_date = version.created_at %>
 <% end%>
 </table>
