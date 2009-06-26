@@ -38,12 +38,14 @@ class NewsArticleVersion < ActiveRecord::Base
   end
   
   def to_xapian_doc
-    XapianFu::XapianDoc.new(:id => id, :title => title, :text => text)
+    XapianFu::XapianDoc.new(:id => id, :title => title, :text => text, 
+                            :created_at => created_at)
   end
   
-  def self.xapian_search(query)
-    docs = xapian_db_ro.search(query)
-    doc = { }
+  def self.xapian_search(query, options = { })
+    xapian_db_ro.ro.reopen
+    docs = xapian_db_ro.search(query, options)
+    doc_hash = { }
     docs.each { |d| doc_hash[d.id] = d }
     versions = find(doc_hash.keys)
     versions.sort_by do |v|
@@ -52,26 +54,37 @@ class NewsArticleVersion < ActiveRecord::Base
   end
 
   def self.xapian_db_ro
-    @xapian_db_ro ||= XapianFu::XapianDb.new(:dir => File.join(RAILS_ROOT, 'xapian/news_article_versions'))
+    @xapian_db_ro ||= XapianFu::XapianDb.new(:dir => File.join(RAILS_ROOT, 'xapian/news_article_versions'),
+                                             :sortable => :created_at)
   end
   
   def self.xapian_db
     @xapian_db ||= XapianFu::XapianDb.new(:dir => File.join(RAILS_ROOT, 'xapian/news_article_versions'),
-                                        :create => true,
-                                        :store => [:id])
+                                        :create => true, :sortable => :created_at, :index_positions => false)
   end
   
-  def self.xapian_rebuild
-    logger.info("starting xapian_rebuild for NewsArticleVersion")
-    find_in_batches do |batch|
-      xapian_db.transaction do
-        bm = Benchmark.measure do
-          batch.each { |nv| xapian_db << nv.to_xapian_doc }
-        end        
-        puts logger.info("#{batch.size} versions indexed in %.2f seconds (#{(batch.size/bm.total).round}/second)" % bm.total)
-      end
+  def self.xapian_rebuild(options = { })
+    options = { :batch_size => 1000 }.merge(options)
+    puts logger.info("starting xapian_rebuild for NewsArticleVersion with options #{options.inspect}")
+    find_in_batches(options) do |batch|
+      xapian_batch_index(batch)
     end
+  end
+  
+  def self.xapian_batch_index(records)
+    bm = Benchmark.measure do
+      records.each { |nv| xapian_db << nv.to_xapian_doc }    
+    end
+    puts logger.info("#{records.size} versions (#{records.first.id}..#{records.last.id}) indexed in %.2f seconds (#{(records.size/bm.total).round}/second)" % bm.total)
+  end
+  
+  def self.xapian_update
+    logger.info("starting xapian_update for NewsArticleVersion")
+    last = xapian_db.documents.max(:id)
+    xapian_rebuild(:conditions => ['news_article_versions.id > ?', last.id])
+  rescue Exception => e
     xapian_db.flush
+    raise e
   end
   
   private
