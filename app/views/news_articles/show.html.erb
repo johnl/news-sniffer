@@ -9,7 +9,7 @@
 <% @versions.each do |version| %>
 <tr>
 <td>
-  <%= link_to version.version, :action => :show_version, :id => @article.id, :version => version.id %>
+  <%= link_to version.version, article_version_url(@article, version) %>
 <td>
   <%= version.created_at.to_s(:long) %>
 </td>
