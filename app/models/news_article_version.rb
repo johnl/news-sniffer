@@ -18,9 +18,12 @@
 class NewsArticleVersion < ActiveRecord::Base
   belongs_to :news_article, :counter_cache => 'versions_count'
   before_validation :set_new_version
-  
+  attr_reader :text
+  has_one :news_article_version_text, :dependent => :delete
   validates_presence_of :version, :title, :text, :text_hash
   validates_presence_of :news_article
+  before_validation :setup_text
+  after_save :update_text
  
   # populate the object from a NewsPage object
   def populate_from_page(page)
@@ -37,7 +40,28 @@ class NewsArticleVersion < ActiveRecord::Base
     end
   end
   
+  def text
+    @text ||= news_article_version_text.to_s
+  end
+  
+  def text=(new_text)
+    @text_changed = true if @text != new_text
+    @text = new_text
+  end
+  
   private
+  
+  def setup_text
+    build_news_article_version_text unless news_article_version_text
+    true
+  end
+  
+  def update_text
+    if @text_changed
+      news_article_version_text.update_attributes(:text => @text)
+    end
+    true
+  end
   
   def set_new_version
     self.version = news_article.versions_count

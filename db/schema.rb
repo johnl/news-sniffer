@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090525160820) do
+ActiveRecord::Schema.define(:version => 20090628191505) do
 
   create_table "comments", :force => true do |t|
     t.string  "name",     :limit => 64
@@ -43,33 +43,35 @@ ActiveRecord::Schema.define(:version => 20090525160820) do
 
   add_index "news_article_feeds", ["next_check_after"], :name => "index_news_article_feeds_on_next_check_after"
 
-  create_table "news_article_versions", :force => true do |t|
-    t.integer  "news_article_id"
-    t.string   "title",           :limit => 200
-    t.string   "url",             :limit => 250
-    t.datetime "created_at"
-    t.integer  "version"
-    t.text     "text"
-    t.string   "text_hash",       :limit => 32
-    t.integer  "comments_count",                 :default => 0
-    t.integer  "votes",                          :default => 0
+  create_table "news_article_version_texts", :primary_key => "news_article_version_id", :force => true do |t|
+    t.text "text"
   end
 
-  add_index "news_article_versions", ["comments_count"], :name => "news_article_versions_comments_count_index"
+  create_table "news_article_versions", :force => true do |t|
+    t.integer  "news_article_id",                               :null => false
+    t.string   "title",           :limit => 200,                :null => false
+    t.string   "url",             :limit => 250
+    t.datetime "created_at",                                    :null => false
+    t.integer  "version",         :limit => 2,   :default => 0, :null => false
+    t.string   "text_hash",       :limit => 32,                 :null => false
+    t.integer  "votes",                          :default => 0, :null => false
+  end
+
   add_index "news_article_versions", ["news_article_id"], :name => "news_article_versions_news_article_id_index"
   add_index "news_article_versions", ["text_hash"], :name => "news_article_versions_text_hash_index"
+  add_index "news_article_versions", ["version"], :name => "version"
   add_index "news_article_versions", ["votes"], :name => "news_article_versions_votes_index"
 
   create_table "news_articles", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "source",           :limit => 32
-    t.string   "guid",             :limit => 200
-    t.string   "url",              :limit => 250
-    t.string   "title",            :limit => 200
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
+    t.string   "source",           :limit => 32,                  :null => false
+    t.string   "guid",             :limit => 200,                 :null => false
+    t.string   "url",              :limit => 250,                 :null => false
+    t.string   "title",            :limit => 200,                 :null => false
     t.datetime "published_at"
-    t.string   "latest_text_hash", :limit => 32
-    t.integer  "versions_count",                  :default => 0
+    t.string   "latest_text_hash", :limit => 32,  :default => "", :null => false
+    t.integer  "versions_count",   :limit => 2,   :default => 0,  :null => false
     t.datetime "next_check_after"
     t.integer  "check_period",                    :default => 0
     t.datetime "last_version_at"
@@ -77,8 +79,10 @@ ActiveRecord::Schema.define(:version => 20090525160820) do
   end
 
   add_index "news_articles", ["check_period", "next_check_after"], :name => "index_news_articles_on_check_period_and_next_check_after"
-  add_index "news_articles", ["guid"], :name => "altered_news_articles_guid_index"
-  add_index "news_articles", ["source"], :name => "altered_news_articles_source_index"
+  add_index "news_articles", ["created_at"], :name => "created_at"
+  add_index "news_articles", ["guid"], :name => "news_articles_guid_index"
+  add_index "news_articles", ["source"], :name => "news_articles_source_index"
+  add_index "news_articles", ["updated_at"], :name => "updated_at"
 
   create_table "variables", :force => true do |t|
     t.string "key",   :limit => 30
