@@ -77,6 +77,8 @@ class NewsArticlesController < ApplicationController
     @article = NewsArticle.find(params[:id])
     @versions = @article.versions.find(:all, :order => 'version asc', :select => "id, votes, version, title")
     @version = @article.versions.find(params[:version])
+    @xap_doc = NewsArticleVersion.xapian_db_ro.documents.find(@version.id)
+    @xap_doc.db = NewsArticleVersion.xapian_db_ro
   end
   
   def diff_rss
