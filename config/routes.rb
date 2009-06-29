@@ -2,11 +2,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'admin', :controller => 'admin', :action => 'login'
   
   
-  map.connect 'articles/:id/diff/:version_b/:version_a',
-    :controller => 'news_articles', :action => 'diff'
-
-  map.connect 'articles/:id/version/:version',
-    :controller => 'news_articles', :action => 'show_version'
+  map.diff 'articles/:article_id/diff/:version_b/:version_a',
+    :controller => 'versions', :action => 'diff'
 
   map.resources :versions
   

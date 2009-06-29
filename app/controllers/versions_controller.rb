@@ -25,7 +25,7 @@ class VersionsController < ApplicationController
   end
  
   def diff
-    @article = NewsArticle.find(params[:id])
+    @article = NewsArticle.find(params[:article_id])
     @discovery_links = [ [url_for(:action => "diff_rss", :id => @article.id), "Latest revisions of this news article"] ]    
     @versions = @article.versions.find(:all, :order => 'version asc', :select => "id, votes, version, title")
     @va = @article.versions.find_by_version!(params[:version_a])

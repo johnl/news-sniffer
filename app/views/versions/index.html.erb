@@ -7,11 +7,10 @@
 <th>Source</th></tr>
 <% @versions.each do |version| %>
 <tr>
-<% if version.news_article.versions_count > 1 %>
+<% if version.version > 1 %>
 <td>
-  <%= link_to h(truncate(version.title, :length => 75)), { :action => :diff, :id => version.news_article.id,
-    :version_a => version.version,
-    :version_b => version.version - 1 }, :title => h(version.title) %>
+  <%= link_to h(truncate(version.title, :length => 75)), 
+	  diff_url(version.news_article.id, version.version - 1, version.version), :title => h(version.title) %>
 </td>
 <% else %>
 <td>
