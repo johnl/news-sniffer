@@ -19,9 +19,14 @@ class VersionsController < ApplicationController
   end
 
   def show
-    @article = NewsArticle.find(params[:article_id])
-    @versions = @article.versions.find(:all, :order => 'version asc')
-    @version = @article.versions.find(params[:id])
+    if params[:acticle_id]    
+      @article = NewsArticle.find(params[:article_id])
+      @version = @article.versions.find(params[:id])
+    else
+      @version = NewsArticleVersion.find(params[:id])
+      @article = @version.news_article
+    end
+    @versions = @article.versions.find(:all, :order => 'version asc')    
   end
  
   def diff
