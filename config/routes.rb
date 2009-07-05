@@ -5,7 +5,7 @@ ActionController::Routing::Routes.draw do |map|
   map.diff 'articles/:article_id/diff/:version_b/:version_a',
     :controller => 'versions', :action => 'diff'
 
-  map.resources :versions
+  map.resources :versions, :member => { :vote => :post }
   
   map.resources :articles, :controller => :news_articles do |article|
     article.resources :versions

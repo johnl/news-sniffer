@@ -4,7 +4,7 @@
 on <strong><%= @article.created_at.utc.to_s(:long) %> (UTC)</strong> and has <strong><%= @article.versions_count %> versions</strong>.</p
 <p>It has  <span id="reccounter<%=@va.id %>"><%= @va.votes %> recommendations</span> - 
   <span id="recommend-<%=@va.id %>">
-    <%= link_to_remote 'Recommend this revision', { :url => { :controller => 'news_articles', :action => 'vote', :id => @va.id } }, 
+    <%= link_to_remote 'Recommend this revision', { :url => vote_version_url(@va) }, 
     :title => "Vote for this revision"  %>.
   </span>
 </p>

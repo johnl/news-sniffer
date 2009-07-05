@@ -17,25 +17,13 @@
 #
 class Vote < ActiveRecord::Base
 
-  before_destroy :dec_class_votes
+  validates_presence_of :thing
+  validates_uniqueness_of :thing_id, :scope => [:thing_type, :sessionid], :message => 'already voted'
+  
+  belongs_to :thing, :polymorphic => true, :counter_cache => :votes
 
-  def voted_object
-    eval(read_attribute('class')).find(self.relation_id)
-  end
-
-  def self.vote(ob, sessionid = rand(99999999))
-    return false unless ob.is_a? ActiveRecord::Base
-    return false if Vote.find(:first, 
-      :conditions => ['class = ? and sessionid = ? and relation_id = ?', ob.class.class_name, sessionid, ob.id])
-    ob.class.increment_counter('votes', ob.id) if ob.class.column_names.include? "votes"
-    return Vote.create( { :class => ob.class.class_name, :sessionid => sessionid, :relation_id => ob.id } )
-  end
-
-  private
-
-  def dec_class_votes
-    obclass = eval(read_attribute('class'))
-    obclass.decrement_counter('votes', relation_id) if obclass.column_names.include? "votes"
+  def self.vote!(thing, sessionid = rand(99999999))
+    Vote.create!(:thing => thing, :sessionid => sessionid)
   end
 
 end
