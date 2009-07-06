@@ -17,16 +17,16 @@
 <tr>
 <% if version.news_article.versions_count > 1 -%>
   <% if version.version == 0 -%>
-    <td><%= link_to h(truncate(version.title, 75)), { :action => :diff, :id => version.news_article.id,
+    <td><%= link_to h(truncate(version.title, :length => 95)), { :action => :diff, :id => version.news_article.id,
       :version_a => version.version+1,
       :version_b => version.version }, :title => "#{h(version.title)}, first published #{version.news_article.created_at}" %></td>
   <% else -%>
-    <td><%= link_to h(truncate(version.title, 75)), { :action => :diff, :id => version.news_article.id,
+    <td><%= link_to h(truncate(version.title, :length => 75)), { :action => :diff, :id => version.news_article.id,
       :version_a => version.version,
       :version_b => version.version-1 }, :title => "#{h(version.title)}, first published #{version.news_article.created_at}" %></td>
   <% end -%>
 <% else -%>
-<td><span title="<%= "#{h(version.title)}, first published #{version.news_article.created_at}" %>"><%= h(truncate(version.news_article.title, 75)) %></span></td>
+<td><span title="<%= "#{h(version.title)}, first published #{version.news_article.created_at}" %>"><%= h(truncate(version.news_article.title, :length => 75)) %></span></td>
 <% end -%>
 <td><%= version.created_at.strftime('%d %b %Y') %></td>
 <td class="version-and-total"><%= version.version %> of <%= version.news_article.versions_count %></td>
@@ -35,5 +35,5 @@
 <% end %>
 </table>
 <hr/>
-<%= will_paginate @versions %>
+<%= will_paginate @versions if @versions.respond_to?(:total_pages) %>
 <%end -%>

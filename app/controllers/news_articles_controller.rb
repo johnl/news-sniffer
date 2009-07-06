@@ -17,23 +17,29 @@
 #
 class NewsArticlesController < ApplicationController
   layout 'newsniffer'
-  
+
   def index
-  	@title = "Latest news articles"
+    @title = "Latest news articles"
     @articles = NewsArticle.paginate :include => 'versions', :page => params[:page] || 1,
       :order => "news_articles.id desc"
     # TODO: rss
   end
-    
+
+  def search
+    @title = "Revisionista search"
+    @search = cookies[:na_search] = params[:search] || cookies[:na_search]
+    @versions = NewsArticleVersion.xapian_search(@search)
+  end
+
   def show
     @article = NewsArticle.find(params[:id])
     @versions = @article.versions.find(:all, :order => 'version asc', :select => "id, votes, version, title, created_at")
     respond_to do |format|
-      format.html 
+      format.html
       format.rss do
         render :action => "show.rss.rxml", :content_type => 'application/rss+xml', :layout => false
       end
-    end    
+    end
   end
-  
+
 end
