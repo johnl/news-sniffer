@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090628191505) do
+ActiveRecord::Schema.define(:version => 20090705092959) do
 
   create_table "comments", :force => true do |t|
     t.string  "name",     :limit => 64
@@ -94,12 +94,10 @@ ActiveRecord::Schema.define(:version => 20090628191505) do
   create_table "votes", :force => true do |t|
     t.string   "sessionid",   :limit => 32
     t.datetime "created_at"
-    t.string   "class",       :limit => 32
-    t.integer  "relation_id"
+    t.string   "thing_class", :limit => 32
+    t.integer  "thing_id"
   end
 
-  add_index "votes", ["class"], :name => "votes_class_index"
-  add_index "votes", ["relation_id"], :name => "votes_relation_id_index"
-  add_index "votes", ["sessionid"], :name => "votes_sessionid_index"
+  add_index "votes", ["thing_id", "thing_class", "sessionid"], :name => "index_votes_on_thing_id_and_thing_class_and_sessionid"
 
 end
