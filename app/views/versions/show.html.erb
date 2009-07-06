@@ -6,11 +6,4 @@
 <p>Version <%= @version.version %> of <%= @versions.size %>.</p>
 <%= @version.text %>
 </td>
-<td>
-<ul>
-<% @xap_doc.terms.sort_by(&:wdf)[0..40].each do |term| %>
-<li><%= term.term %></li>
-<% end %>
-</ul>
-</td>
 </table>
