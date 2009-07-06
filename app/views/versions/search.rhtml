@@ -1,11 +1,11 @@
 <h2>News Article Search</h2>
 <p><%= link_to "Help with more advanced searches", :controller => "pages", :action => :revisionista_search %></p>
 <% form_tag search_versions_url, :method => :get do  %>
-	 <%= text_field_tag 'search', @search, :class => 'searchbox', :size => 40 %> 
-	 <%= submit_tag ' Search ' %>
+   <%= text_field_tag 'q', @search, :class => 'searchbox', :size => 40 %>
+   <%= submit_tag ' Search ' %>
 <% end %>
 
-<% unless @search.nil? or @search.empty? or @versions.nil? -%>
+<% unless @search.empty? -%>
 <p><%= @versions.count %> hits for <strong>'<%=h @search %>'</strong></p>
 <table>
 <tr>
@@ -17,13 +17,17 @@
 <tr>
 <% if version.news_article.versions_count > 1 -%>
   <% if version.version == 0 -%>
-    <td><%= link_to h(truncate(version.title, :length => 95)), { :action => :diff, :id => version.news_article.id,
-      :version_a => version.version+1,
-      :version_b => version.version }, :title => "#{h(version.title)}, first published #{version.news_article.created_at}" %></td>
+    <td>
+      <%= link_to h(truncate(version.title, :length => 95)),
+                  diff_url(version.news_article.id, version.version, version.version + 1),
+                  :title => "#{h(version.title)}, first published #{version.news_article.created_at}" %>
+    </td>
   <% else -%>
-    <td><%= link_to h(truncate(version.title, :length => 75)), { :action => :diff, :id => version.news_article.id,
-      :version_a => version.version,
-      :version_b => version.version-1 }, :title => "#{h(version.title)}, first published #{version.news_article.created_at}" %></td>
+    <td>
+      <%= link_to h(truncate(version.title, :length => 75)),
+                  diff_url(version.news_article.id, version.version - 1, version.version),
+                  :title => "#{h(version.title)}, first published #{version.news_article.created_at}" %>
+    </td>
   <% end -%>
 <% else -%>
 <td><span title="<%= "#{h(version.title)}, first published #{version.news_article.created_at}" %>"><%= h(truncate(version.news_article.title, :length => 75)) %></span></td>

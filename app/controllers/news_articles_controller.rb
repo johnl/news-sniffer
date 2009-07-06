@@ -25,12 +25,6 @@ class NewsArticlesController < ApplicationController
     # TODO: rss
   end
 
-  def search
-    @title = "Revisionista search"
-    @search = cookies[:na_search] = params[:search] || cookies[:na_search]
-    @versions = NewsArticleVersion.xapian_search(@search)
-  end
-
   def show
     @article = NewsArticle.find(params[:id])
     @versions = @article.versions.find(:all, :order => 'version asc', :select => "id, votes, version, title, created_at")

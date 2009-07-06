@@ -3,7 +3,7 @@
             <ul>
               <li><%= link_to 'Latest Articles', articles_url %></li>
               <li><%= link_to 'Latest Revisions', versions_url %></li>
-              <li><%= link_to 'Search', search_articles_url %></li>
+              <li><%= link_to 'Search', search_versions_url %></li>
             </ul>
           </li>
 <% if @article and @versions -%>
@@ -15,15 +15,15 @@
               <li><%= link_to 'Article RSS Feed', article_url(@article, :format => :rss) %></li>
             </ul>
           </li>
-            
+
           <li>
             <h2>Versions</h2>
             <ul>
             <% @versions.each do |version| next if version.version == 0 %>
             <li>
-								<%= link_to "Version #{version.version}", diff_url(@article, version.version - 1, version.version) %> 
-								<small>(<%= version.votes %> votes)</small>
-						</li>
+                <%= link_to "Version #{version.version}", diff_url(@article, version.version - 1, version.version) %>
+                <small>(<%= version.votes %> votes)</small>
+            </li>
             <% end %>
             </ul>
           </li>
