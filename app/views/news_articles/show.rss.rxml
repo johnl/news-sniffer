@@ -4,17 +4,15 @@ xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
   xml.channel do
 
     xml.title       "'#{h(@article.title)}' latest revisions"
-    xml.link        url_for :only_path => false, :action => 'diff'
+    xml.link        article_url(@article)
     xml.pubDate     CGI.rfc1123_date @article.updated_at
-    xml.description ""
+    xml.description "Changes to the #{@article.source} article " + h(@article.url)
 
-    @versions.each do |v|
+    @versions.reverse.each do |v|
       next if v.version == 0
       xml.item do
         xml.title       "v#{v.version}: #{h(v.title)}"
-        link = url_for :only_path => false, :action => 'diff',
-          :id => @article.id,
-          :version_a => v.version, :version_b => v.version - 1
+        link = diff_url(@article, v.version - 1, v.version)
         xml.link        link
         xml.pubDate     CGI.rfc1123_date v.created_at
         xml.guid        link

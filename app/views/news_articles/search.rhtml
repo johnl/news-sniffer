@@ -1,7 +1,8 @@
 <h2>News Article Search</h2>
 <p><%= link_to "Help with more advanced searches", :controller => "pages", :action => :revisionista_search %></p>
-<% form_tag :controller => 'news_articles', :action => 'search', :page => nil do  %>
-<%= text_field_tag 'search', @search, :class => 'searchbox', :size => 40 %> <%= submit_tag ' Search ' %>
+<% form_tag search_versions_url, :method => :get do  %>
+	 <%= text_field_tag 'search', @search, :class => 'searchbox', :size => 40 %> 
+	 <%= submit_tag ' Search ' %>
 <% end %>
 
 <% unless @search.nil? or @search.empty? or @versions.nil? -%>

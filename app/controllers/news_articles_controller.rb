@@ -28,7 +28,12 @@ class NewsArticlesController < ApplicationController
   def show
     @article = NewsArticle.find(params[:id])
     @versions = @article.versions.find(:all, :order => 'version asc', :select => "id, votes, version, title, created_at")
-    # TODO: rss
+    respond_to do |format|
+      format.html 
+      format.rss do
+        render :action => "show.rss.rxml", :content_type => 'application/rss+xml', :layout => false
+      end
+    end    
   end
   
 end

@@ -3,8 +3,7 @@
             <ul>
               <li><%= link_to 'Latest Articles', articles_url %></li>
               <li><%= link_to 'Latest Revisions', versions_url %></li>
-              <li><%= link_to 'Search',
-                :controller => 'news_articles', :action => 'search' %></li>
+              <li><%= link_to 'Search', search_articles_url %></li>
             </ul>
           </li>
 <% if @article and @versions -%>
@@ -13,8 +12,7 @@
             <ul>
               <li><%= link_to 'External link to article', @article.url %></li>
               <li><%= link_to 'News Sniffer permalink' %></li>
-              <li><%= link_to 'Article RSS Feed', :action => :diff_rss, 
-                :id => @article.id %></li>
+              <li><%= link_to 'Article RSS Feed', article_url(@article, :format => :rss) %></li>
             </ul>
           </li>
             
