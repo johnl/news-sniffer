@@ -37,3 +37,12 @@ namespace "revisionista" do
   end
 
 end
+
+namespace :xapian do
+  desc "Reindex the NewsArticleVersion Xapian database"
+  task :update => :environment do
+    logger = setup_logger
+    logger.info "xapian:update"
+    NewsArticleVersion.xapian_update
+  end
+end

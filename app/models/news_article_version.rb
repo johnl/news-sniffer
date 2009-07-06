@@ -84,7 +84,7 @@ class NewsArticleVersion < ActiveRecord::Base
 
   def self.xapian_rebuild(options = { })
     options = { :batch_size => 1000 }.merge(options)
-    puts logger.info("starting xapian_rebuild for NewsArticleVersion with options #{options.inspect}")
+    logger.info("starting xapian_rebuild for NewsArticleVersion with options #{options.inspect}")
     find_in_batches(options) do |batch|
       xapian_batch_index(batch)
     end
@@ -101,7 +101,7 @@ class NewsArticleVersion < ActiveRecord::Base
     bm = Benchmark.measure do
       records.each { |nv| xapian_db << nv.to_xapian_doc }
     end
-    puts logger.info("#{records.size} versions (#{records.first.id}..#{records.last.id}) indexed in %.2f seconds (#{(records.size/bm.total).round}/second)" % bm.total)
+    logger.info("#{records.size} versions (#{records.first.id}..#{records.last.id}) indexed in %.2f seconds (#{(records.size/bm.total).round}/second)" % bm.total)
   end
 
   def self.xapian_update
@@ -110,6 +110,7 @@ class NewsArticleVersion < ActiveRecord::Base
     xapian_rebuild(:conditions => ['news_article_versions.id > ?', last.id])
   rescue Exception => e
     xapian_db.flush
+    logger.error(e.to_s)
     raise e
   end
 
