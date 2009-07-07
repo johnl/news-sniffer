@@ -6,7 +6,7 @@
 <% end %>
 
 <% unless @search.empty? -%>
-<p><%= @versions.count %> hits for <strong>'<%=h @search %>'</strong></p>
+<p><%= @versions.total_entries %> hits for <strong>'<%=h @search %>'</strong></p>
 <table>
 <tr>
 <th>Article Title</th>
@@ -39,5 +39,5 @@
 <% end %>
 </table>
 <hr/>
-<%= will_paginate @versions if @versions.respond_to?(:total_pages) %>
+<%= will_paginate @versions %>
 <%end -%>

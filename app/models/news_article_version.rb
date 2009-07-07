@@ -57,12 +57,8 @@ class NewsArticleVersion < ActiveRecord::Base
   def self.xapian_search(query, options = { })
     xapian_db_ro.ro.reopen
     docs = xapian_db_ro.search(query, options)
-    doc_hash = { }
-    docs.each { |d| doc_hash[d.id] = d }
-    versions = find(doc_hash.keys)
-    versions.sort_by do |v|
-      doc_hash[v.id].weight
-    end.reverse
+    docs.each_with_index { |d,i| docs[i] = find(d.id) }
+    docs
   end
 
   def self.xapian_db_ro
