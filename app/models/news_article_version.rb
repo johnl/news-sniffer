@@ -1,3 +1,4 @@
+
 #    News Sniffer
 #    Copyright (C) 2007-2008 John Leach
 #
@@ -46,7 +47,7 @@ class NewsArticleVersion < ActiveRecord::Base
 
   def to_xapian_doc
     XapianFu::XapianDoc.new(:id => id, :title => title, :text => text,
-                            :created_at => created_at)
+                            :created_at => created_at.to_date)
   end
 
   def text=(new_text)
@@ -102,8 +103,12 @@ class NewsArticleVersion < ActiveRecord::Base
 
   def self.xapian_update
     logger.info("starting xapian_update for NewsArticleVersion")
-    last = xapian_db.documents.max(:id)
-    xapian_rebuild(:conditions => ['news_article_versions.id > ?', last.id])
+    if last = xapian_db.documents.max(:id)
+      xapian_rebuild(:conditions => ['news_article_versions.id > ?', last.id])
+    else
+      # No last id so rebuild the whole db
+      xapian_rebuild
+    end
   rescue Exception => e
     xapian_db.flush
     logger.error(e.to_s)
