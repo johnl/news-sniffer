@@ -47,7 +47,8 @@ class NewsArticleVersion < ActiveRecord::Base
 
   def to_xapian_doc
     XapianFu::XapianDoc.new(:id => id, :title => title, :text => text,
-                            :created_at => created_at.to_date)
+                            :news_article_id => news_article_id,
+                            :created_at => created_at.to_date, :version => version)
   end
 
   def text=(new_text)
@@ -56,22 +57,31 @@ class NewsArticleVersion < ActiveRecord::Base
   end
 
   def self.xapian_search(query, options = { })
-    xapian_db_ro.ro.reopen
-    docs = xapian_db_ro.search(query, options)
+    xapian_db.ro.reopen
+    docs = xapian_db.search(query, options)
     docs.each_with_index { |d,i| docs[i] = find(d.id) }
     docs
   end
 
-  def self.xapian_db_ro
-    @xapian_db_ro ||= XapianFu::XapianDb.new(:dir => File.join(RAILS_ROOT, 'xapian/news_article_versions'),
-                                             :sortable => :created_at)
+  def self.xapian_db
+    if @xapian_db
+      @xapian_db
+    else
+      fields = {
+        :created_at => { :type => Date, :store => true },
+        :news_article_id => { :type => Fixnum, :store => true },
+        :version => Fixnum
+      }
+      @xapian_db = XapianFu::XapianDb.new(:dir => xapian_db_path,
+                                          :create => true, :fields => fields,
+                                          :index_positions => false)
+    end
   end
 
   private
 
-  def self.xapian_db
-    @xapian_db ||= XapianFu::XapianDb.new(:dir => File.join(RAILS_ROOT, 'xapian/news_article_versions'),
-                                          :create => true, :sortable => :created_at, :index_positions => false)
+  def self.xapian_db_path
+    File.join(RAILS_ROOT, 'xapian/news_article_versions')
   end
 
   def setup_text
@@ -80,7 +90,7 @@ class NewsArticleVersion < ActiveRecord::Base
   end
 
   def self.xapian_rebuild(options = { })
-    options = { :batch_size => 1000 }.merge(options)
+    options = { :batch_size => 1000, :include => :news_article_version_text }.merge(options)
     logger.info("starting xapian_rebuild for NewsArticleVersion with options #{options.inspect}")
     find_in_batches(options) do |batch|
       xapian_batch_index(batch)
