@@ -5,7 +5,7 @@ class VoteRejig < ActiveRecord::Migration
     remove_index :votes, :name => "votes_sessionid_index"
     rename_column :votes, :class, :thing_type
     rename_column :votes, :relation_id, :thing_id
-    add_index :votes, [:thing_id, :thing_class, :sessionid]
+    add_index :votes, [:thing_id, :thing_type, :sessionid]
   end
 
   def self.down
