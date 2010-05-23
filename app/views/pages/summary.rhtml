@@ -8,10 +8,8 @@
 with <%= number_with_delimiter(@news_article_versions_count, ",") %> different versions.</p>
 <table>
 <% @news_articles.each do |a| -%>
-<tr><td><%= link_to a.title, :controller => 'news_articles',
-  :action => 'diff', :id => a.id,
-  :version_a => a.versions_count - 1 , 
-  :version_b => a.versions_count - 2  %></td>
+<tr><td><%= link_to h(a.title),
+  diff_url(a.id, a.versions_count - 1, a.versions_count - 2)  %></td>
 <td><%= a.versions_count %> versions</td>
 <td><small><%= distance_of_time_in_words_to_now a.updated_at %> ago</small></td>
 </tr>
