@@ -5,7 +5,7 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.6' unless defined? RAILS_GEM_VERSION
 
 ENV['ADMIN_PASSWORD'] = "password"
 CENSORED = 0
@@ -66,7 +66,7 @@ Rails::Initializer.run do |config|
   # Make sure the secret is at least 30 characters and all random, 
   # no regular words or you'll be exposed to dictionary attacks.
   config.action_controller.session = {
-    :session_key => '_newssniffer.git_session',
+    :key => '_newssniffer.git_session',
     :secret      => '5209cf0818c56993ac6abaa917aa8d8d864ffd68e118dbecb80651752b6108abb78a470decef826b85b63467da9e8d287cbc178f249463b987a9d5b8be396dfd'
   }
 
