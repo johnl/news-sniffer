@@ -126,7 +126,7 @@ class NewsArticleVersion < ActiveRecord::Base
   end
 
   def set_new_version
-    self.version = news_article.versions_count
+    self.version = news_article.versions_count if self.new_record?
   end
 
 end
