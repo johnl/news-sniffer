@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090705092959) do
+ActiveRecord::Schema.define(:version => 20100605121257) do
 
   create_table "comments", :force => true do |t|
     t.string  "name",     :limit => 64
@@ -63,18 +63,16 @@ ActiveRecord::Schema.define(:version => 20090705092959) do
   add_index "news_article_versions", ["votes"], :name => "news_article_versions_votes_index"
 
   create_table "news_articles", :force => true do |t|
-    t.datetime "created_at",                                      :null => false
-    t.datetime "updated_at",                                      :null => false
-    t.string   "source",           :limit => 32,                  :null => false
-    t.string   "guid",             :limit => 200,                 :null => false
-    t.string   "url",              :limit => 250,                 :null => false
-    t.string   "title",            :limit => 200,                 :null => false
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
+    t.string   "source",           :limit => 32,                 :null => false
+    t.string   "guid",             :limit => 200,                :null => false
+    t.string   "url",              :limit => 250,                :null => false
+    t.string   "title",            :limit => 200,                :null => false
     t.datetime "published_at"
-    t.string   "latest_text_hash", :limit => 32,  :default => "", :null => false
-    t.integer  "versions_count",   :limit => 2,   :default => 0,  :null => false
+    t.integer  "versions_count",   :limit => 2,   :default => 0, :null => false
     t.datetime "next_check_after"
     t.integer  "check_period",                    :default => 0
-    t.datetime "last_version_at"
     t.string   "parser"
   end
 
@@ -92,12 +90,12 @@ ActiveRecord::Schema.define(:version => 20090705092959) do
   add_index "variables", ["key"], :name => "key_key"
 
   create_table "votes", :force => true do |t|
-    t.string   "sessionid",   :limit => 32
+    t.string   "sessionid",  :limit => 32
     t.datetime "created_at"
-    t.string   "thing_class", :limit => 32
+    t.string   "thing_type", :limit => 32
     t.integer  "thing_id"
   end
 
-  add_index "votes", ["thing_id", "thing_class", "sessionid"], :name => "index_votes_on_thing_id_and_thing_class_and_sessionid"
+  add_index "votes", ["thing_id", "thing_type", "sessionid"], :name => "index_votes_on_thing_id_and_thing_type_and_sessionid"
 
 end

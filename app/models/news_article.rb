@@ -16,6 +16,7 @@
 
 # A NewsArticle represents an article that usually has one or many versions.
 class NewsArticle < ActiveRecord::Base
+  
   has_many :versions, :class_name => 'NewsArticleVersion', :dependent => :destroy, :autosave => true
   validates_length_of :title, :minimum => 5
   validates_presence_of :source # bbc, guardian, independent?
@@ -65,8 +66,6 @@ class NewsArticle < ActiveRecord::Base
       begin
         transaction do
           self.title = page.title
-          self.latest_text_hash = page.hash
-          self.last_version_at = Time.now
           reset_next_check_period
           version.save! # explicitly saved to raise more useful validation exception
           save!
@@ -83,6 +82,9 @@ class NewsArticle < ActiveRecord::Base
     end
   end
 
+  def latest_text_hash
+    versions.find(:first, :select => 'text_hash', :order => 'version desc').text_hash rescue nil
+  end
 
   private
  
