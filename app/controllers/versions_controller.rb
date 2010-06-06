@@ -38,7 +38,7 @@ class VersionsController < ApplicationController
     @next = @versions.fetch(@va.version + 1, nil)
     @prev = @versions.fetch(@vb.version - 1, nil) if @vb.version > 0
 
-    @diff = HTMLDiff::diff(@vb.text.split(/\n|<p>/), @va.text.split(/\n|<p>/))
+    @diff = HTMLDiff::diff(@vb.text.split(/\n/), @va.text.split(/\n/))
   rescue ActiveRecord::RecordNotFound => e
     render :status => 404, :text => e.message
   end
