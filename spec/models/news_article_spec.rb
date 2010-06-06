@@ -33,13 +33,37 @@ describe NewsArticle do
     nav.new_record?.should == false
   end
 
-  it "should not create duplicate NewsArticleVersions" do
+  it "should not create a new NewsArticleVersion if it has not changed since the last check" do
     na = a_news_article_with_one_version
     p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
     nav = na.update_from_page(p)
     nav.should be_nil
     na.versions.count.should == 1
-  end    
+  end
+  
+  it "should not create a new NewsArticleVersion if it has been seen more than once before already" do
+    na = a_news_article
+    p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+    nav = na.update_from_page(p)
+    nav.should be_a_kind_of NewsArticleVersion
+    na.versions.count.should == 1
+    p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html_with_a_change)
+    nav = na.update_from_page(p)
+    nav.should be_a_kind_of NewsArticleVersion
+    na.versions.count.should == 2
+    p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+    nav = na.update_from_page(p)
+    nav.should be_a_kind_of NewsArticleVersion
+    na.versions.count.should == 3
+    p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html_with_a_change)
+    nav = na.update_from_page(p)
+    nav.should be_a_kind_of NewsArticleVersion
+    na.versions.count.should == 4
+    p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+    nav = na.update_from_page(p)
+    nav.should == nil
+    na.versions.count.should == 4    
+  end
   
   describe "next_check_after" do
     it "should default to asap on create" do
@@ -103,9 +127,25 @@ describe NewsArticle do
     na.versions.first.destroy
     na.reload
     na.versions_count.should == 1
-  end  
+  end
+  
+  it "should count it's versions by hash" do
+    na = a_news_article_with_two_versions
+    p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+    na.update_from_page(p)
+    na.versions.count.should == 3
+    na.count_versions_by_hash(na.versions[0].text_hash).should == 2
+    na.count_versions_by_hash(na.versions[1].text_hash).should == 1
+  end
 
   describe "due_check scope" do
+    
+    it "should exclude articles with a nil next_check_after field" do
+      a = a_news_article(:next_check_after => nil)
+      NewsArticle.count.should == 1
+      NewsArticle.due_check.size.should == 0
+    end
+    
     it "should exclude articles over 40 days overdue" do
       a = a_news_article(:next_check_after => Time.now + 41.days)
       NewsArticle.due_check.size.should == 0

@@ -59,6 +59,11 @@ class NewsArticle < ActiveRecord::Base
       logger.info("NewsArticle #{id} no changes, next_check_after: #{next_check_after}")
       save
       nil
+    elsif count_versions_by_hash(page.hash) > 1
+      set_next_check_period
+      logger.warn("NewsArticle #{id} version seen more than once before, flip-flopping. next_check_after: #{next_check_after}")
+      save
+      nil
     else
       # Content changed!
       version = versions.build
@@ -84,6 +89,10 @@ class NewsArticle < ActiveRecord::Base
 
   def latest_text_hash
     versions.find(:first, :select => 'text_hash', :order => 'version desc').text_hash rescue nil
+  end
+  
+  def count_versions_by_hash(count_hash)
+    versions.count(:conditions => { :text_hash => count_hash })
   end
 
   private
