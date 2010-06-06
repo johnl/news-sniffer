@@ -31,11 +31,24 @@ module HTTP
     end
     @c.url = url
     @c.perform
-    raw_body = StringIO.new(@c.body_str)
-    body = nil
-    body = Zlib::GzipReader.new(raw_body.rewind) rescue nil
-    body = Zlib::DeflateReader.new(raw_body.rewind) rescue nil unless body
-    (body || (raw_body.rewind;raw_body)).read
+    uncompressed = self.gunzip(@c.body_str)
+    uncompressed = self.inflate(@c.body_str) if uncompressed.nil?
+    uncompressed || @c.body_str
   end
+
+  def self.inflate(s)
+    Zlib::Inflate.inflate(s)
+  rescue Zlib::DataError => e
+    nil
+  end
+
+  def self.gunzip(s)
+    s = StringIO.new(s)
+    Zlib::GzipReader.new(s).read
+  rescue Zlib::DataError => e
+  rescue Zlib::GzipFile::Error => e
+    nil
+  end
+
   
 end
