@@ -2,6 +2,17 @@
 	 <%= auto_discovery_link_tag(:rss, article_url(@article, :format => :rss), :title => "RSS feed of versions of this article") %>
 <% end %>
 <h1><%= @article.title %></h1>
+<p>This article is from '<strong><%= @article.source %></strong>', was first published or seen
+on <strong><%= @article.created_at.utc.to_s(:long) %> (UTC)</strong> and has <strong><%= @article.versions_count %> versions</strong>.</p
+
+<% if @article.next_check_after.nil? %>
+<p>It will not be checked again for changes.</p>
+<% elsif @article.next_check_after < (Time.now - 40.days) %>
+<p>It last changed over 40 days ago and won't be checked again for changes.</p>
+<% else %>
+<p>It will be next checked for changes after <%= @article.next_check_after.to_s(:long) %></p>
+<% end %>
+
 <table>
 <tr>
   <th class="version">Version</th>
