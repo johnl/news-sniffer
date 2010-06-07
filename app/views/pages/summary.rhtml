@@ -1,19 +1,17 @@
-<% cache do -%>
-<p><strong>News Sniffer</strong> aims to monitor corporate news organisations to uncover bias.
+<p><strong>News Sniffer</strong> monitors changes to news articles on the web.
 <%= link_to 'Read more', :action => 'about' %></p>
 
-<div class="bluebox" style="width: 36em">
-<h2 class="top">Revisionista: Latest news article revisions</h2>
+<div class="bluebox" style="width:50%">
+<h2 class="top">Latest news article revisions</h2>
 <p>Currently monitoring <%= number_with_delimiter(@news_articles_count, ",") %> news articles 
 with <%= number_with_delimiter(@news_article_versions_count, ",") %> different versions.</p>
 <table>
 <% @news_articles.each do |a| -%>
-<tr><td><%= link_to h(a.title),
-  diff_url(a.id, a.versions_count - 1, a.versions_count - 2)  %></td>
-<td><%= a.versions_count %> versions</td>
-<td><small><%= distance_of_time_in_words_to_now a.updated_at %> ago</small></td>
+<tr>
+<td><%= link_to h(a.title),
+  diff_url(a.id, a.versions_count - 1, a.versions_count)  %></td>
+<td><small>last changed by <%= a.source %> <%= distance_of_time_in_words_to_now a.updated_at %> ago</small></td>
 </tr>
 <% end -%>
 </table>
 </div>
-<% end -%>

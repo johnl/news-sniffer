@@ -22,7 +22,7 @@
       	    <li><%= link_to 'About', { :controller => 'pages',
       	      :action => :about }, :class => (controller.controller_name == 'pages' and controller.action_name != "summary") ? "selected" : "" %></li>
       	    <li><%= link_to 'News Articles', articles_url, 
-              :title => 'Corporate news article revisions',
+              :title => 'News article revisions',
               :class => controller.controller_name =~ /news_articles|versions/ ? "selected" : ""%></li>
             <li><a href="/blog/">Blog</a></li>
           </ul>
