@@ -9,7 +9,7 @@ with <%= number_with_delimiter(@news_article_versions_count, ",") %> different v
 <% @news_articles.each do |a| -%>
 <tr>
 <td><%= link_to h(a.title),
-  diff_url(a.id, a.versions_count - 1, a.versions_count)  %></td>
+  diff_url(a.id, a.versions_count - 2, a.versions_count - 1)  %></td>
 <td><small>last changed by <%= a.source %> <%= distance_of_time_in_words_to_now a.updated_at %> ago</small></td>
 </tr>
 <% end -%>
