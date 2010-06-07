@@ -1,3 +1,6 @@
+<% content_for :head do %>
+	 <%= auto_discovery_link_tag(:rss, article_url(@article, :format => :rss), :title => "RSS feed of versions of this article") %>
+<% end %>
 <h1><%= @article.title %></h1>
 <table>
 <tr>

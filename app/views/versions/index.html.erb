@@ -1,3 +1,6 @@
+<% content_for :head do %>
+<%= auto_discovery_link_tag(:rss, versions_path(:format => :rss), :title => "RSS feed of all news article versions") %>
+<% end %>
 <h2>News Article Revisions</h2>
 <table>
 <tr>

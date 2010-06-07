@@ -4,10 +4,12 @@ class VersionsController < ApplicationController
 
   def index
     @title = "Versions"
-    @discovery_links = [ [url_for(:format => :xml), "Latest versions"] ]
     @versions = NewsArticleVersion.paginate :per_page => 16, :page => params[:page]  || 1,
       :include => 'news_article', :order => "news_article_versions.id desc"
-    # TODO: xml template
+    respond_to do |format|
+      format.html
+      format.rss { render :content_type => 'application/rss+xml', :layout => false }
+    end
   end
 
   def search
@@ -15,6 +17,10 @@ class VersionsController < ApplicationController
     @search = params[:q].to_s
     @versions = NewsArticleVersion.xapian_search(@search, :per_page => 16,
                                                  :page => params[:page] || 1)
+    respond_to do |format|
+      format.html
+      format.rss { render :action => :index, :content_type => 'application/rss+xml', :layout => false }
+    end    
   end
 
   def show
@@ -30,7 +36,6 @@ class VersionsController < ApplicationController
 
   def diff
     @article = NewsArticle.find(params[:article_id])
-    @discovery_links = [ [url_for(:action => "diff_rss", :id => @article.id), "Latest revisions of this news article"] ]
     @versions = @article.versions.find(:all, :order => 'version asc', :select => "id, votes, version, title")
     @va = @article.versions.find_by_version!(params[:version_a])
     @vb = @article.versions.find_by_version!(params[:version_b])

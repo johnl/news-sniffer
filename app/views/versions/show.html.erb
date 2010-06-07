@@ -4,7 +4,7 @@
 <td>
 <p><%= link_to @version.news_article.url, @version.news_article.url %></p>
 <p>Version <%= @version.version %> of <%= @versions.size %>.</p>
-<%= @version.text.split("\n").each |p| %>
+<% @version.text.split("\n").each do |p| %>
 <p><%= p %></p>
 <% end %>
 </td>

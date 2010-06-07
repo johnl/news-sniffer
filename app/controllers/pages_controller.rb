@@ -19,7 +19,6 @@ class PagesController < ApplicationController
   layout 'newsniffer'
 
   def summary
-    @head_html = '<link rel="pingback" href="/blog/xmlrpc.php" />'
     @news_articles = NewsArticle.find(:all, :conditions => "versions_count > 1",
                                       :order => "news_articles.updated_at desc", :limit => 12)
     @news_articles_count = NewsArticle.count
