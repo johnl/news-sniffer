@@ -18,7 +18,7 @@ class VersionsController < ApplicationController
   end
 
   def show
-    if params[:acticle_id]
+    if params[:article_id]
       @article = NewsArticle.find(params[:article_id])
       @version = @article.versions.find(params[:id])
     else
