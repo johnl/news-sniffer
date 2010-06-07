@@ -1,5 +1,5 @@
 body {
-	color: #333;
+	color: #111;
 	font: 1em/1.4em "Trebuchet MS", Arial, sans-serif;
 	margin: 0;
 	padding: 0;
@@ -327,9 +327,18 @@ ins {
   text-decoration: none;
 }
 
+ins > ins {
+  background-color: #6aee61; 
+	text-decoration: none;
+}
+
 del {
-  background-color: #ffc8c8;
+  background-color: #ffc2c2;
   text-decoration: none;
+}
+
+del > del {
+  background-color: #ee8888;
 }
 
 div.bluebox {
