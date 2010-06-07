@@ -106,7 +106,9 @@ class NewsArticleVersion < ActiveRecord::Base
 
   def self.xapian_batch_index(records)
     bm = Benchmark.measure do
-      records.each { |nv| xapian_db << nv.to_xapian_doc }
+      xapian_db.transaction do
+        records.each { |nv| xapian_db << nv.to_xapian_doc }
+      end
     end
     logger.info("#{records.size} versions (#{records.first.id}..#{records.last.id}) indexed in %.2f seconds (#{(records.size/bm.total).round}/second)" % bm.total)
   end
