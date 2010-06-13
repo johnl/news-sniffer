@@ -10,7 +10,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :articles, :controller => :news_articles, :collection => { :search => :get } do |article|
     article.resources :versions
   end
-    
+
+  map.about '/pages/about', :controller => "pages", :action => "about"
+  
   map.connect '', :controller => "pages", :action => 'summary'
 
   map.connect ':controller/:action/:id'

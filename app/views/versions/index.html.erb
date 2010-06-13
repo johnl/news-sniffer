@@ -1,36 +1,50 @@
 <% content_for :head do %>
 <%= auto_discovery_link_tag(:rss, versions_path(:format => :rss), :title => "RSS feed of all news article versions") %>
 <% end %>
-<h2>News Article Revisions</h2>
-<table>
-<tr>
-<th>Title</th>
-<th>Version</th>
-<th>Votes</th>
-<th>Source</th></tr>
-<% @versions.each do |version| %>
-<tr>
-<% if version.version > 0 %>
-<td>
-  <%= link_to h(truncate(version.title, :length => 75)), 
-	  diff_url(version.news_article.id, version.version - 1, version.version), :title => h(version.title) %>
-</td>
+
+<div id="search">
+<% form_tag versions_url, :method => :get do  %>
+   <%= text_field_tag 'q', @search, :class => 'searchbox', :size => 40 %>
+   <%= submit_tag ' Search ' %>
+<% end %>
+</div>
+
+<% if @search %>
+<% if @versions.empty? %>
+  <p>Your search did not match any versions.</p>
 <% else %>
-<td>
-  <span title="<%= h(version.title) %>"><%= h(truncate(version.title, :length => 75)) %></span>
-</td>
+  <p>About <%= number_with_delimiter @versions.total_entries %> results.</p>
 <% end %>
-<td class="version">
-  <%= version.version %>
-</td>
-<td class="votes">
-  <%= version.votes %>
-</td>
-<td>
-  <small><%#= version.source %></small>
-</td>
-</tr>
 <% end %>
+
+<table class="versions">
+	<tr>
+		<th class="title">News Article Title</th>
+		<th class="version">Version</th>
+		<th class="source">Source</th>
+    <th class="created_at">Discovered</th>
+	</tr>
+	<% @versions.each do |version| %>
+	<tr>
+		<td class="title">
+		<% if version.version > 0 %>
+			<%= link_to h(truncate(version.title, :length => 120)),
+			diff_url(version.news_article.id, version.version - 1, version.version), :title => h(version.title),
+			:class => "version_title" %>
+		<% else %>
+			<span title="<%= h(version.title) %>"><%= h(truncate(version.title, :length => 120)) %></span>
+		<% end %>
+		</td>
+		<td class="version">
+			<%= version.version %>
+		</td>
+		<td class="source">
+			<%= version.news_article.source %>
+		</td>
+		<td class="created_at">
+			<%= version.created_at.strftime("%d %b %Y, %H:%M") %>
+		</td>
+	</tr>
+	<% end %>
 </table>
-<hr/>
 <%= will_paginate @versions %>
