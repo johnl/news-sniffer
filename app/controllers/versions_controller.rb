@@ -6,7 +6,7 @@ class VersionsController < ApplicationController
       :include => 'news_article', :order => "news_article_versions.id desc"
     else
       @search = params[:q].to_s
-      @versions = NewsArticleVersion.xapian_search(@search, :per_page => 16,
+      @versions = NewsArticleVersion.xapian_search(@search, :per_page => 16, :collapse => :news_article_id,
                                                  :page => params[:page] || 1)
     end
     respond_to do |format|
