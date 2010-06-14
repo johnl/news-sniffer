@@ -11,9 +11,5 @@ ActionController::Routing::Routes.draw do |map|
     article.resources :versions
   end
 
-  map.about '/pages/about', :controller => "pages", :action => "about"
-  
-  map.connect '', :controller => "pages", :action => 'summary'
-
   map.connect ':controller/:action/:id'
 end

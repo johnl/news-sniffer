@@ -8,7 +8,7 @@ body {
 
 a {
   color: #4d6175;
-	text-decoration: underline;
+	text-decoration: none;
 }
 
 a:visited {
@@ -22,8 +22,7 @@ a:hover {
 
 input, textarea {
 	background: #F3F6ED;
-	border: #444 1px solid;
-  padding: 3px;
+	font-size: 1.3em;
 }
 
 h1, h2, h3, h4 {
@@ -195,22 +194,17 @@ hr {
 
 #footer {
   clear: both;
-	color: #999999;
+	color: #888;
 	font-size: 0.8em;
 	margin: 0 auto;
 	padding: 7px 0;
 	text-align: center;
 }
 
-p.note {
-        font-size: 0.7em;
-        line-height: 1em;
+#search {
+		margin-bottom: 1em;
 }
-
-#searchbox {
-        text-align: center;
-}
-#searchbox input.searchbox {
+#box input.searchbox {
   padding: 0.5em;
   width: 90%;
 }
@@ -219,17 +213,6 @@ div.post {
   padding: 1em 0 2em 0.5em;
 }
           
-div#footerbar {
-	background: url(img/longfooter.png) #F3F6ED no-repeat center top;
-  height: 26px;
-  margin: 0 auto;
-  padding: 0;
-}
-
-td,th {
-        padding-right: 1em;
-}
-
 div#notice {
         text-align: center;
         color: green;
@@ -243,12 +226,6 @@ div#error {
         padding: 0.5em 1em 0.5em 1em;
         width: 300px;
         margin: 0 auto 2em auto;
-}
-
-img.itemimage {
-  float: right;
-  border: 1px solid #000;
-  margin: 0 0 1em 1em;
 }
 
 h1, h2, h3 {
@@ -270,10 +247,6 @@ h1#itemlabel {
   text-align: center;
   font-weight: bold;
 }
-h3#cancompost {
-  text-align: right;
-  font-size: 2em;
-}
 
 a:hover, #sidebar ul ul li a:hover {
   background-color: 4d6175;
@@ -291,18 +264,6 @@ div#farsidebar {
   float: right;
   width: 170px;
   padding-top: 10px;
-}
-
-div.comment {
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 20px;
-  padding: 10px;
-}
-div.comment h3.comment {
-  margin-bottom: -0.6em;
-}
-
-div.counter {
 }
 
 span.match {
@@ -336,42 +297,11 @@ del > del {
   background-color: #ee8888;
 }
 
-div.bluebox {
-  border-style: solid;
-  border-color: #638aae;
-  border-width: 0 1px 1px 1px;
-  margin-bottom: 1em;
-  padding: 5px;
-}
-div.bluebox h2.top {
-  margin: -5px -5px 5px -5px;
-  border-style: solid;
-  border-color: #638aae;
-  border-width: 1px 0 1px 0;
-  padding: 2px 5px 2px 5px;
-  background-color: #e6eadb;
-  font-size: 1em;
-}
-td.published-count, td.censored-count {
-  text-align: center;
-}
-
 div.comment-description {
   background-color: #EEEDF6;
   border: 1px solid #ddd;
   padding: 10px;
 }
-
-code.search-example {
-  display: block;
-  padding: 5px;
-  background-color: #ddd;
-}
-
-td.version-and-total, td.version, td.votes {
-  text-align: center;
-}
-
 
 table.versions {
 		width: 700px;
@@ -391,21 +321,19 @@ table.versions .source {
 }
 table.versions .version {
 		width: 3em;
+		text-align: center;
 }
 table.versions a.version_title {
 		text-decoration: none;
 }
 table.versions p.version_text {
-	font-size: 0.8em;
-	margin-top: 0;
+		font-size: 0.8em;
+		margin-top: 0;
 }
 
 
 div.pagination {
-		width: 700px;
-		text-align: center;
 		padding-top: 1em;
-
 }
 div.pagination span.current {
 		font-weight: bold;
@@ -416,9 +344,29 @@ div.pagination a, div.pagination span.next_page, div.pagination span.prev_page, 
 		text-decoration: none;
 }
 
+div.pagination span.prev_page, div.pagination a.prev_page {
+		padding-left: 20px;
+		background-image: url(/images/arrow_left.png);
+		background-position: center left;
+		background-repeat: no-repeat;
+
+}
+
+div.pagination span.next_page, div.pagination a.next_page {
+		padding-right: 20px;
+		background-image: url(/images/arrow_right.png);
+		background-position: center right;
+		background-repeat: no-repeat;
+}
+
 div.pagination a:hover {
 		text-decoration: underline;
 }
 div.version_list {
-width: 100%;
+		text-align: center;
+		width: 100%;
+}
+
+table.version_diff {
+		margin-top: 1em;
 }
