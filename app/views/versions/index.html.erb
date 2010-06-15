@@ -42,7 +42,7 @@
 			<cite title="<%= version.url %>"><%= version.news_article.source %></cite>
 		</td>
 		<td class="created_at">
-			<time datetime="<%= version.created_at %>">
+			<time datetime="<%= version.created_at.iso8601 %>">
 			<% if version.created_at < Time.now - 2.hours %>
 			<%= version.created_at.strftime("%d %b %Y, %H:%M") %>
 			<% else %>
