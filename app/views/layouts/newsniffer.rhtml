@@ -2,56 +2,45 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title><%= h(@title) + " - " if @title -%>News Sniffer</title>
-  <link href="/stylesheets/newsniffer.css" media="screen" rel="Stylesheet" type="text/css" />
+	<title><%= h(@title) + " - " if @title -%>News Sniffer</title>
+	<link href="/stylesheets/newsniffer.css" media="screen" rel="Stylesheet" type="text/css" />
 	<%= javascript_include_tag :defaults, :cache => true %>
   <%= yield :head %>
 </head>
 <body>
-    <div id="header">
-      <img src="/stylesheets/layout/pinleft.png" alt="" id="pinleft"/>
-      <img src="/stylesheets/layout/newsniffer-text.png" alt="News Sniffer" id="logo"/>
-  	  <div id="nav">
-          <ul>
-      	    <li><%= link_to 'Home', {:controller => 'pages',
-      	      :action => 'summary' },
-              :class => (controller.controller_name == 'pages' and controller.action_name == 'summary') ? "selected" : "" %></li>
-      	    <li><%= link_to 'About', { :controller => 'pages',
-      	      :action => :about }, :class => (controller.controller_name == 'pages' and controller.action_name != "summary") ? "selected" : "" %></li>
-      	    <li><%= link_to 'News Articles', articles_url, 
-              :title => 'News article revisions',
-              :class => controller.controller_name =~ /news_articles|versions/ ? "selected" : ""%></li>
-            <li><a href="/blog/">Blog</a></li>
-          </ul>
-  	  </div> 
-    </div>
-    <div id="crossbar">
-    </div>
-      <div id="sidebar">
-        <ul>
-        <%= render :partial => "partials/sidebar_pages" if
-          controller.controller_name == 'pages' %>
-        <%= render :partial => "partials/sidebar_revisionista" if 
-          controller.controller_name =~ /news_articles|versions/ -%>
-          <li>&nbsp;</li>
-        </ul>
-      </div>
-      <div id="content">
+	<div id="header">
+		<img src="/stylesheets/layout/newsniffer-text.png" alt="News Sniffer" id="logo"/>
+		<div id="nav">
+			<ul>
+				<li>
+				<%= link_to 'News Article Revisions', versions_url, 
+          :title => 'News article Revisions',
+            :class => controller.controller_name == "versions" ? "selected" : "" %>
+				</li>
+				<li><a href="/blog/">Blog</a></li>
+				<li>
+					<%= link_to 'About', '/blog/about'%>
+				</li>
+			</ul>
+		</div> 
+	</div>
+	<div id="crossbar"></div>
+	<div id="content">
+    <% if flash[:notice] %>
+			<div id="notice"><%= flash[:notice] %></div>
+    <% end -%>
+    <% if flash[:error] %>
+			<div id="error"><%= flash[:error] %></div>
+    <% end -%>
 
-        <% if flash[:notice] -%>
-        <div id="notice"><%= flash[:notice] %></div>
-        <%= javascript_tag visual_effect(:highlight, 'notice',
-        	:duration => 2) %>
-        <% end -%>
-        <% if flash[:error] -%>
-        <div id="error"><%= flash[:error] %></div>
-        <%= javascript_tag visual_effect(:highlight, 'error', :duration => 2)%>
-        <% end -%>
+    <%= yield %>
+  </div>
 
-        <%= yield %>
-      </div>
-
-      <div id="footer">
-      </div>
+	<div id="footer">
+		<% cache(:footer_stats, :title => 2.hours) do %>
+			<p>Currently monitoring <%= number_with_delimiter(NewsArticle.count, ",") %> news articles 
+			with <%= number_with_delimiter(NewsArticleVersion.count, ",") %> different versions.</p>
+		<% end %>
+	</div>
 </body>
 </html>

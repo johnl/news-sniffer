@@ -74,7 +74,7 @@ class NewsArticleVersion < ActiveRecord::Base
       }
       @xapian_db = XapianFu::XapianDb.new(:dir => xapian_db_path,
                                           :create => true, :fields => fields,
-                                          :index_positions => false)
+                                          :index_positions => true)
     end
   end
 

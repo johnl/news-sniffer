@@ -21,7 +21,7 @@ class NewsArticlesController < ApplicationController
   def index
     @title = "Latest news articles"
     @articles = NewsArticle.paginate :include => 'versions', :page => params[:page] || 1,
-      :order => "news_articles.id desc"
+      :order => "news_articles.id desc", :per_page => 20
   end
 
   def show

@@ -1,26 +1,18 @@
 class VersionsController < ApplicationController
 
-  layout 'newsniffer'
-
   def index
-    @title = "Versions"
-    @versions = NewsArticleVersion.paginate :per_page => 16, :page => params[:page]  || 1,
+    if params[:q].to_s.empty?
+      @versions = NewsArticleVersion.paginate :per_page => 16, :page => params[:page]  || 1,
       :include => 'news_article', :order => "news_article_versions.id desc"
+    else
+      @search = params[:q].to_s
+      @versions = NewsArticleVersion.xapian_search(@search, :per_page => 16, :collapse => :news_article_id,
+                                                 :page => params[:page] || 1)
+    end
     respond_to do |format|
       format.html
       format.rss { render :content_type => 'application/rss+xml', :layout => false }
     end
-  end
-
-  def search
-    @title = "Search"
-    @search = params[:q].to_s
-    @versions = NewsArticleVersion.xapian_search(@search, :per_page => 16,
-                                                 :page => params[:page] || 1)
-    respond_to do |format|
-      format.html
-      format.rss { render :action => :index, :content_type => 'application/rss+xml', :layout => false }
-    end    
   end
 
   def show
@@ -36,12 +28,9 @@ class VersionsController < ApplicationController
 
   def diff
     @article = NewsArticle.find(params[:article_id])
-    @versions = @article.versions.find(:all, :order => 'version asc', :select => "id, votes, version, title")
+    @versions = @article.versions.find :all, :order => 'version asc'
     @va = @article.versions.find_by_version!(params[:version_a])
     @vb = @article.versions.find_by_version!(params[:version_b])
-
-    @next = @versions.fetch(@va.version + 1, nil)
-    @prev = @versions.fetch(@vb.version - 1, nil) if @vb.version > 0
 
     @diff = HTMLDiff::diff(@vb.text.split(/\n/), @va.text.split(/\n/))
   rescue ActiveRecord::RecordNotFound => e
