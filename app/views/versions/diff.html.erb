@@ -13,7 +13,7 @@ It will not be checked again for changes.
 <% elsif @article.next_check_after < (Time.now - 40.days) %>
 It last changed over 40 days ago and won't be checked again for changes.
 <% else %>
-The next check for changes will be <time datetime='<%= @article.next_check_after %>'><%= @article.next_check_after.to_s(:long) %></time>
+The next check for changes will be <time datetime='<%= @article.next_check_after.iso8601 %>'><%= @article.next_check_after.to_s(:long) %></time>
 <% end %>
 </p>
 <!--
@@ -28,15 +28,13 @@ The next check for changes will be <time datetime='<%= @article.next_check_after
 
 <p>The article has changed <var><%= @versions.size %></var> times. There is an <%= link_to 'RSS feed of changes', article_url(@article, :format => :rss), :class => 'feed rss' %> available.</p>
 
-</p>
-
 <div class="version_list pagination">
 <% if @vb.version == 0 %>
 <span class="prev_page disabled">Previous version</span>
 <% else %>
 <%= link_to 'Previous version', { :action => 'diff',
   :version_a => @vb.version,
-  :version_b => @vb.version - 1 }, :class => 'prev_page' %></td>
+  :version_b => @vb.version - 1 }, :class => 'prev_page' %>
 <% end %>
 
 <% @versions.each do |version| %>
@@ -61,17 +59,26 @@ diff_url(@article, version.version - 1, version.version),
 
 <table class="version_diff">
 <tr>
-<th width="50%"><small>Version <%= @vb.version %></small></th>
-<th width="50%"><small>Version <%= @va.version %></small></th>
+	<th class="version"><small>Version <%= @vb.version %></small></th>
+	<th class="version"><small>Version <%= @va.version %></small></th>
 </tr>
 <tr>
-<% if @va.title == @vb.title %>
-<th width="50%"><h3><%= h @vb.title %></h3><%= @vb.created_at %></th>
-<th width="50%"><h3><%= h @va.title %></h3><%= @va.created_at %></th>
-<% else %>
-<th width="50%"><h3><del><%= h @vb.title %></del></h3><%= @vb.created_at %></th>
-<th width="50%"><h3><ins><%= h @va.title %></ins></h3><%= @va.created_at %></th>
-<% end %>
+	<% if @va.title == @vb.title %>
+	<th class="title"><%= h @vb.title %></th>
+	<th class="title"><%= h @va.title %></th>
+	<% else %>
+	<th class="title"><del><%= h @vb.title %></del></th>
+	<th class="title"><ins><%= h @va.title %></ins></th>
+	<% end %>
+</tr>
+<tr>
+	<td class="time"><time datetime="<%= @vb.created_at.iso8601 %>"><%= @vb.created_at %></time></td>
+	<td class="time">
+		<time datetime="<%= @va.created_at.iso8601 %>">
+		<%= @va.created_at %>
+		</time> 
+		(<%= distance_of_time_in_words(@vb.created_at, @va.created_at) %> <%= @va.created_at > @vb.created_at ? "later" : "earlier" %>)
+	</td>
 </tr>
 <%= @diff %>
 </table>

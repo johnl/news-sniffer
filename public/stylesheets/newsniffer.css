@@ -368,5 +368,16 @@ div.version_list {
 }
 
 table.version_diff {
+		width: 100%;
 		margin-top: 1em;
+}
+table.version_diff td, table.version_diff th {
+		width: 50%;
+}
+table.version_diff td.time {
+		text-align: center;
+		font-size: 0.9em;
+}
+table.version_diff th.title {
+		font-size: 1.2em
 }
