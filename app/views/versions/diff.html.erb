@@ -24,9 +24,9 @@ The next check for changes will be <time datetime='<%= @article.next_check_after
   </span>
 </p>-->
 
-<p>You can find the current article at its original source at <cite class="article_url"><%= link_to @article.url %></cite></p>
+<p>You can find the current article at its original source at <cite class="article_url"><%= link_to @article.url, @article.url, :rel => "alternate external author" %></cite></p>
 
-<p>The article has changed <var><%= @versions.size %></var> times. There is an <%= link_to 'RSS feed of changes', article_url(@article, :format => :rss), :class => 'feed rss' %> available.</p>
+<p>The article has changed <var><%= @versions.size %></var> times. There is an <%= link_to 'RSS feed of changes', article_url(@article, :format => :rss), :class => 'feed rss', :rel => "alternate" %> available.</p>
 
 <div class="version_list pagination">
 <% if @vb.version == 0 %>
