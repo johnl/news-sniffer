@@ -8,8 +8,10 @@
   <%= yield :head %>
 </head>
 <body>
+	<header>
 	<div id="header">
 		<img src="/stylesheets/layout/newsniffer-text.png" alt="News Sniffer" id="logo"/>
+		<nav>
 		<div id="nav">
 			<ul>
 				<li>
@@ -22,8 +24,10 @@
 					<%= link_to 'About', '/blog/about'%>
 				</li>
 			</ul>
-		</div> 
+		</div>
+		</nav>
 	</div>
+	</header>
 	<div id="crossbar"></div>
 	<div id="content">
     <% if flash[:notice] %>
@@ -36,11 +40,13 @@
     <%= yield %>
   </div>
 
+	<footer>
 	<div id="footer">
-		<% cache(:footer_stats, :title => 2.hours) do %>
+		<% cache(:footer_stats, :ttl => 2.hours) do %>
 			<p>Currently monitoring <%= number_with_delimiter(NewsArticle.count, ",") %> news articles 
 			with <%= number_with_delimiter(NewsArticleVersion.count, ",") %> different versions.</p>
 		<% end %>
 	</div>
+	</footer>
 </body>
 </html>
