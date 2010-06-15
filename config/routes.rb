@@ -10,6 +10,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :articles, :controller => :news_articles, :collection => { :search => :get } do |article|
     article.resources :versions
   end
+  
+  map.connect '/', :controller => :versions, :action => :index
 
   map.connect ':controller/:action/:id'
 end
