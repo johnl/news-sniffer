@@ -59,8 +59,15 @@ class NewsArticleVersion < ActiveRecord::Base
   def self.xapian_search(query, options = { })
     xapian_db.ro.reopen
     docs = xapian_db.search(query, options)
-    docs.each_with_index { |d,i| docs[i] = find(d.id) }
-    docs
+    docs.each_with_index do |d,i|
+      begin
+        docs[i] = find(d.id)
+      rescue ActiveRecord::RecordNotFound
+        # Handle documents deleted from db but not from Xapian
+        docs[i] = nil
+      end
+    end
+    docs.compact
   end
 
   def self.xapian_db
