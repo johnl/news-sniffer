@@ -1,5 +1,6 @@
 source :rubygems
 
+gem "rack"
 gem "rails", "2.3.6"
 gem "mysql"
 gem "curb", "0.7.15"
