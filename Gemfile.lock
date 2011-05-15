@@ -1,0 +1,40 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    actionmailer (2.3.6)
+      actionpack (= 2.3.6)
+    actionpack (2.3.6)
+      activesupport (= 2.3.6)
+      rack (~> 1.1.0)
+    activerecord (2.3.6)
+      activesupport (= 2.3.6)
+    activeresource (2.3.6)
+      activesupport (= 2.3.6)
+    activesupport (2.3.6)
+    curb (0.7.15)
+    diff-lcs (1.1.2)
+    htmlentities (4.3.0)
+    oniguruma (1.1.0)
+    rack (1.1.2)
+    rails (2.3.6)
+      actionmailer (= 2.3.6)
+      actionpack (= 2.3.6)
+      activerecord (= 2.3.6)
+      activeresource (= 2.3.6)
+      activesupport (= 2.3.6)
+      rake (>= 0.8.3)
+    rake (0.8.7)
+    web-page-parser (0.22)
+      htmlentities (>= 4.0.0)
+      oniguruma (>= 1.1.0)
+    xapian-fu (1.1.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  curb (= 0.7.15)
+  diff-lcs (= 1.1.2)
+  rails (= 2.3.6)
+  web-page-parser (= 0.22)
+  xapian-fu (= 1.1.2)

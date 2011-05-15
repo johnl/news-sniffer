@@ -1,0 +1,14 @@
+source :rubygems
+
+gem "rails", "2.3.6"
+gem "curb", "0.7.15"
+
+
+# web-page-parser requires Debian/Ubuntu package libonig-dev 
+gem "web-page-parser", "0.22"
+gem "diff-lcs", "1.1.2", :require => "diff/lcs"
+
+# Requires xapian library, best installed on Debian/Ubuntu with t
+# package "libxapian-ruby1.8"
+gem "xapian-fu", "1.1.2"
+
