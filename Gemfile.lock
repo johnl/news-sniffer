@@ -25,7 +25,7 @@ GEM
       activesupport (= 2.3.6)
       rake (>= 0.8.3)
     rake (0.8.7)
-    web-page-parser (0.22)
+    web-page-parser (0.23)
       htmlentities (>= 4.0.0)
       oniguruma (>= 1.1.0)
     xapian-fu (1.1.2)
@@ -39,5 +39,5 @@ DEPENDENCIES
   mysql
   rack
   rails (= 2.3.6)
-  web-page-parser (= 0.22)
+  web-page-parser (= 0.23)
   xapian-fu (= 1.1.2)
