@@ -48,7 +48,10 @@ class NewsArticleVersion < ActiveRecord::Base
   def to_xapian_doc
     XapianFu::XapianDoc.new(:id => id, :title => title, :text => text,
                             :news_article_id => news_article_id,
-                            :created_at => created_at.to_date, :version => version)
+                            :created_at => created_at.to_date,
+                            :version => version,
+                            :source => news_article.source,
+                            :url => url)
   end
 
   def text=(new_text)
@@ -77,7 +80,9 @@ class NewsArticleVersion < ActiveRecord::Base
       fields = {
         :created_at => { :type => Date, :store => true },
         :news_article_id => { :type => Fixnum, :store => true },
-        :version => Fixnum
+        :version => Fixnum,
+        :source => { :type => String },
+        :url => { :type => String }
       }
       @xapian_db = XapianFu::XapianDb.new(:dir => xapian_db_path,
                                           :create => true, :fields => fields,
