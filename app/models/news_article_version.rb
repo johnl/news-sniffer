@@ -82,7 +82,9 @@ class NewsArticleVersion < ActiveRecord::Base
         :news_article_id => { :type => Fixnum, :store => true },
         :version => Fixnum,
         :source => { :type => String },
-        :url => { :type => String }
+        :url => { :type => String },
+        :title => { :type => String },
+        :text => { :type => String }
       }
       @xapian_db = XapianFu::XapianDb.new(:dir => xapian_db_path,
                                           :create => true, :fields => fields,
