@@ -9,7 +9,7 @@ gem "rdoc"
 gem "curb", "0.8.0"
 
 # web-page-parser requires Debian/Ubuntu package libonig-dev 
-gem "web-page-parser", "0.24"
+gem "web-page-parser", :git => "git://github.com/johnl/web-page-parser.git", :ref => "0aebbb45"
 gem "diff-lcs", "1.1.3", :require => "diff/lcs"
 
 # Requires xapian library, best installed on Debian/Ubuntu with t
