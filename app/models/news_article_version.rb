@@ -1,6 +1,6 @@
 
 #    News Sniffer
-#    Copyright (C) 2007-2008 John Leach
+#    Copyright (C) 2007-2012 John Leach
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
@@ -95,7 +95,7 @@ class NewsArticleVersion < ActiveRecord::Base
   private
 
   def self.xapian_db_path
-    File.join(RAILS_ROOT, 'xapian/news_article_versions')
+    File.join(Rails.root, 'xapian/news_article_versions')
   end
 
   def setup_text

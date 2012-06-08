@@ -88,7 +88,7 @@ class NewsArticle < ActiveRecord::Base
   end
 
   def latest_text_hash
-    versions.find(:first, :select => 'text_hash', :order => 'version desc').text_hash rescue nil
+    versions.first(:select => 'text_hash', :order => 'version desc').text_hash rescue nil
   end
   
   def count_versions_by_hash(count_hash)
