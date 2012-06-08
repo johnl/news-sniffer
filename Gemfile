@@ -1,7 +1,7 @@
 source :rubygems
 
-gem "rails", "3.0.6"
-gem "mysql"
+gem "rails", "3.1.0"
+gem "mysql2"
 gem 'will_paginate', '~> 3.0'
 gem 'simple-rss'
 
