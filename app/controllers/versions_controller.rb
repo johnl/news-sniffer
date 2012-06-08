@@ -1,3 +1,4 @@
+require "diff_html"
 class VersionsController < ApplicationController
 
   def index

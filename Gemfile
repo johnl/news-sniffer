@@ -1,8 +1,9 @@
 source :rubygems
 
-gem "rack"
-gem "rails", "2.3.11"
+gem "rails", "3.0.6"
 gem "mysql"
+gem "simple-rss"
+gem 'will_paginate', '~> 3.0'
 
 # requires ubuntu packages libcurl3 libcurl3-gnutls libcurl4-openssl-dev
 gem "curb", "0.8.0"

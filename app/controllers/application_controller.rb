@@ -1,5 +1,5 @@
 #    News Sniffer
-#    Copyright (C) 2007-2008 John Leach
+#    Copyright (C) 2007-2012 John Leach
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
@@ -18,6 +18,7 @@
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
   helper :all
+  protect_from_forgery
 
   layout 'newsniffer'
 

@@ -1,3 +1,19 @@
+#    News Sniffer
+#    Copyright (C) 2007-2012 John Leach
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 class NewsArticleFeed < ActiveRecord::Base
   validates_presence_of :name, :url, :source
   validates_uniqueness_of :name, :url
@@ -5,7 +21,7 @@ class NewsArticleFeed < ActiveRecord::Base
   validates_presence_of :next_check_after
   before_validation :update_next_check_after, :unless => :next_check_after?
   
-  named_scope :due_check, lambda { 
+  scope :due_check, lambda { 
     {
       :conditions => ['next_check_after < ?', Time.now.utc]
     }

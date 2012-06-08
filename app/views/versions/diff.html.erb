@@ -16,13 +16,6 @@ It last changed over 40 days ago and won't be checked again for changes.
 The next check for changes will be <time datetime='<%= @article.next_check_after.iso8601 %>'><%= @article.next_check_after.to_s(:long) %></time>
 <% end %>
 </p>
-<!--
-<p>It has  <span id="reccounter<%=@va.id %>"><%= @va.votes %> recommendations</span> - 
-  <span id="recommend-<%=@va.id %>">
-    <%= link_to_remote 'Recommend this revision', { :url => vote_version_url(@va) }, 
-    :title => "Vote for this revision"  %>.
-  </span>
-</p>-->
 
 <p>You can find the current article at its original source at <cite class="article_url"><%= link_to @article.url, @article.url, :rel => "alternate external author" %></cite></p>
 
@@ -80,5 +73,5 @@ diff_url(@article, version.version - 1, version.version),
 		(<%= distance_of_time_in_words(@vb.created_at, @va.created_at) %> <%= @va.created_at > @vb.created_at ? "later" : "earlier" %>)
 	</td>
 </tr>
-<%= @diff %>
+<%= raw @diff %>
 </table>

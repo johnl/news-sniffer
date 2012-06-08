@@ -43,8 +43,8 @@
 	<footer>
 	<div id="footer">
 		<% cache(:footer_stats, :ttl => 2.hours) do %>
-			<p>Currently monitoring <%= number_with_delimiter(NewsArticle.count, ",") %> news articles 
-			with <%= number_with_delimiter(NewsArticleVersion.count, ",") %> different versions.</p>
+			<p>Currently monitoring <%= number_with_delimiter(NewsArticle.count, :separator => ",") %> news articles 
+			with <%= number_with_delimiter(NewsArticleVersion.count, :separator => ",") %> different versions.</p>
 		<% end %>
 	</div>
 	</footer>
