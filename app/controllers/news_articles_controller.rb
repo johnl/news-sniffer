@@ -26,7 +26,7 @@ class NewsArticlesController < ApplicationController
 
   def show
     @article = NewsArticle.find(params[:id])
-    @versions = @article.versions.all(:order => 'version asc', :select => "id, votes, version, title, created_at")
+    @versions = @article.versions.all(:order => 'version asc', :select => "id, version, title, created_at")
     respond_to do |format|
       format.html
       format.rss { render :content_type => 'application/rss+xml', :layout => false }

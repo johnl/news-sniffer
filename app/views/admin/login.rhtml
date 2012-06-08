@@ -1,7 +1,0 @@
-<% if session[:admin] %>
-<p>You are currently logged in.  Click here to <%= link_to "log out", :action => 'logout' %></p>
-<% else %>
-<%= form_tag :action => 'login' do %>
-<p>Enter password <%= password_field_tag 'pswd'%> <%= submit_tag 'Login' %></p>
-<% end %>
-<% end %>

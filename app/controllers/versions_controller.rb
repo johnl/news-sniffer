@@ -38,26 +38,4 @@ class VersionsController < ApplicationController
     render :status => 404, :text => e.message
   end
 
-  def vote
-    @version = NewsArticleVersion.find(params[:id])
-    @vote = Vote.vote! @version, session[:session_id]
-    respond_to do |format|
-      format.html do
-        flash[:notice] = 'Thank you for your recommendation'
-        redirect_to news_article_version_url(@version.article, @version)
-      end
-      format.js
-    end
-  rescue ActiveRecord::RecordNotFound => e
-  rescue ActiveRecord::RecordInvalid => e
-    @exception = e
-    respond_to do |format|
-      format.html do
-        flash[:error] = e.message
-        redirect_to news_articles_url
-      end
-      format.js
-    end
-  end
-
 end
