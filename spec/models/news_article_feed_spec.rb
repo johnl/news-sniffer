@@ -21,13 +21,13 @@ describe NewsArticleFeed do
   describe "next_check_after" do
     it "should be set to asap on create" do
       a = NewsArticleFeed.create(@valid_attributes.merge(:next_check_after => nil))
-      a.next_check_after.should be_close(Time.now, 10)
+      a.next_check_after.should be_within(10).of(Time.now)
     end
     
     it "should be set to Time.now + check_period when update_next_check_after is called" do
       a = NewsArticleFeed.create(@valid_attributes.merge(:next_check_after => nil))
       a.update_next_check_after!
-      a.next_check_after.should be_close(Time.now + a.check_period, 10)
+      a.next_check_after.should be_within(10).of(Time.now + a.check_period)
     end
   end
   
@@ -63,7 +63,7 @@ describe NewsArticleFeed do
     it "should create new NewsArticles when given rss feed data" do
       f = NewsArticleFeed.create!(@valid_attributes)
       articles = f.create_news_articles(some_rss_feed_xml)
-      articles.size.should be_close(57, 10)
+      articles.size.should be_within(10).of(57)
       articles.first.should be_a_kind_of NewsArticle
       articles.collect { |e| e.class }.uniq.size.should == 1  
       articles.first.new_record?.should == false

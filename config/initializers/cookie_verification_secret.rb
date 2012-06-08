@@ -1,1 +1,1 @@
-Rails.application.config.cookie_secret = 'eejeewe0wah7efoziejau7jiGhuol1ee'
+Rails.application.config.secret_token = 'eejeewe0wah7efoziejau7jiGhuol1ee'

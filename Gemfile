@@ -2,8 +2,8 @@ source :rubygems
 
 gem "rails", "3.0.6"
 gem "mysql"
-gem "simple-rss"
 gem 'will_paginate', '~> 3.0'
+gem 'simple-rss'
 
 # requires ubuntu packages libcurl3 libcurl3-gnutls libcurl4-openssl-dev
 gem "curb", "0.8.0"
@@ -20,4 +20,6 @@ gem "xapian-fu", "1.3.2"
 group :development do
   gem "rdoc"
   gem "sqlite3"
+	gem "rspec-core"
+	gem "rspec-rails"
 end

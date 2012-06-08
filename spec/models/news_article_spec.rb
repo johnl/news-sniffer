@@ -67,14 +67,14 @@ describe NewsArticle do
   
   describe "next_check_after" do
     it "should default to asap on create" do
-      a_news_article.next_check_after.should be_close(Time.now, 10)
+      a_news_article.next_check_after.should be_within(10).of(Time.now)
     end
 
     it "should be set to 30.minutes after the first version is found" do
       na = a_news_article
       p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
       na.update_from_page(p)
-      na.next_check_after.should be_close(Time.now + 30.minutes, 10)
+      na.next_check_after.should be_within(10).of(Time.now + 30.minutes)
     end
     
     it "should be reset to 30 minutes when a new version is found" do
@@ -83,7 +83,7 @@ describe NewsArticle do
       na.update_from_page(p1)
       p2 = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html_with_a_change)
       na.update_from_page(p2)
-      na.next_check_after.should be_close(Time.now + 30.minutes, 10)
+      na.next_check_after.should be_within(10).of(Time.now + 30.minutes)
     end
     
     it "should increase by 20% when a check is made but a new version is not found" do
@@ -92,7 +92,7 @@ describe NewsArticle do
       period = 30.minutes
       30.times do
         na.update_from_page(p)
-        na.next_check_after.should be_close(Time.now + period, 10)
+        na.next_check_after.should be_within(10).of(Time.now + period)
         period = (period * 1.2).round
       end
     end
@@ -102,7 +102,7 @@ describe NewsArticle do
       p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html_with_no_title)
       na.update_from_page(p)
       na.reload
-      na.next_check_after.should be_close(Time.now + 30.minutes, 10)
+      na.next_check_after.should be_within(10).of(Time.now + 30.minutes)
     end
     
   end
@@ -141,7 +141,8 @@ describe NewsArticle do
   describe "due_check scope" do
     
     it "should exclude articles with a nil next_check_after field" do
-      a = a_news_article(:next_check_after => nil)
+      a = a_news_article
+      a.update_attribute(:next_check_after, nil) # can't set this on create as it set pre-validation
       NewsArticle.count.should == 1
       NewsArticle.due_check.size.should == 0
     end
