@@ -37,11 +37,10 @@ class NewsArticle < ActiveRecord::Base
   # Retrieve the news page from the web, parse it and create a new
   # version if necessary, returning the saved NewsArticleVersion
   def update_from_source
-    page_data = HTTP::zget(url)
     if parser
-      page = eval("WebPageParser::#{parser}").new(:url => url, :page => page_data)
+      page = eval("WebPageParser::#{parser}").new(:url => url)
     else
-      page = WebPageParser::ParserFactory.parser_for(:url => url, :page => page_data)
+      page = WebPageParser::ParserFactory.parser_for(:url => url)
     end
     if page
       update_from_page(page)
