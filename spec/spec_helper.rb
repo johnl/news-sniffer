@@ -62,3 +62,7 @@ end
 def some_rss_feed_xml
   @some_rss_feed_xml ||= File.read("spec/fixtures/rss_feeds/bbc_uk_politics.xml")
 end
+
+def some_nyt_rss_feed_xml
+  @some_nyt_rss_feed_xml ||= File.read("spec/fixtures/rss_feeds/nyt_global_home.xml")
+end

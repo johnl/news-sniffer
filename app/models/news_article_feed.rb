@@ -48,14 +48,14 @@ class NewsArticleFeed < ActiveRecord::Base
       url = e[:link]
       page = WebPageParser::ParserFactory.parser_for(:url => url, :page => nil)
       next nil if page.nil?
-      guid = e.guid || e[:link]
+      guid = e[:guid] || url
       next nil if NewsArticle.find_by_guid(guid)
       a = NewsArticle.new
       a.guid = guid
-      date = e.pubDate || e[:dc_date]
+      date = e[:pubDate] || e[:dc_date]
       a.published_at = Time.parse(date.to_s) rescue Time.now
       a.source = source
-      a.title = e.title
+      a.title = e[:title]
       a.url = url
       a.parser = page.class.to_s.split('::').last
       begin
@@ -74,12 +74,19 @@ class NewsArticleFeed < ActiveRecord::Base
   
   # retrieve and parse the rss feed and return an array of SimpleRSS entry items
   def get_rss_entries(rssdata = nil)
-    rssdata = HTTP::zget(url) unless rssdata
+    @http_session ||= WebPageParser::HTTP::Session.new
+    begin
+      rssdata = @http_session.get(url) unless rssdata
+    rescue StandardError => e
+      logger.error "NewsArticleFeed #{id}, RSS Error: #{e}"
+      return []
+    end
+
     entries = []
     begin
-      rss = SimpleRSS.parse(rssdata)
-      entries = rss.entries
-    rescue SimpleRSSError => e
+      fp = FeedParser.new(:feed_xml => rssdata)
+      entries = fp.parse.items.collect { |i| i.as_json }
+    rescue FeedParser::UnknownFeedType => e
       logger.error "NewsArticleFeed #{id}, RSS Error: #{e}"
     end
     entries

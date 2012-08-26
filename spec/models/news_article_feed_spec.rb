@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe NewsArticleFeed do
@@ -54,8 +55,16 @@ describe NewsArticleFeed do
       entry[:guid].should_not be_nil
       entry[:link].should_not be_nil
     end
-  
-    it "should convert html entities in titles to utf8"
+
+    it "should handle atom-style nyt rss" do
+      entries = NewsArticleFeed.new.get_rss_entries(some_nyt_rss_feed_xml)
+      entries.index { |e| e[:link] !~ URI.regexp }.should == nil
+    end
+
+    it "should convert html entities in titles to characters" do
+      entries = NewsArticleFeed.new.get_rss_entries("<rss><channel><item><title>&gt; &amp;</title></item></channel></rss>")
+      entries.first[:title].should == "> &"
+    end
     
   end
 

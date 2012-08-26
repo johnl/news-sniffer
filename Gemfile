@@ -3,7 +3,7 @@ source :rubygems
 gem "rails", "3.1.8"
 gem "mysql2"
 gem 'will_paginate', '~> 3.0'
-gem 'simple-rss'
+gem 'feed_parser', :git => "https://github.com/johnl/feed_parser.git", :ref => "fe4b7095"
 
 # web-page-parser requires Debian/Ubuntu package libonig-dev (on ruby1.8)
 gem "web-page-parser", :git => "git://github.com/johnl/web-page-parser.git", :ref => "4e05156b", :require => "web-page-parser"
