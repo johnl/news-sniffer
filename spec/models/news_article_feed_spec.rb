@@ -90,6 +90,13 @@ describe NewsArticleFeed do
       articles = f.create_news_articles(some_rss_feed_xml)
       articles.size.should == 0      
     end
+
+    it "should use the guid if it's a valid url" do
+      f = NewsArticleFeed.create!(@valid_attributes)
+      articles = f.create_news_articles(some_rss_feed_xml)
+      articles.first.url.should_not =~ /go\/rss/
+    end
+
     
   end
 

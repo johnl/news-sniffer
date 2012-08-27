@@ -45,7 +45,13 @@ class NewsArticleFeed < ActiveRecord::Base
     rss = get_rss_entries(rssdata)
     entries = NewsArticleFeedFilter.filter(rss.entries)
     articles = entries.collect do |e|
-      url = e[:link]
+      # guid is usually a better link than link, so use it if it looks
+      # like a URI
+      if e[:guid] =~ URI.regexp
+        url = e[:guid]
+      else
+        url = e[:link]
+      end
       page = WebPageParser::ParserFactory.parser_for(:url => url, :page => nil)
       next nil if page.nil?
       guid = e[:guid] || url
