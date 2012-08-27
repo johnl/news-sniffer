@@ -33,7 +33,8 @@ module HTMLDiff
   class ParagraphDiff
 
     def to_html
-      @rows.collect { |row| "<tr><td>#{row.first}</td><td>#{row.last}</td></tr>" }.join("\n")
+      i = 0
+      @rows.collect { |row| "<tr id='p#{i+=1}'><td>#{row.first}</td><td>#{row.last}</td></tr>" }.join("\n")
     end
 
     def initialize

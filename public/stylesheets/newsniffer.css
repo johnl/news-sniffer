@@ -374,6 +374,10 @@ table.version_diff {
 table.version_diff td, table.version_diff th {
 		width: 50%;
 }
+table.version_diff tr:target td {
+   background: #ffffaa;
+	 padding: 0.5em;;
+}
 table.version_diff td.time {
 		text-align: center;
 		font-size: 0.9em;

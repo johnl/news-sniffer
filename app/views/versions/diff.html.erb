@@ -55,7 +55,7 @@ diff_url(@article, version.version - 1, version.version),
 	<th class="version"><small>Version <%= @vb.version %></small></th>
 	<th class="version"><small>Version <%= @va.version %></small></th>
 </tr>
-<tr>
+<tr id="title">
 	<% if @va.title == @vb.title %>
 	<th class="title"><%= h @vb.title %></th>
 	<th class="title"><%= h @va.title %></th>
