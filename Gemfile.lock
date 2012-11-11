@@ -1,12 +1,11 @@
 GIT
   remote: git://github.com/johnl/web-page-parser.git
-  revision: 4e05156bd72eacfa51d218c8dc74fb38926083cb
-  ref: 4e05156b
+  revision: 6c6d5d79392ea0464dd7e28007ea1a8cbccad126
+  ref: 6c6d5d79
   specs:
     web-page-parser (0.26)
       curb (>= 0.8)
       htmlentities (>= 4.0.0)
-      oniguruma (>= 1.1.0)
 
 GIT
   remote: https://github.com/johnl/feed_parser.git
@@ -49,7 +48,7 @@ GEM
       multi_json (>= 1.0, < 1.3)
     arel (2.2.3)
     builder (3.0.0)
-    curb (0.8.1)
+    curb (0.8.3)
     diff-lcs (1.1.3)
     erubis (2.7.0)
     hike (1.2.1)
@@ -127,6 +126,7 @@ DEPENDENCIES
   diff-lcs (= 1.1.3)
   feed_parser!
   mysql2
+  oniguruma (>= 1.1.0)
   rails (= 3.1.8)
   rdoc
   rspec-core
