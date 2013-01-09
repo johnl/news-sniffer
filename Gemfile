@@ -1,6 +1,6 @@
 source :rubygems
 
-gem "rails", "3.1.8"
+gem "rails", "~> 3.1.8"
 gem "mysql2"
 gem 'will_paginate', '~> 3.0'
 gem 'feed_parser', :git => "https://github.com/johnl/feed_parser.git", :ref => "fe4b7095"
