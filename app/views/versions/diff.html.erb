@@ -1,6 +1,7 @@
 <% content_for :head do %>
 	 <%= auto_discovery_link_tag(:rss, article_url(@article, :format => :rss), :title => "RSS feed of versions of this article") %>
 	 <link href="<%= @article.url %>" rel="external alternate author" title="Original article"/>
+	 <meta name="generator" content="<%= @article.parser %>"/>
 <% end %>
 
 <% @title = "'#{h(@article.title)}' diff viewer (#{@vb.version}/#{@va.version})" %>
