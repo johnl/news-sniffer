@@ -8,7 +8,7 @@ describe NewsArticle do
       :source => 'bbc',
       :guid => '7984711',
       :url => 'http://news.bbc.co.uk/1/hi/uk_politics/7984711.stm',
-      :parser => 'BbcNewsPageParserV2'
+      :parser => 'BbcNewsPageParserV5'
     }
     @more_valid_attributes = @valid_attributes.merge({ :guid => '7984712' })
     @expenses_row_article = @valid_attributes
@@ -27,7 +27,7 @@ describe NewsArticle do
 
   it "should create a NewsArticleVersion when given a string containing html" do
     na = a_news_article
-    p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+    p = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html)
     nav = na.update_from_page(p)
     nav.should be_a_kind_of NewsArticleVersion
     nav.new_record?.should == false
@@ -35,7 +35,7 @@ describe NewsArticle do
 
   it "should not create a new NewsArticleVersion if it has not changed since the last check" do
     na = a_news_article_with_one_version
-    p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+    p = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html)
     nav = na.update_from_page(p)
     nav.should be_nil
     na.versions.count.should == 1
@@ -43,23 +43,23 @@ describe NewsArticle do
   
   it "should not create a new NewsArticleVersion if it has been seen more than once before already" do
     na = a_news_article
-    p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+    p = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html)
     nav = na.update_from_page(p)
     nav.should be_a_kind_of NewsArticleVersion
     na.versions.count.should == 1
-    p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html_with_a_change)
+    p = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html_with_a_change)
     nav = na.update_from_page(p)
     nav.should be_a_kind_of NewsArticleVersion
     na.versions.count.should == 2
-    p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+    p = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html)
     nav = na.update_from_page(p)
     nav.should be_a_kind_of NewsArticleVersion
     na.versions.count.should == 3
-    p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html_with_a_change)
+    p = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html_with_a_change)
     nav = na.update_from_page(p)
     nav.should be_a_kind_of NewsArticleVersion
     na.versions.count.should == 4
-    p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+    p = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html)
     nav = na.update_from_page(p)
     nav.should == nil
     na.versions.count.should == 4    
@@ -72,23 +72,23 @@ describe NewsArticle do
 
     it "should be set to 30.minutes after the first version is found" do
       na = a_news_article
-      p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+      p = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html)
       na.update_from_page(p)
       na.next_check_after.should be_within(10).of(Time.now + 30.minutes)
     end
     
     it "should be reset to 30 minutes when a new version is found" do
       na = a_news_article
-      p1 = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+      p1 = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html)
       na.update_from_page(p1)
-      p2 = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html_with_a_change)
+      p2 = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html_with_a_change)
       na.update_from_page(p2)
       na.next_check_after.should be_within(10).of(Time.now + 30.minutes)
     end
     
     it "should increase by 20% when a check is made but a new version is not found" do
       na = a_news_article
-      p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+      p = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html)
       period = 30.minutes
       30.times do
         na.update_from_page(p)
@@ -99,7 +99,7 @@ describe NewsArticle do
     
     it "should increase when a check is made but a new version is invalid" do
       na = a_news_article
-      p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html_with_no_title)
+      p = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html_with_no_title)
       na.update_from_page(p)
       na.reload
       na.next_check_after.should be_within(10).of(Time.now + 30.minutes)
@@ -131,7 +131,7 @@ describe NewsArticle do
   
   it "should count it's versions by hash" do
     na = a_news_article_with_two_versions
-    p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+    p = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html)
     na.update_from_page(p)
     na.versions.count.should == 3
     na.count_versions_by_hash(na.versions[0].text_hash).should == 2

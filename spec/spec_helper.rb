@@ -32,28 +32,28 @@ def a_news_article(options = { })
 end
 
 def some_news_page_html
-  @a_news_page ||= File.read("spec/fixtures/web_pages/7984711-A.stm.html")
+  @a_news_page ||= File.read("spec/fixtures/web_pages/7984711-A.stm.html").force_encoding('iso-8859-1')
 end
 
 def some_news_page_html_with_a_change
-  @a_news_page_with_a_change ||= File.read("spec/fixtures/web_pages/7984711-B.stm.html")
+  @a_news_page_with_a_change ||= File.read("spec/fixtures/web_pages/7984711-B.stm.html").force_encoding('iso-8859-1')
 end
 
 def some_news_page_html_with_no_title
-  @some_news_page_html_with_no_title ||= File.read("spec/fixtures/web_pages/7984711-invalid.html")
+  @some_news_page_html_with_no_title ||= File.read("spec/fixtures/web_pages/7984711-invalid.html").force_encoding('iso-8859-1')
 end
 
 def a_news_article_with_one_version
   na = a_news_article
-  p = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
+  p = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html)
   na.update_from_page(p)
   na.reload
 end
 
 def a_news_article_with_two_versions
   na = a_news_article
-  p1 = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html)
-  p2 = WebPageParser::BbcNewsPageParserV2.new(:page => some_news_page_html_with_a_change)
+  p1 = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html)
+  p2 = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html_with_a_change)
   na.update_from_page(p1)
   na.update_from_page(p2)
   na.reload

@@ -8,3 +8,5 @@ tmp/sessions
 doc/app
 db/development_structure.sql
 xapian/
+.bundle
+vendor/bundle
