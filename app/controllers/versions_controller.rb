@@ -24,7 +24,11 @@ class VersionsController < ApplicationController
       @version = NewsArticleVersion.find(params[:id])
       @article = @version.news_article
     end
-    @versions = @article.versions.all(:order => 'version asc')
+    if @article.hidden?
+      render :text => "This article cannot be shown for legal reasons", :status => 410
+    else
+      @versions = @article.versions.all(:order => 'version asc')
+    end
   end
 
   def diff
@@ -34,6 +38,9 @@ class VersionsController < ApplicationController
     @vb = @article.versions.find_by_version!(params[:version_b])
 
     @diff = HTMLDiff::diff(@vb.text.split(/\n/), @va.text.split(/\n/))
+    if @article.hidden?
+      render :text => "This article cannot be shown for legal reasons", :status => 410
+    end
   rescue ActiveRecord::RecordNotFound => e
     render :status => 404, :text => e.message
   end
