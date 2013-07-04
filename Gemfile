@@ -18,7 +18,7 @@ gem "diff-lcs", "1.1.3", :require => "diff/lcs"
 
 # Requires xapian library, best installed on Debian/Ubuntu with t
 # package "libxapian-ruby1.8"
-gem "xapian-fu", "1.3.2"
+gem "xapian-fu", "1.5.0"
 
 group :development do
   gem "rdoc"
