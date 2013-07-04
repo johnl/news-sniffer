@@ -70,7 +70,7 @@ class NewsArticleVersion < ActiveRecord::Base
         docs[i] = nil
       end
     end
-    docs.compact
+    docs.compact!
   end
 
   def self.xapian_db
