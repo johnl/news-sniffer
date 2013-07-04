@@ -71,6 +71,7 @@ class NewsArticleVersion < ActiveRecord::Base
       end
     end
     docs.compact!
+    docs
   end
 
   def self.xapian_db
