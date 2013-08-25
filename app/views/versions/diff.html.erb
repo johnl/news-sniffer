@@ -4,7 +4,7 @@
 	 <meta name="generator" content="<%= @article.parser %>"/>
 <% end %>
 
-<% @title = "'#{h(@article.title)}' diff viewer (#{@vb.version}/#{@va.version})" %>
+<% @title = "'#{@article.title}' diff viewer (#{@vb.version}/#{@va.version})" %>
 
 <p>This article is from the source '<cite><%= @article.source %></cite>' and was first published or seen
 on <time datetime='<%= @article.created_at.iso8601 %>'><%= @article.created_at.utc.to_s(:long) %> (UTC)</time>.

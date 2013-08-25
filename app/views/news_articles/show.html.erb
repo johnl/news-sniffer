@@ -2,6 +2,7 @@
 	 <%= auto_discovery_link_tag(:rss, article_url(@article, :format => :rss), :title => "RSS feed of versions of this article") %>
 	 <meta name="generator" content="<%= @article.parser %>"/>
 <% end %>
+<% @title = "News Sniffer: #{@article.title}" %>
 <h1><%= @article.title %></h1>
 <p>This article is from '<strong><%= @article.source %></strong>', was first published or seen
 on <strong><%= @article.created_at.utc.to_s(:long) %> (UTC)</strong> and has <strong><%= @article.versions_count %> versions</strong>.</p
