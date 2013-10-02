@@ -1,3 +1,8 @@
+<% content_for :head do %>
+<meta name="robots" content="noindex,noarchive">
+<link href="<%= @version.news_article.url %>" rel="external alternate author" title="Original article"/>
+<meta name="generator" content="<%= @version.news_article.parser %>"/>
+<% end %>
 <h1><%= @version.title %></h1>
 <table>
 <tr>
