@@ -1,11 +1,9 @@
 source "https://rubygems.org"
 
-gem "rails", "~> 4.1.0"
+gem "rails", "~> 3.1.12"
 gem "mysql2"
 gem 'will_paginate', '~> 3.0'
 gem 'feed_parser', :git => "https://github.com/johnl/feed_parser.git", :ref => "fe4b7095"
-gem 'lograge', '~> 0.3.1'
-gem 'xapian'
 
 # Make web-page-parser faster
 platforms :ruby_18 do
@@ -14,23 +12,17 @@ platforms :ruby_18 do
 end
 
 # web-page-parser requires Debian/Ubuntu package libonig-dev (on ruby1.8)
-gem "web-page-parser", :git => "git://github.com/johnl/web-page-parser.git", :ref => 'f89ad9b', :require => "web-page-parser"
+gem "web-page-parser", :git => "git://github.com/johnl/web-page-parser.git", :ref => "ba50689", :require => "web-page-parser"
 
-gem "diff-lcs", '~>1.2.5', :require => "diff/lcs"
+gem "diff-lcs", "1.1.3", :require => "diff/lcs"
 
 # Requires xapian library, best installed on Debian/Ubuntu with t
 # package "libxapian-ruby1.8"
-gem "xapian-fu", "~>1.5.0"
+gem "xapian-fu", "1.5.0"
 
 group :development do
   gem "rdoc"
   gem "sqlite3"
-  gem "rspec-core"
-  gem "rspec-rails"
-  gem 'thin'
-end
-
-group "deployment" do
-  gem "capistrano", "~>3.4"
-  gem "capistrano-bundler"
+	gem "rspec-core"
+	gem "rspec-rails"
 end
