@@ -54,7 +54,8 @@ class NewsArticleFeed < ActiveRecord::Base
       end
       page = WebPageParser::ParserFactory.parser_for(:url => url, :page => nil)
       next nil if page.nil?
-      guid = e[:guid] || url
+      guid = page.guid_from_url if page.respond_to?(:guid_from_url)
+      guid ||= e[:guid] || url
       next nil if NewsArticle.find_by_guid(guid)
       a = NewsArticle.new
       a.guid = guid
