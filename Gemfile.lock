@@ -1,7 +1,7 @@
 GIT
   remote: git://github.com/johnl/web-page-parser.git
-  revision: a04ad5ed4410b1f8d9a3890e17195bc79d5bb5ad
-  ref: a04ad5ed
+  revision: 024e409abb84e444f58cd1caf0a1d6768a151722
+  ref: 024e409
   specs:
     web-page-parser (0.26)
       curb (>= 0.8)
