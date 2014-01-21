@@ -1,6 +1,6 @@
 
 #    News Sniffer
-#    Copyright (C) 2007-2012 John Leach
+#    Copyright (C) 2007-2014 John Leach
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by

@@ -1,5 +1,5 @@
 #    News Sniffer
-#    Copyright (C) 2007-2012 John Leach
+#    Copyright (C) 2007-2014 John Leach
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
@@ -20,13 +20,9 @@ class NewsArticleFeed < ActiveRecord::Base
   validates_numericality_of :check_period, :greater_than_or_equal_to => 300
   validates_presence_of :next_check_after
   before_validation :update_next_check_after, :unless => :next_check_after?
-  
-  scope :due_check, lambda { 
-    {
-      :conditions => ['next_check_after < ?', Time.now.utc]
-    }
-  }
-  
+
+  scope :due_check, lambda { where(['next_check_after < ?', Time.now.utc]) }
+
   def update_next_check_after!
     update_next_check_after
     save!

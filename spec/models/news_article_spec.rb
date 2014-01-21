@@ -114,7 +114,7 @@ describe NewsArticle do
 
   it "should update the latest_text_hash when a new version is created" do
     na = a_news_article_with_two_versions
-    na.latest_text_hash.should == na.versions.find(:first, :order => 'id desc').text_hash
+    na.latest_text_hash.should == na.versions.order('id desc').first.text_hash
   end
 
   it "should increment the versions_count field when a new version is created" do

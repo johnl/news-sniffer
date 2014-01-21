@@ -3,8 +3,7 @@ class VersionsController < ApplicationController
 
   def index
     if params[:q].to_s.empty?
-      @versions = NewsArticleVersion.paginate :per_page => 16, :page => params[:page]  || 1,
-      :include => 'news_article', :order => "news_article_versions.id desc"
+      @versions = NewsArticleVersion.includes(:news_article).order('news_article_versions.id desc').paginate(:per_page => 16, :page => params[:page]  || 1)
     else
       @search = params[:q].to_s
       @versions = NewsArticleVersion.xapian_search(@search, :per_page => 16, :collapse => :news_article_id,
@@ -33,7 +32,7 @@ class VersionsController < ApplicationController
 
   def diff
     @article = NewsArticle.find(params[:article_id])
-    @versions = @article.versions.all(:order => 'version asc')
+    @versions = @article.versions.order('version asc')
     @va = @article.versions.find_by_version!(params[:version_a])
     @vb = @article.versions.find_by_version!(params[:version_b])
 

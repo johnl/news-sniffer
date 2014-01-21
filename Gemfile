@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", "~> 3.1.12"
+gem "rails", "~> 4.0.0"
 gem "mysql2"
 gem 'will_paginate', '~> 3.0'
 gem 'feed_parser', :git => "https://github.com/johnl/feed_parser.git", :ref => "fe4b7095"
@@ -27,4 +27,5 @@ group :development do
   gem "sqlite3"
   gem "rspec-core"
   gem "rspec-rails"
+  gem 'thin'
 end

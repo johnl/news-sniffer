@@ -1,5 +1,5 @@
 #    News Sniffer
-#    Copyright (C) 2007-2012 John Leach
+#    Copyright (C) 2007-2014 John Leach
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
@@ -26,14 +26,9 @@ class NewsArticle < ActiveRecord::Base
   attr_readonly :versions_count
 
   before_validation :set_initial_next_check_period, :unless => :next_check_after?
-    
-  scope :due_check, lambda { 
-    { 
-      :order => 'next_check_after asc',
-      :conditions => ["check_period < ? AND next_check_after < ?", 40.days.to_i, Time.now.utc],
-    }
-  }
-  
+
+  scope :due_check, lambda { order('next_check_after asc').where(["check_period < ? AND next_check_after < ?", 40.days.to_i, Time.now.utc]) }
+
   # Retrieve the news page from the web, parse it and create a new
   # version if necessary, returning the saved NewsArticleVersion
   def update_from_source
@@ -87,11 +82,11 @@ class NewsArticle < ActiveRecord::Base
   end
 
   def latest_text_hash
-    versions.first(:select => 'text_hash', :order => 'version desc').text_hash rescue nil
+    versions.order('version desc').select(:text_hash).first.text_hash rescue nil
   end
   
   def count_versions_by_hash(count_hash)
-    versions.count(:conditions => { :text_hash => count_hash })
+    versions.where(:text_hash => count_hash).count
   end
 
   private
