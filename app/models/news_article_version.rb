@@ -28,7 +28,7 @@ class NewsArticleVersion < ActiveRecord::Base
 
   # populate the object from a NewsPage object
   def populate_from_page(page)
-    self.text_hash = page.hash
+    self.text_hash = page.hash.to_s.force_encoding(Encoding::UTF_8)
     self.title = page.title
     # self.created_at = page.date
     self.url = page.url
@@ -105,9 +105,9 @@ class NewsArticleVersion < ActiveRecord::Base
   end
 
   def self.xapian_rebuild(options = { })
-    options = { :batch_size => 1000, :include => :news_article_version_text }.merge(options)
     logger.info("starting xapian_rebuild for NewsArticleVersion with options #{options.inspect}")
-    find_in_batches(options) do |batch|
+    s = NewsArticleVersion.where(options[:conditions]).includes(:news_article_version_text)
+    s.find_in_batches(:batch_size => 1000) do |batch|
       xapian_batch_index(batch)
     end
   end

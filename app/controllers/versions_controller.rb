@@ -26,7 +26,7 @@ class VersionsController < ApplicationController
     if @article.hidden?
       render :text => "This article cannot be shown for legal reasons", :status => 410
     else
-      @versions = @article.versions.all(:order => 'version asc')
+      @versions = @article.versions.order('version asc')
     end
   end
 

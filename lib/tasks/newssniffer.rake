@@ -26,7 +26,7 @@ namespace "newssniffer" do
       logger = setup_logger
       logger.info "newssniffer:versions:update"
       # Can't use find_in_batches here due to ordering and the with_scope bug
-      NewsArticle.due_check.all(:limit => 1000).each do |article|
+      NewsArticle.due_check.limit(1000).each do |article|
         begin
           article.update_from_source
         rescue StandardError => e

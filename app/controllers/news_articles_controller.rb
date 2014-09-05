@@ -20,13 +20,13 @@ class NewsArticlesController < ApplicationController
 
   def index
     @title = "Latest news articles"
-    @articles = NewsArticle.paginate :include => 'versions', :page => params[:page] || 1,
-      :order => "news_articles.id desc", :per_page => 20
+    @articles = NewsArticle.order('news_articles.id desc').includes(:versions).paginate :page => params[:page] || 1,
+      :per_page => 20
   end
 
   def show
     @article = NewsArticle.find(params[:id])
-    @versions = @article.versions.all(:order => 'version asc', :select => "id, version, title, created_at")
+    @versions = @article.versions.order('version asc').select("id, version, title, created_at")
     respond_to do |format|
       format.html
       format.rss { render :content_type => 'application/rss+xml', :layout => false }
