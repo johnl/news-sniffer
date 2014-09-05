@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", "~> 4.0.0"
+gem "rails", "~> 4.1.0"
 gem "mysql2"
 gem 'will_paginate', '~> 3.0'
 gem 'feed_parser', :git => "https://github.com/johnl/feed_parser.git", :ref => "fe4b7095"
@@ -20,7 +20,7 @@ gem "diff-lcs", '~>1.2.5', :require => "diff/lcs"
 
 # Requires xapian library, best installed on Debian/Ubuntu with t
 # package "libxapian-ruby1.8"
-gem "xapian-fu", "1.5.0"
+gem "xapian-fu", "~>1.5.0"
 
 group :development do
   gem "rdoc"
