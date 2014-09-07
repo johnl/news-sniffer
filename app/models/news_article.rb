@@ -63,7 +63,7 @@ class NewsArticle < ActiveRecord::Base
       version = versions.build
       version.populate_from_page(page)
       begin
-        transaction do
+        self.with_lock('LOCK IN SHARE MODE') do
           self.title = page.title
           reset_next_check_period
           version.save! # explicitly saved to raise more useful validation exception
@@ -82,7 +82,7 @@ class NewsArticle < ActiveRecord::Base
   end
 
   def latest_text_hash
-    versions.order('version desc').select(:text_hash).first.text_hash rescue nil
+    versions.order('version desc').select(:text_hash).first.try(:text_hash)
   end
   
   def count_versions_by_hash(count_hash)
