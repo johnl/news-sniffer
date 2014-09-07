@@ -64,7 +64,7 @@ describe NewsArticle do
     nav.should == nil
     na.versions.count.should == 4    
   end
-  
+
   describe "next_check_after" do
     it "should default to asap on create" do
       a_news_article.next_check_after.should be_within(10).of(Time.now)
@@ -165,6 +165,30 @@ describe NewsArticle do
       b = a_news_article(:next_check_after => now + 1.hour)
       NewsArticle.due_check.should == [a]
     end
-    
+
   end
+
+  it "should increment the version number when a new version is created" do
+    na = a_news_article
+    p1 = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html)
+    p2 = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html_with_a_change)
+    na.update_from_page(p1).version.should == 0
+    na.update_from_page(p2).version.should == 1
+  end
+
+  it "should increment the versions_count cache when a new version is created", :focus do
+    na = a_news_article
+    p1 = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html)
+    p2 = WebPageParser::BbcNewsPageParserV5.new(:page => some_news_page_html_with_a_change)
+    na.update_from_page(p1).version
+    na.save!
+    na.reload
+    na.versions_count.should == 1
+    na.update_from_page(p2).version
+    na.reload
+    na.versions_count.should == 2
+  end
+
+
+
 end
