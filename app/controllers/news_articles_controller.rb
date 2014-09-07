@@ -33,4 +33,10 @@ class NewsArticlesController < ApplicationController
     end
   end
 
+  def health
+    sources = NewsArticle.group(:source).where('versions_count > 0').where(['created_at > ?', Time.now-1.day]).count
+    health = sources.detect { |k,v| v < 5 } ? 'WARNING' : 'OK'
+    render :json => [health, sources]
+  end
+
 end
