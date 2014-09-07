@@ -21,17 +21,5 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   layout 'newsniffer'
-
-  def is_admin?
-    session[:admin]
-  end
-
-  def check_admin
-    unless is_admin?
-      flash[:error] = "You must be logged in to do that."
-      redirect_to :controller => 'admin', :action => 'login'
-    end
-    @admin_bar = true
-  end
   
 end
