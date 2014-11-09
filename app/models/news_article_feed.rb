@@ -41,17 +41,13 @@ class NewsArticleFeed < ActiveRecord::Base
     rss = get_rss_entries(rssdata)
     entries = NewsArticleFeedFilter.filter(rss.entries)
     articles = entries.collect do |e|
-      # guid is usually a better link than link, so use it if it looks
-      # like a URI
-      if e[:guid] =~ URI.regexp
-        url = e[:guid]
-      else
-        url = e[:link]
-      end
-      page = WebPageParser::ParserFactory.parser_for(:url => url, :page => nil)
+      # guid is usually a better link than link, so try that first
+      page = WebPageParser::ParserFactory.parser_for(:url => e[:guid], :page => nil)
+      # if using the guid wasn't possible or didn't work out, try link
+      page = WebPageParser::ParserFactory.parser_for(:url => e[:link], :page => nil) if page.nil?
+      # skip if still no luck
       next nil if page.nil?
-      guid = page.guid_from_url if page.respond_to?(:guid_from_url)
-      guid ||= e[:guid] || url
+      guid = page.guid || e[:guid] || page.url
       next nil if NewsArticle.find_by_guid(guid)
       a = NewsArticle.new
       a.guid = guid
@@ -59,7 +55,7 @@ class NewsArticleFeed < ActiveRecord::Base
       a.published_at = Time.parse(date.to_s) rescue Time.now
       a.source = source
       a.title = e[:title]
-      a.url = url
+      a.url = page.url
       a.parser = page.class.to_s.split('::').last
       begin
         a.save!
