@@ -18,8 +18,7 @@ gem "web-page-parser", :git => "git://github.com/johnl/web-page-parser.git", :re
 
 gem "diff-lcs", '~>1.2.5', :require => "diff/lcs"
 
-# Requires xapian library, best installed on Debian/Ubuntu with t
-# package "libxapian-ruby1.8"
+gem "xapian-ruby", "~> 1.2.17"
 gem "xapian-fu", "~>1.5.0"
 
 gem "lograge"

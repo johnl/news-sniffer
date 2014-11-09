@@ -143,6 +143,7 @@ GEM
       thread_safe (~> 0.1)
     will_paginate (3.0.7)
     xapian-fu (1.5.2)
+    xapian-ruby (1.2.17)
 
 PLATFORMS
   ruby
@@ -164,3 +165,4 @@ DEPENDENCIES
   web-page-parser!
   will_paginate (~> 3.0)
   xapian-fu (~> 1.5.0)
+  xapian-ruby (~> 1.2.17)
