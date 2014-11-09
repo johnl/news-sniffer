@@ -75,6 +75,14 @@ class NewsArticle < ActiveRecord::Base
         logger.error("NewsArticle #{id} RecordInvalid: #{e}, next_check_after: #{next_check_after}")
         save!
         return nil
+      rescue Mysql2::Error => e
+        # Back off retrying articles that MySQL won't accept for somer eason
+        # such as bad utf, too large data, etc. No point trying forever.
+        reload
+        set_next_check_period
+        logger.error("NewsArticle #{id} Mysql2::Error: #{e}, next_check_after: #{next_check_after}")
+        save!
+        return nil
       end
       logger.info("NewsArticle #{id} new version found #{version.id}")
       version
