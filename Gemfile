@@ -22,6 +22,8 @@ gem "diff-lcs", '~>1.2.5', :require => "diff/lcs"
 # package "libxapian-ruby1.8"
 gem "xapian-fu", "~>1.5.0"
 
+gem "lograge"
+
 group :development do
   gem "rdoc"
   gem "sqlite3"
