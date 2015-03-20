@@ -4,8 +4,7 @@ gem "rails", "~> 4.1.0"
 gem "mysql2"
 gem 'will_paginate', '~> 3.0'
 gem 'feed_parser', :git => "https://github.com/johnl/feed_parser.git", :ref => "fe4b7095"
-# requires uuid-dev package on Ubuntu
-#gem 'xapian-ruby'
+gem 'xapian'
 
 # Make web-page-parser faster
 platforms :ruby_18 do
