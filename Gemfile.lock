@@ -1,11 +1,12 @@
 GIT
   remote: git://github.com/johnl/web-page-parser.git
-  revision: b3de226205bb1ab43dfdc4f2157c1c53653be4b7
-  ref: b3de226
+  revision: 95d8b168c85c45eb3a726ddd82d0dc66d010c469
+  ref: 95d8b16
   specs:
-    web-page-parser (0.26)
-      curb (>= 0.8)
-      htmlentities (>= 4.0.0)
+    web-page-parser (1.1.0)
+      curb (~> 0.8)
+      htmlentities (~> 4.3)
+      nokogiri (~> 1.6)
 
 GIT
   remote: https://github.com/johnl/feed_parser.git
