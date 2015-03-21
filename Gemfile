@@ -4,6 +4,7 @@ gem "rails", "~> 4.1.0"
 gem "mysql2"
 gem 'will_paginate', '~> 3.0'
 gem 'feed_parser', :git => "https://github.com/johnl/feed_parser.git", :ref => "fe4b7095"
+gem 'lograge', '~> 0.3.1'
 gem 'xapian'
 
 # Make web-page-parser faster
