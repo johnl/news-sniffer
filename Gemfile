@@ -28,3 +28,8 @@ group :development do
   gem "rspec-rails"
   gem 'thin'
 end
+
+group "deployment" do
+  gem "capistrano", "~>3.4"
+  gem "capistrano-bundler"
+end
