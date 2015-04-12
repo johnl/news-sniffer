@@ -1,7 +1,7 @@
 GIT
   remote: git://github.com/johnl/web-page-parser.git
-  revision: 95d8b168c85c45eb3a726ddd82d0dc66d010c469
-  ref: 95d8b16
+  revision: 7db9b408045a37c14497b3320d98d4781a402cb2
+  ref: 7db9b40
   specs:
     web-page-parser (1.1.0)
       curb (~> 0.8)
@@ -55,7 +55,7 @@ GEM
       capistrano (~> 3.1)
       sshkit (~> 1.2)
     colorize (0.7.5)
-    curb (0.8.6)
+    curb (0.8.8)
     daemons (1.2.2)
     diff-lcs (1.2.5)
     erubis (2.7.0)
