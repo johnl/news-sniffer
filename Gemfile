@@ -17,9 +17,8 @@ gem "web-page-parser", :git => "git://github.com/johnl/web-page-parser.git", :re
 
 gem "diff-lcs", '~>1.2.5', :require => "diff/lcs"
 
-# Requires xapian library, best installed on Debian/Ubuntu with t
-# package "libxapian-ruby1.8"
-gem "xapian-fu", "~>1.5.0"
+# Requires xapian library
+gem "xapian-fu", :git => "git://github.com/johnl/xapian-fu.git", :ref => 'index-field-name-options'
 
 group :development do
   gem "rdoc"

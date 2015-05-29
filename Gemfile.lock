@@ -9,6 +9,13 @@ GIT
       nokogiri (~> 1.6)
 
 GIT
+  remote: git://github.com/johnl/xapian-fu.git
+  revision: cde9696f39f204ddd3301284399ac76045b0c314
+  ref: index-field-name-options
+  specs:
+    xapian-fu (1.5.3)
+
+GIT
   remote: https://github.com/johnl/feed_parser.git
   revision: fe4b7095f7bf44bd83d2484cc11392078f69012b
   ref: fe4b7095
@@ -142,7 +149,6 @@ GEM
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     will_paginate (3.0.7)
-    xapian-fu (1.5.3)
 
 PLATFORMS
   ruby
@@ -163,4 +169,4 @@ DEPENDENCIES
   thin
   web-page-parser!
   will_paginate (~> 3.0)
-  xapian-fu (~> 1.5.0)
+  xapian-fu!
