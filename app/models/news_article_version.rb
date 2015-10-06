@@ -79,10 +79,10 @@ class NewsArticleVersion < ActiveRecord::Base
       @xapian_db
     else
       fields = {
-        :created_at => { :type => Date, :store => true, :index => false },
-        :news_article_id => { :type => Fixnum, :store => true, :index => false },
-        :version => { :type => Fixnum, :index => false },
-        :source => { :type => String, :index => false },
+        :created_at => { :type => Date, :store => true, :index => :with_field_names_only },
+        :news_article_id => { :type => Fixnum, :store => true, :index => :with_field_names_only },
+        :version => { :type => Fixnum, :index => :with_field_names_only },
+        :source => { :type => String, :index => true },
         :url => { :type => String, :index => :with_field_names_only },
         :title => { :type => String },
         :text => { :type => String, :index => :without_field_names }
