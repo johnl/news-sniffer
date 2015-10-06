@@ -79,13 +79,13 @@ class NewsArticleVersion < ActiveRecord::Base
       @xapian_db
     else
       fields = {
-        :created_at => { :type => Date, :store => true },
-        :news_article_id => { :type => Fixnum, :store => true },
-        :version => Fixnum,
-        :source => { :type => String },
-        :url => { :type => String },
+        :created_at => { :type => Date, :store => true, :index => false },
+        :news_article_id => { :type => Fixnum, :store => true, :index => false },
+        :version => { :type => Fixnum, :index => false },
+        :source => { :type => String, :index => false },
+        :url => { :type => String, :index => :with_field_names_only },
         :title => { :type => String },
-        :text => { :type => String }
+        :text => { :type => String, :index => :without_field_names }
       }
       @xapian_db = XapianFu::XapianDb.new(:dir => xapian_db_path,
                                           :create => true, :fields => fields,
