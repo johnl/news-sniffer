@@ -149,6 +149,7 @@ GEM
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     will_paginate (3.0.7)
+    xapian-ruby (1.2.19.1)
 
 PLATFORMS
   ruby
@@ -170,3 +171,4 @@ DEPENDENCIES
   web-page-parser!
   will_paginate (~> 3.0)
   xapian-fu!
+  xapian-ruby

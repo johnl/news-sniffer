@@ -19,6 +19,7 @@ gem "diff-lcs", '~>1.2.5', :require => "diff/lcs"
 
 # Requires xapian library
 gem "xapian-fu", :git => "git://github.com/johnl/xapian-fu.git", :ref => 'index-field-name-options'
+gem "xapian-ruby"
 
 group :development do
   gem "rdoc"
