@@ -26,15 +26,20 @@
 	</tr>
 	<% @versions.each do |version| %>
 	<tr>
-		<td class="title">
+	  <td class="title">
 		<% if version.version > 0 %>
-			<%= link_to h(truncate(version.title, :length => 120)),
-			diff_url(version.news_article.id, version.version - 1, version.version),
-			:class => "version_title" %>
-		<% else %>
-			<%= link_to h(truncate(version.title, :length => 120)), article_url(version.news_article) %>
+		<%= link_to h(truncate(version.title, :length => 120)),
+		diff_url(version.news_article.id, version.version - 1, version.version),
+		:class => "version_title" %>
+		<% elsif version.news_article.versions_count > 1 %>
+        <%= link_to h(truncate(version.title, :length => 120)),
+		diff_url(version.news_article.id, version.version, version.version + 1),
+		:class => "version_title" %>
+        <% else %>
+		<%= link_to h(truncate(version.title, :length => 120)), article_url(version.news_article),
+        :class => "version_title" %>
 		<% end %>
-		</td>
+	  </td>
 		<td class="version">
 			<%= version.version %>
 		</td>
