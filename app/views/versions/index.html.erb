@@ -32,7 +32,7 @@
 			diff_url(version.news_article.id, version.version - 1, version.version),
 			:class => "version_title" %>
 		<% else %>
-			<%= h(truncate(version.title, :length => 120)) %>
+			<%= link_to h(truncate(version.title, :length => 120)), article_url(version.news_article) %>
 		<% end %>
 		</td>
 		<td class="version">
