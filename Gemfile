@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 gem "rails", "~> 4.1.0"
-gem "mysql2"
+gem "mysql2", "~> 0.3.18"
 gem 'will_paginate', '~> 3.0'
 gem 'feed_parser', :git => "https://github.com/johnl/feed_parser.git", :ref => "fe4b7095"
 gem 'lograge', '~> 0.3.1'
