@@ -10,3 +10,5 @@ db/development_structure.sql
 xapian/
 .bundle
 vendor/bundle
+config/secrets.yml
+.rspec
