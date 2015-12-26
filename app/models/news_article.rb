@@ -38,7 +38,14 @@ class NewsArticle < ActiveRecord::Base
       page = WebPageParser::ParserFactory.parser_for(:url => url)
     end
     if page
-      update_from_page(page)
+      begin
+        update_from_page(page)
+      rescue StandardError => e
+        reload
+        set_next_check_period
+        logger.error("NewsArticle #{id} retrieval error #{e.inspect}, #{e.to_s}, next_check_after: #{next_check_after}")
+        save!
+      end
     else
       logger.warn("ParserFactory not created for NewsArticle #{id}")
     end
