@@ -1,19 +1,25 @@
 <% content_for :head do %>
-	 <%= auto_discovery_link_tag(:rss, article_url(@article, :format => :rss), :title => "RSS feed of versions of this article") %>
-	 <meta name="generator" content="<%= @article.parser %>"/>
+    <%= auto_discovery_link_tag(:rss, article_url(@article, :format => :rss), :title => "RSS feed of versions of this article") %>
+    <link href="<%= @article.url %>" rel="external alternate author" title="Original article"/>
+	<meta name="generator" content="<%= @article.parser %>"/>
 <% end %>
-<% @title = "News Sniffer: #{@article.title}" %>
+<% @title = "'#{@article.title}' article at News Sniffer" %>
 <h1><%= @article.title %></h1>
-<p>This article is from '<strong><%= @article.source %></strong>', was first published or seen
-on <strong><%= @article.created_at.utc.to_s(:long) %> (UTC)</strong> and has <strong><%= @article.versions_count %> versions</strong>.</p
+
+<p>This article is from the source '<cite><%= @article.source %></cite>' and was first published or seen
+on <time datetime='<%= @article.created_at.iso8601 %>'><%= @article.created_at.utc.to_s(:long) %> (UTC)</time>.
 
 <% if @article.next_check_after.nil? %>
-<p>It will not be checked again for changes.</p>
+It will not be checked again for changes.
 <% elsif @article.next_check_after < (Time.now - 40.days) %>
-<p>It last changed over 40 days ago and won't be checked again for changes.</p>
+It last changed over 40 days ago and won't be checked again for changes.
 <% else %>
-<p>It will be next checked for changes after <%= @article.next_check_after.to_s(:long) %></p>
+The next check for changes will be <time datetime='<%= @article.next_check_after.iso8601 %>'><%= @article.next_check_after.to_s(:long) %></time>
 <% end %>
+
+<p>You can find the current article at its original source at <cite class="article_url"><%= link_to @article.url, @article.url, :rel => "alternate external author" %></cite></p>
+
+<p>The article has changed <var><%= @versions.size %></var> times. There is an <%= link_to 'RSS feed of changes', article_url(@article, :format => :rss), :class => 'feed rss', :rel => "alternate" %> available.</p>
 
 <table>
 <tr>
