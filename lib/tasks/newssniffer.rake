@@ -25,14 +25,25 @@ namespace "newssniffer" do
     task :update => :environment do
       logger = setup_logger
       logger.info "newssniffer:versions:update"
-      # Can't use find_in_batches here due to ordering and the with_scope bug
-      NewsArticle.due_check.limit(1000).each do |article|
-        begin
-          article.update_from_source
-        rescue StandardError => e
-          logger.error "NewsArticle #{article.id} " + e.to_s
-        end
+      sources = {}
+      NewsArticleFeed.all.select(:source).group(:source).each do |feed|
+        sources[feed.source] = NewsArticle.due_check.limit(200).where(:source => feed.source)
       end
+      updater_threads = []
+      sources.each do |source, articles|
+        updater_threads << Thread.new do
+          logger.info "newssniffer:versions:update starting thread for source #{source} with #{articles.size} articles"
+          articles.each do |article|
+            begin
+              article.update_from_source
+            rescue StandardError => e
+              logger.error "NewsArticle #{article.source} #{article.id} " + e.to_s
+            end
+          end
+        end
+        logger.info "newssniffer:versions:update thread for source #{source} completed."
+      end
+      updater_threads.each { |t| t.join }
     end
   end
 
