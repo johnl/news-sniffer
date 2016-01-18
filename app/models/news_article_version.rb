@@ -1,6 +1,6 @@
 
 #    News Sniffer
-#    Copyright (C) 2007-2014 John Leach
+#    Copyright (C) 2007-2016 John Leach
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
@@ -105,7 +105,6 @@ class NewsArticleVersion < ActiveRecord::Base
   end
 
   def self.xapian_rebuild(options = { })
-    logger.info("starting xapian_rebuild for NewsArticleVersion with options #{options.inspect}")
     s = NewsArticleVersion.where(options[:conditions]).includes(:news_article_version_text)
     s.find_in_batches(:batch_size => 1000) do |batch|
       xapian_batch_index(batch)
@@ -125,12 +124,12 @@ class NewsArticleVersion < ActiveRecord::Base
         records.each { |nv| xapian_db << nv.to_xapian_doc }
       end
     end
-    logger.info("#{records.size} versions (#{records.first.id}..#{records.last.id}) indexed in %.2f seconds (#{(records.size/bm.total).round}/second)" % bm.total)
+    logger.info("task=xapian_batch_index versions=#{records.size} from=#{records.first.id} to=#{records.last.id}) time_to_index=%.2fs rate=#{(records.size/bm.total).round}/second)" % bm.total)
   end
 
   def self.xapian_update
-    logger.info("starting xapian_update for NewsArticleVersion")
     if last = xapian_db.documents.max(:id)
+      logger.info("task=xapian_update last_news_article_versions_id=#{last.id}")
       xapian_rebuild(:conditions => ['news_article_versions.id > ?', last.id])
     else
       # No last id so rebuild the whole db

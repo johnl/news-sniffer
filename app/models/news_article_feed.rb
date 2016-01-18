@@ -1,5 +1,5 @@
 #    News Sniffer
-#    Copyright (C) 2007-2014 John Leach
+#    Copyright (C) 2007-2016 John Leach
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,7 @@ class NewsArticleFeed < ActiveRecord::Base
     update_next_check_after
     save!
   end
-  
+
   def update_next_check_after
     if new_record?
       self.next_check_after = Time.now
@@ -35,7 +35,7 @@ class NewsArticleFeed < ActiveRecord::Base
       self.next_check_after = Time.now + check_period.to_i
     end
   end
-  
+
   # Parse the feed and create any new NewsArticles
   def create_news_articles(rssdata = nil)
     rss = get_rss_entries(rssdata)
@@ -59,25 +59,25 @@ class NewsArticleFeed < ActiveRecord::Base
       a.parser = page.class.to_s.split('::').last
       begin
         a.save!
-        logger.debug "NewsArticleFeed #{id}, NewsArticle #{a.id} discovered"
+        logger.info "feed_id=#{id} news_article_id=#{a.id} status=new source=#{source}x"
         next a
       rescue ActiveRecord::RecordInvalid
-        logger.error "NewsArticleFeed #{id}, NewsArticle '#{a.guid}' not created: #{a.errors.full_messages}"
+        logger.error "feed_id=#{id} news_article_guid='#{a.guid}' source=#{source} status=record_invalid errors=#{a.errors.full_messages}"
         next nil
       end
     end
     articles = articles.compact
-    logger.info "NewsArticleFeed #{id}, #{articles.size} new articles discovered"
+    logger.info "feed_id=#{id} source=#{source} new_news_articles_count=#{articles.size}"
     articles
   end
-  
+
   # retrieve and parse the rss feed and return an array of SimpleRSS entry items
   def get_rss_entries(rssdata = nil)
     @http_session ||= WebPageParser::HTTP::Session.new
     begin
       rssdata = @http_session.get(url) unless rssdata
     rescue StandardError => e
-      logger.error "NewsArticleFeed #{id}, RSS Error: #{e}"
+      logger.error "feed_id=#{id} source=#{source} error=#{e}"
       return []
     end
 
@@ -86,7 +86,7 @@ class NewsArticleFeed < ActiveRecord::Base
       fp = FeedParser.new(:feed_xml => rssdata)
       entries = fp.parse.items.collect { |i| i.as_json }
     rescue FeedParser::UnknownFeedType => e
-      logger.error "NewsArticleFeed #{id}, RSS Error: #{e}"
+      logger.error "feed_id=#{id} source=#{source} error=#{e}"
     end
     entries
   end

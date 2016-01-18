@@ -1,5 +1,5 @@
 #    News Sniffer
-#    Copyright (C) 2007-2014 John Leach
+#    Copyright (C) 2007-2016 John Leach
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
@@ -16,7 +16,7 @@
 
 # A NewsArticle represents an article that usually has one or many versions.
 class NewsArticle < ActiveRecord::Base
-  
+
   has_many :versions, :class_name => 'NewsArticleVersion', :dependent => :destroy, :autosave => true
   validates_length_of :title, :minimum => 5
   validates_presence_of :source # bbc, guardian, independent?
@@ -43,11 +43,11 @@ class NewsArticle < ActiveRecord::Base
       rescue StandardError => e
         reload
         set_next_check_period
-        logger.error("NewsArticle #{id} retrieval error #{e.inspect}, #{e.to_s}, next_check_after: #{next_check_after}")
+        logger.error("article_id=#{id} source=#{source} retrieval error #{e.inspect} #{e.to_s} next_check_after=#{next_check_after}")
         save!
       end
     else
-      logger.warn("ParserFactory not created for NewsArticle #{id}")
+      logger.warn("article_id=#{id} source=#{source} status=unknown_parser parser=#{parser}")
     end
   end
 
@@ -57,12 +57,12 @@ class NewsArticle < ActiveRecord::Base
     if page.hash.nil? or page.hash == latest_text_hash
       # Content didn't change
       set_next_check_period
-      logger.info("NewsArticle #{id} no changes, next_check_after: #{next_check_after}")
+      logger.info("article_id=#{id} status=unchanged next_check_after=#{next_check_after}")
       save
       nil
     elsif count_versions_by_hash(page.hash) > 1
       set_next_check_period
-      logger.warn("NewsArticle #{id} version seen more than once before, flip-flopping. next_check_after: #{next_check_after}")
+      logger.warn("article_id=#{id} status=flipflopping next_check_after=#{next_check_after}")
       save
       nil
     else
@@ -79,25 +79,25 @@ class NewsArticle < ActiveRecord::Base
       rescue ActiveRecord::RecordInvalid => e
         reload
         set_next_check_period
-        logger.error("NewsArticle #{id} RecordInvalid: #{e}, next_check_after: #{next_check_after}")
+        logger.error("article_id=#{id} status=RecordInvalid error=#{e} next_check_after=#{next_check_after}")
         save!
         return nil
       rescue Mysql2::Error=> e
         # Back off retrying articles that db won't accept for somer reason
         # such as bad utf, too large data, etc. No point trying forever.
         set_next_check_period
-        logger.error("NewsArticle #{id} Mysql2::Error: #{e}, next_check_after: #{next_check_after}")
+        logger.error("article_id=#{id} status=Mysql2::Error error=#{e} next_check_after=#{next_check_after}")
         save!
         return nil
       rescue ActiveRecord::StatementInvalid => e
         # Back off retrying articles that db won't accept for somer reason
         # such as bad utf, too large data, etc. No point trying forever.
         set_next_check_period
-        logger.error("NewsArticle #{id} StatementInvalid: #{e}, next_check_after: #{next_check_after}")
+        logger.error("article_id=#{id} status=StatementInvalid error=#{e}  next_check_after=#{next_check_after}")
         save!
         return nil
       end
-      logger.info("NewsArticle #{id} new version found #{version.id}")
+      logger.info("article_id=#{id} status=new_version version_id=#{version.id}")
       version
     end
   end
@@ -105,13 +105,13 @@ class NewsArticle < ActiveRecord::Base
   def latest_text_hash
     versions.order('version desc').select(:text_hash).first.try(:text_hash)
   end
-  
+
   def count_versions_by_hash(count_hash)
     versions.where(:text_hash => count_hash).count
   end
 
   private
- 
+
   def set_next_check_period
     if check_period == 0
       self.check_period = 30.minutes 
@@ -120,12 +120,12 @@ class NewsArticle < ActiveRecord::Base
     end
     self.next_check_after = Time.now + self.check_period
   end
-  
+
   def reset_next_check_period
     self.check_period = 30.minutes
     self.next_check_after = Time.now + self.check_period
   end
-  
+
   def set_initial_next_check_period
     self.check_period = 0
     self.next_check_after = Time.now
