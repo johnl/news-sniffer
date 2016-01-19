@@ -3,10 +3,9 @@
 News Sniffer monitors news websites and detects when articles
 change. The versions are viewable and the changes are highlighted.
 
-The main deployment is at http://www.newssniffer.co.uk/ which
-currently monitors a few key feeds from the BBC News website and the
-Guardian website, excluding a few sections like Sports (as they change
-too often with just scores).
+The main deployment is at http://www.newssniffer.co.uk/ which currently monitors
+a key feeds from several news sources excluding a few sections like Sports (as
+they change too often with just scores).
 
 The code is available under a free software license, so anybody can
 run their own deployment and monitor whatever news sources they wish
@@ -81,8 +80,12 @@ You specify filters by creating `NewsArticleFeed` records:
 
 # More Info
 
-Author::  John Leach (mailto:john@johnleach.co.uk)
-Copyright:: Copyright (c) 2006-2012 John Leach
-License:: GNU Affero General Public License v3
-Web page:: http://www.newssniffer.co.uk
-Github:: http://github.com/johnl/news-sniffer
+Author: John Leach (mailto:john@johnleach.co.uk)
+
+Copyright: Copyright (c) 2006-2016 John Leach
+
+License: GNU Affero General Public License v3
+
+Web page: http://www.newssniffer.co.uk
+
+Github: http://github.com/johnl/news-sniffer
