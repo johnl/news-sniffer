@@ -2,6 +2,7 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require "sprockets/railtie"
 
 Bundler.require(:default, Rails.env) if defined?(Bundler)
 
@@ -9,6 +10,12 @@ module NewsSniffer
   class Application < Rails::Application
     config.autoload_paths += [config.root.join('lib')]
     config.encoding = 'utf-8'
+    config.assets.css_compressor = :sass
+    config.assets.enabled = true
+    config.assets.initialize_on_precompile = true
+
+    config.assets.version = "1.0"
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

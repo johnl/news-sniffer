@@ -12,3 +12,5 @@ xapian/
 vendor/bundle
 config/secrets.yml
 .rspec
+public/assets
+tmp/

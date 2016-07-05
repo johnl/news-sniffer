@@ -3,8 +3,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title><%= h(@title) + " - " if @title -%>News Sniffer</title>
-	<link href="/stylesheets/newsniffer.css" media="screen" rel="Stylesheet" type="text/css" />
-  <%= yield :head %>
+    <%= stylesheet_link_tag "application", media: "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= yield :head %>
 </head>
 <body>
 	<header>
