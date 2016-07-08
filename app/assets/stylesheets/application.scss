@@ -1,0 +1,19 @@
+@import "scss/newssniffer-legacy";
+
+// Normalize
+@import "scss/normalize";
+
+// Variables and Settings
+@import "scss/config";
+
+// Fonts / Sizes Etc
+@import "scss/typography";
+
+@import "scss/layout";
+
+// Header / General Branding / Nav
+@import "scss/header";
+
+// News listings tables
+@import "scss/tables";
+@import "scss/pagination";

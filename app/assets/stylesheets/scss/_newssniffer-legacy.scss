@@ -11,15 +11,6 @@ a {
 	text-decoration: none;
 }
 
-a:visited {
-}
-
-a:hover {
-	color: #fff;
-	text-decoration: underline;
-  background-color: #4d6175;
-}
-
 input, textarea {
 	background: #F3F6ED;
 	font-size: 1.3em;
@@ -56,92 +47,7 @@ hr {
 	text-align: left;
 	width: 910px;
 }
-#header {
-  background: #211 url(layout/top-bg.png);
-  height: 58px;
-  margin: 0;
-  text-align: left;
-  padding-top: 1px;
-}
-#header ul {
-  margin: 0px;
-  padding: 11px 2em 0 0;
-  text-align: right;
-}
-#header ul li {
-  display: inline;
-  padding-left: 0.9em;
-}
-#header ul li a {
-  color: #fff;
-}
-#logo {
-  float: right;
-  margin: 0px 0px 0 0;
-}
-#crossbar {
-  background-color: #b4c6d9;
-  height: 5px;
-  margin-bottom: 10px;
-}
-#nav {
-  margin-left: 0px;
-  margin-top: 29px;
-}
 
-#nav ul {
-  margin: 11px 0 0 38px;
-  padding: 0;
-  list-style:none;
-  font-size: 80%;
-  line-height: 10px;
-}
-
-#nav li {
-  float:left;
-  margin: 0 10px 0 0;
-}
-
-#nav a {
-  float:left;
-  display:block;
-  background: #997 url(layout/tabbg.png) repeat-x left top;
-  padding: 9px 20px;
-  text-decoration: none;
-  border: none;
-  font-weight: bold;
-  color: #fff;
-  border-color: #b4c6d9;
-  border-style: solid;
-  border-width: 1px 1px 0 1px;
-  outline: none;
-  height: 10px;
-}
-
-#nav a.selected {
-  color: #4d6175;
-  border-color: #4d6175;
-  background: #d1dbe8 url(layout/tabbg-selected.png) repeat-x left top;
-}
-
-#nav a:hover {
-  color: #000;
-}
-
-#nav #current {
-}
-
-#nav #current a {
-  color: #fff;
-  padding-bottom:5px;
-}
-
-
-#nav-r {
-  position: absolute;
-  top: 70px;
-  right: 40px;
-}
 
 #sidebar {
   font-size: 0.9em;
@@ -248,7 +154,7 @@ h1#itemlabel {
   font-weight: bold;
 }
 
-a:hover, #sidebar ul ul li a:hover {
+#sidebar ul ul li a:hover {
   background-color: 4d6175;
   color: #fff;
 }
@@ -303,65 +209,8 @@ div.comment-description {
   padding: 10px;
 }
 
-table.versions {
-		width: 960px;
-}
-table.versions td {
-		padding-bottom: 0.5em;
-}
-table.versions th.title {
-		text-align: left;
-}
-table.versions .created_at {
-		width: 9em;
-}
-table.versions .source {
-		width: 5em;
-		text-align: center;
-}
-table.versions .version {
-		width: 3em;
-		text-align: center;
-}
-table.versions a.version_title {
-		text-decoration: none;
-}
-table.versions p.version_text {
-		font-size: 0.8em;
-		margin-top: 0;
-}
 
 
-div.pagination {
-		padding-top: 1em;
-}
-div.pagination span.current {
-		font-weight: bold;
-}
-
-div.pagination a, div.pagination span.next_page, div.pagination span.prev_page, div.pagination span.current, div.pagination span.gap {
-		padding: 0 0.3em 0 0.3em;
-		text-decoration: none;
-}
-
-div.pagination span.prev_page, div.pagination a.prev_page {
-		padding-left: 20px;
-		background-image: url(/images/arrow_left.png);
-		background-position: center left;
-		background-repeat: no-repeat;
-
-}
-
-div.pagination span.next_page, div.pagination a.next_page {
-		padding-right: 20px;
-		background-image: url(/images/arrow_right.png);
-		background-position: center right;
-		background-repeat: no-repeat;
-}
-
-div.pagination a:hover {
-		text-decoration: underline;
-}
 div.version_list {
 		text-align: center;
 		width: 100%;

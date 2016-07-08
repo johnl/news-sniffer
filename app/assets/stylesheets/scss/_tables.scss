@@ -1,0 +1,53 @@
+
+.versions {
+	border-collapse: collapse;
+	margin: 0 auto;
+	max-width: 1024px;
+	padding: 0;
+	width: 100%;
+
+	td {
+		margin: 0;
+		padding: 0;
+	}
+
+	tbody {
+		tr {
+			&:hover {
+				background-color: $hover-light;
+			}
+		}
+	}
+
+	.title {
+		text-align: left;
+		width: 60%;
+	}
+
+	.created_at {
+		text-align: center;
+		width: 20%;
+	}
+
+	.source {
+		text-align: center;
+		width: 10%;
+	}
+
+	.version {
+		text-align: center;
+		width: 10%;
+	}
+
+	.version_title {
+		cursor: pointer;
+		display: block;
+		padding: 5px;
+		text-decoration: none;
+	}
+
+	.version_text {
+		font-size: 0.8em;
+		margin-top: 0;
+	}
+}

@@ -1,0 +1,44 @@
+.pagination {
+	padding-top: 1em;
+	text-align: center;
+
+	.current {
+		font-weight: bold;
+	}
+
+	a,
+	.next_page,
+	.prev_page,
+	.current,
+	.gap {
+		padding: 0 0.3em 0 0.3em;
+		text-decoration: none;
+	}
+
+	a {
+		background-color: $hover-light;
+		border-radius: 3px;
+		display: inline-block;
+		line-height: 1;
+		padding: 4px 5px;
+
+		&:hover {
+			background-color: darken($hover-light, 20%);
+			text-decoration: none;
+		}
+	}
+
+	.prev_page {
+		padding-left: 20px;
+		background-image: url(/images/arrow_left.png);
+		background-position: center left;
+		background-repeat: no-repeat;
+	}
+
+	.next_page {
+		padding-right: 20px;
+		background-image: url(/images/arrow_right.png);
+		background-position: center right;
+		background-repeat: no-repeat;
+	}
+}
