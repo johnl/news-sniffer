@@ -2,22 +2,16 @@
 
 .header {
   background: #211;
-  margin: 0;
+  border-bottom: 5px solid $accent-colour;
+  margin: 0 0 25px 0;
   text-align: left;
   padding-top: 1px;
 }
 
 
-#logo {
+.logo {
   display: inline-block;
   margin: 0;
-}
-
-
-#crossbar {
-  background-color: #b4c6d9;
-  height: 5px;
-  margin-bottom: 10px;
 }
 
 

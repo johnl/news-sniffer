@@ -2,7 +2,6 @@
 .versions {
 	border-collapse: collapse;
 	margin: 0 auto;
-	max-width: 1024px;
 	padding: 0;
 	width: 100%;
 
@@ -15,6 +14,7 @@
 		tr {
 			&:hover {
 				background-color: $hover-light;
+				cursor: pointer;
 			}
 		}
 	}

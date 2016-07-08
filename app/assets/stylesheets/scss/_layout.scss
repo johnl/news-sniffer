@@ -1,6 +1,12 @@
-$wrapper-width:		1024px;
-
 .wrap {
 	margin: 0 auto;
 	max-width: $wrapper-width;
+
+	@media only screen and (min-width: $wrapper-medium) {
+		max-width: $wrapper-medium;
+	}
+
+	@media only screen and (min-width: $wrapper-large) {
+		max-width: $wrapper-large;
+	}
 }
