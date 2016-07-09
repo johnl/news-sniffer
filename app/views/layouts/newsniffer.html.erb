@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title><%= h(@title) + " - " if @title -%>News Sniffer</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <%= stylesheet_link_tag "application", media: "all" %>
-    <%= javascript_include_tag "application" %>
+	<!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
     <%= yield :head %>
 </head>
 <body>
@@ -47,5 +50,7 @@
 			<% end %>
 		</div>
 	</footer>
+	<script src="http://code.jquery.com/jquery-3.1.0.slim.min.js" integrity="sha256-cRpWjoSOw5KcyIOaZNo4i6fZ9tKPhYYb6i5T9RSVJG8=" crossorigin="anonymous"></script>
+	<%= javascript_include_tag "application" %>
 </body>
 </html>

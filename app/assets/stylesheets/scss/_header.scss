@@ -5,7 +5,7 @@
   border-bottom: 5px solid $accent-colour;
   margin: 0 0 25px 0;
   overflow: hidden;
-  padding: 10px 5px 10px 10px;
+  padding: 10px 0 0 0;
   text-align: left;
   vertical-align: bottom;
 
@@ -17,6 +17,7 @@
 
 .logo-head {
   display: block;
+  padding-left: 10px;
 
   a {
     display: inline-block;
@@ -32,18 +33,6 @@
   display: inline-block;
   margin: 0;
   max-width: 250px;
-}
-
-
-.navigation {
-  display: none;
-
-  @media only screen and (min-width: $wrapper-medium) {
-    display: block;
-    float: left;
-    text-align: right;
-    width: 70%;
-  }
 }
 
 .toggle-nav {
@@ -114,9 +103,25 @@
     }
 }
 
+.navigation {
+  display: none;
+
+  &.nav-open {
+    display: block;
+  }
+
+  @media only screen and (min-width: $wrapper-medium) {
+    display: block;
+    float: left;
+    padding-right: 10px;
+    text-align: right;
+    width: 70%;
+  }
+}
+
 /* Primary Header Navigation */
 .menu {
-  display: none;
+  display: block;
   list-style: none;
   margin: 2px 0 0 0;
   padding: 0;
@@ -126,21 +131,28 @@
   }
 
   li {
-    display: inline-block;
+    display: block;
     margin: 0;
     padding: 0;
+    
+    @media only screen and (min-width: $wrapper-medium) {
+      display: inline-block;
+    }
   }
 
   a {
-    display:block;
+    display: block;
     background-color: darken($accent-colour, 15%);
-    border-radius: 3px 3px 0 0;
     padding: 9px 20px;
     text-decoration: none;
     border: none;
     font-weight: bold;
     color: #fff;
     outline: none;
+
+    @media only screen and (min-width: $wrapper-medium) {
+      border-radius: 3px 3px 0 0;
+    }
 
     &:hover {
       background-color: darken($accent-colour, 30%);
