@@ -10,18 +10,21 @@
 <body>
 	<header>
 		<div id="header" class="header">
-			<img src="/images/newsniffer-text.png" alt="News Sniffer" id="logo" />
-			<ul id="nav" class="menu">
-				<li>
-				<%= link_to 'News Article Revisions', versions_url, 
-	      :title => 'News article Revisions',
-	        :class => controller.controller_name == "versions" ? "selected" : "" %>
-				</li>
-				<li><a href="/blog/">Blog</a></li>
-				<li>
-					<%= link_to 'About', '/blog/about'%>
-				</li>
-			</ul>
+			<div class="logo-head">
+				<a href="/"><img src="/images/newsniffer-text.png" alt="News Sniffer" class="logo" id="logo" /></a>
+			</div>
+			<div class="toggle-nav">
+	            <span class="bar"></span>
+	            <span class="bar"></span>
+	            <span class="bar"></span>
+             </div>
+			<nav class="navigation">
+				<ul id="nav" class="menu">
+					<li><%= link_to 'News Article Revisions', versions_url, :title => 'News article Revisions', :class => controller.controller_name == "versions" ? "selected" : "" %></li>
+					<li><a href="/blog/">Blog</a></li>
+					<li><%= link_to 'About', '/blog/about'%></li>
+				</ul>
+			</nav>
 		</div>
 	</header>
 	

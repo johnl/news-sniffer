@@ -51,3 +51,28 @@
 		margin-top: 0;
 	}
 }
+
+
+.version_diff {
+	width: 100%;
+	margin-top: 1em;
+
+	td, th {
+		width: 50%;
+	}
+
+	tr:target td {
+		background: #ffffaa;
+		padding: 0.5em;;
+	}
+
+	.title {
+		font-size: 1.2em
+	}
+
+	.time {
+		text-align: center;
+		font-size: 0.9em;
+	}
+}
+

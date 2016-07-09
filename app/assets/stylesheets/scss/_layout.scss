@@ -1,9 +1,9 @@
 .wrap {
 	margin: 0 auto;
-	max-width: $wrapper-width;
+	max-width: 100%;
 
 	@media only screen and (min-width: $wrapper-medium) {
-		max-width: $wrapper-medium;
+		// max-width: $wrapper-medium;
 	}
 
 	@media only screen and (min-width: $wrapper-large) {

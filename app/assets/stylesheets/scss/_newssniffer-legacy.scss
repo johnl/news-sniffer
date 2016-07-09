@@ -36,12 +36,12 @@ hr {
 #content ul li {
 	padding-left: 1.5em;
 }
+
 .narrow {
   width: 550px;
 }
 
 #rap {
-
 	margin: 0 auto;
 	padding: 0px;
 	text-align: left;
@@ -107,13 +107,7 @@ hr {
 	text-align: center;
 }
 
-#search {
-		margin-bottom: 1em;
-}
-#box input.searchbox {
-  padding: 0.5em;
-  width: 90%;
-}
+
 
 div.post {
   padding: 1em 0 2em 0.5em;
@@ -134,25 +128,7 @@ div#error {
         margin: 0 auto 2em auto;
 }
 
-h1, h2, h3 {
-  margin: 0 0 0.2em 0;
-  padding: 0;
-}
-h1 {
-  font-size: 2em;
-}
-h2 {
-  font-size: 1.5em;
-  font-weight: bold;
-}
-h3 {
-  font-size: 1.2em;
-  font-weight: bold;
-}
-h1#itemlabel {
-  text-align: center;
-  font-weight: bold;
-}
+
 
 #sidebar ul ul li a:hover {
   background-color: 4d6175;
@@ -216,21 +192,3 @@ div.version_list {
 		width: 100%;
 }
 
-table.version_diff {
-		width: 100%;
-		margin-top: 1em;
-}
-table.version_diff td, table.version_diff th {
-		width: 50%;
-}
-table.version_diff tr:target td {
-   background: #ffffaa;
-	 padding: 0.5em;;
-}
-table.version_diff td.time {
-		text-align: center;
-		font-size: 0.9em;
-}
-table.version_diff th.title {
-		font-size: 1.2em
-}

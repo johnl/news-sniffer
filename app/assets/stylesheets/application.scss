@@ -1,7 +1,11 @@
+// Old Newssniffer styles to be filed
 @import "scss/newssniffer-legacy";
 
 // Normalize
 @import "scss/normalize";
+
+// Mixins
+@import "scss/mixins";
 
 // Variables and Settings
 @import "scss/config";
@@ -9,10 +13,14 @@
 // Fonts / Sizes Etc
 @import "scss/typography";
 
+// General Layout and extra styles
 @import "scss/layout";
 
 // Header / General Branding / Nav
 @import "scss/header";
+
+// Search Bar and results
+@import "scss/search";
 
 // News listings tables
 @import "scss/tables";
