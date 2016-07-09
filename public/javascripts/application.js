@@ -14,5 +14,10 @@
 
 	});
 
+	$('.versions tbody tr').on('click', function() {
+		var newsLink = $(this).find('a:first').attr('href');
+		window.location.href = newsLink;
+	});
+
 
 } )( jQuery );
