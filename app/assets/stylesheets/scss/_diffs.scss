@@ -3,6 +3,7 @@
 
 	td, th {
 		width: 46%;
+		padding: 0 1%;
 
 		&.diff-row {
 			width: 2%;
@@ -11,7 +12,7 @@
 
 	thead {
 		tr:last-child {
-			td {
+			th {
 				padding-bottom: 2em;
 			}
 		}
@@ -20,6 +21,7 @@
 	tbody {
 		td {
 			vertical-align: top;
+			padding-bottom: 10px;
 		}
 
 		tr {
@@ -50,20 +52,24 @@
 /* Highlight deleted lines / text */
 del {
 	background-color: $highlight-deletion;
+	display: block;
 	text-decoration: none;
 }
 
 del > del {
 	background-color: darken($highlight-deletion, 15%);
+	display: inline;
 }
 
 /* Highlight replaced lines / text */
 ins {
 	background-color: $highlight-change;
+	display: block;
 	text-decoration: none;
 }
 
 ins > ins {
-	background-color: darken($highlight-change, 15%); 
+	background-color: darken($highlight-change, 15%);
+	display: inline;
 	text-decoration: none;
 }

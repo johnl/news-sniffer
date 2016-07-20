@@ -56,28 +56,20 @@
 <table class="version_diff">
 	<thead>
 		<tr>
-			<th class="diff-row diff-row-first"></th>
 			<th class="version"><small>Version <%= @vb.version %></small></th>
-			<th class="diff-row diff-row-last"></th>
 			<th class="version"><small>Version <%= @va.version %></small></th>
 		</tr>
 		<tr id="title">
 		<% if @va.title == @vb.title %>
-			<th class="diff-row diff-row-first"></th>
 			<th class="title"><%= h @vb.title %></th>
-			<th class="diff-row diff-row-last"></th>
 			<th class="title"><%= h @va.title %></th>
 		<% else %>
-			<th class="diff-row diff-row-first"></th>
 			<th class="title"><del><%= h @vb.title %></del></th>
-			<th class="diff-row diff-row-last"></th>
 			<th class="title"><ins><%= h @va.title %></ins></th>
 		<% end %>
 		</tr>
 		<tr>
-			<th class="diff-row diff-row-first"></th>
 			<th class="time"><time datetime="<%= @vb.created_at.iso8601 %>"><%= @vb.created_at %></time></th>
-			<th class="diff-row diff-row-last"></th>
 			<th class="time">
 				<time datetime="<%= @va.created_at.iso8601 %>">
 				<%= @va.created_at %>
