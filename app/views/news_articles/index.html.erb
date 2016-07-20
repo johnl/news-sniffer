@@ -1,31 +1,38 @@
 <h2>News Articles</h2>
+
 <table>
-  <tr>
-    <th>Title</th>
-    <th>Versions</th>
-    <th>Source</th>
-  </tr>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Versions</th>
+      <th>Source</th>
+    </tr>
+  </thead>
+  <tbody>
   <% @articles.each do |article| %>
-  <tr>
-  <% if article.versions_count > 1 %>
-  <td>
-    <%= link_to h(truncate(article.title, :length => 75)), 
-                  diff_url(article, article.versions[-2].version, article.versions[-1].version),
-                    :title => "#{h(article.title)}, first published #{article.created_at}" %>
-  </td>
-  <% else %>
-  <td>
-    <span title="<%= "#{h(article.title)}, first published #{article.created_at}" %>">
-      <%= h(truncate(article.title, :length => 75)) %>
-    </span>
-  </td>
+    <tr>
+    <% if article.versions_count > 1 %>
+      <td>
+        <%= link_to h(truncate(article.title, :length => 75)), 
+                      diff_url(article, article.versions[-2].version, article.versions[-1].version),
+                        :title => "#{h(article.title)}, first published #{article.created_at}" %>
+      </td>
+    <% else %>
+      <td>
+        <span title="<%= "#{h(article.title)}, first published #{article.created_at}" %>">
+          <%= h(truncate(article.title, :length => 75)) %>
+        </span>
+      </td>
+    <% end %>
+      <td class="version"><%= article.versions_count %></td>
+      <td>
+        <small><%= article.source %></small>
+      </td>
+    </tr>
   <% end %>
-  <td class="version"><%= article.versions_count %></td>
-  <td>
-    <small><%= article.source %></small>
-  </td>
-</tr>
-<% end %>
+  </tbody>
 </table>
-<hr/>
+
+<hr />
+
 <%= will_paginate @articles %>

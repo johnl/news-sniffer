@@ -6,73 +6,85 @@
 
 <% @title = "'#{@article.title}' diff viewer (#{@vb.version}/#{@va.version})" %>
 
-<p>This article is from the source '<cite><%= @article.source %></cite>' and was first published or seen
-on <time datetime='<%= @article.created_at.iso8601 %>'><%= @article.created_at.utc.to_s(:long) %> (UTC)</time>.
+<div class="article-info">
+	<p>This article is from the source '<cite><%= @article.source %></cite>' and was first published or seen
+	on <time datetime='<%= @article.created_at.iso8601 %>'><%= @article.created_at.utc.to_s(:long) %> (UTC)</time>.
 
-<% if @article.next_check_after.nil? %>
-It will not be checked again for changes.
-<% elsif @article.next_check_after < (Time.now - 40.days) %>
-It last changed over 40 days ago and won't be checked again for changes.
-<% else %>
-The next check for changes will be <time datetime='<%= @article.next_check_after.iso8601 %>'><%= @article.next_check_after.to_s(:long) %></time>
-<% end %>
-</p>
+	<% if @article.next_check_after.nil? %>
+		It will not be checked again for changes.
+	<% elsif @article.next_check_after < (Time.now - 40.days) %>
+		It last changed over 40 days ago and won't be checked again for changes.
+	<% else %>
+		The next check for changes will be <time datetime='<%= @article.next_check_after.iso8601 %>'><%= @article.next_check_after.to_s(:long) %></time>
+	<% end %>
+	</p>
 
-<p>You can find the current article at its original source at <cite class="article_url"><%= link_to @article.url, @article.url, :rel => "alternate external author" %></cite></p>
+	<p>You can find the current article at its original source at <cite class="article_url"><%= link_to @article.url, @article.url, :rel => "alternate external author" %></cite></p>
 
-<p>The article has changed <var><%= @versions.size %></var> times. There is an <%= link_to 'RSS feed of changes', article_url(@article, :format => :rss), :class => 'feed rss', :rel => "alternate" %> available.</p>
+	<p>The article has changed <var><%= @versions.size %></var> times. There is an <%= link_to 'RSS feed of changes', article_url(@article, :format => :rss), :class => 'feed rss', :rel => "alternate" %> available.</p>
+</div>
 
 <div class="version_list pagination">
-<% if @vb.version == 0 %>
-<span class="prev_page disabled">Previous version</span>
-<% else %>
-<%= link_to 'Previous version', { :action => 'diff',
-  :version_a => @vb.version,
-  :version_b => @vb.version - 1 }, :class => 'prev_page' %>
-<% end %>
+	<% if @vb.version == 0 %>
+		<span class="prev_page disabled">Previous version</span>
+	<% else %>
+		<%= link_to 'Previous version', { :action => 'diff',
+	 	:version_a => @vb.version,
+	 	:version_b => @vb.version - 1 }, :class => 'prev_page' %>
+	<% end %>
 
-<% @versions.each do |version| %>
-<% next if version.version == 0 %>
-<% if version.version == @va.version %>
-<span class="current"><%= version.version %></span>
-<% else %>
-<%= link_to version.version, 
-diff_url(@article, version.version - 1, version.version),
-:title => version.created_at.to_s(:long) %>
-<% end %>
-<% end %>
+	<% @versions.each do |version| %>
+	<% next if version.version == 0 %>
+		<% if version.version == @va.version %>
+			<span class="current"><%= version.version %></span>
+		<% else %>
+			<%= link_to version.version, 
+			diff_url(@article, version.version - 1, version.version),
+			:title => version.created_at.to_s(:long) %>
+		<% end %>
+	<% end %>
 
-<% if @va.version + 1 == @article.versions_count %>
-<span class="next_page disabled">Next version</span>
-<% else %>
-<%= link_to 'Next version', { :action => 'diff',
-  :version_a => @va.version + 1,
-  :version_b => @va.version }, :class => 'next_page' %>
-<% end %>
+	<% if @va.version + 1 == @article.versions_count %>
+		<span class="next_page disabled">Next version</span>
+	<% else %>
+		<%= link_to 'Next version', { :action => 'diff',
+		  :version_a => @va.version + 1,
+		  :version_b => @va.version }, :class => 'next_page' %>
+	<% end %>
 </div> 
 
 <table class="version_diff">
-<tr>
-	<th class="version"><small>Version <%= @vb.version %></small></th>
-	<th class="version"><small>Version <%= @va.version %></small></th>
-</tr>
-<tr id="title">
-	<% if @va.title == @vb.title %>
-	<th class="title"><%= h @vb.title %></th>
-	<th class="title"><%= h @va.title %></th>
-	<% else %>
-	<th class="title"><del><%= h @vb.title %></del></th>
-	<th class="title"><ins><%= h @va.title %></ins></th>
-	<% end %>
-</tr>
-<tr>
-	<td class="time"><time datetime="<%= @vb.created_at.iso8601 %>"><%= @vb.created_at %></time></td>
-	<td class="time">
-		<time datetime="<%= @va.created_at.iso8601 %>">
-		<%= @va.created_at %>
-		</time> 
-		(<%= distance_of_time_in_words(@vb.created_at, @va.created_at) %> <%= @va.created_at > @vb.created_at ? "later" : "earlier" %>)
-	</td>
-</tr>
+	<thead>
+		<tr>
+			<th class="diff-row diff-row-first"></th>
+			<th class="version"><small>Version <%= @vb.version %></small></th>
+			<th class="diff-row diff-row-last"></th>
+			<th class="version"><small>Version <%= @va.version %></small></th>
+		</tr>
+		<tr id="title">
+		<% if @va.title == @vb.title %>
+			<th class="diff-row diff-row-first"></th>
+			<th class="title"><%= h @vb.title %></th>
+			<th class="diff-row diff-row-last"></th>
+			<th class="title"><%= h @va.title %></th>
+		<% else %>
+			<th class="diff-row diff-row-first"></th>
+			<th class="title"><del><%= h @vb.title %></del></th>
+			<th class="diff-row diff-row-last"></th>
+			<th class="title"><ins><%= h @va.title %></ins></th>
+		<% end %>
+		</tr>
+		<tr>
+			<th class="diff-row diff-row-first"></th>
+			<th class="time"><time datetime="<%= @vb.created_at.iso8601 %>"><%= @vb.created_at %></time></th>
+			<th class="diff-row diff-row-last"></th>
+			<th class="time">
+				<time datetime="<%= @va.created_at.iso8601 %>">
+				<%= @va.created_at %>
+				</time> 
+				(<%= distance_of_time_in_words(@vb.created_at, @va.created_at) %> <%= @va.created_at > @vb.created_at ? "later" : "earlier" %>)
+			</th>
+		</tr>
+	</thead>
 <%= raw @diff %>
 </table>

@@ -14,8 +14,9 @@
 
 	});
 
-	$('.versions tbody tr').on('click', function() {
-		var newsLink = $(this).find('a:first').attr('href');
+	$(document).on('click', '.versions tbody tr td', function() {
+		console.log('clicked');
+		var newsLink = $(this).parent().find('a:first').attr('href');
 		window.location.href = newsLink;
 	});
 

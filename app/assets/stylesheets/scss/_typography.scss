@@ -1,19 +1,26 @@
 h1, h2, h3 {
-  margin: 0 0 0.2em 0;
-  padding: 0;
+	// font-weight: normal;
+ 	letter-spacing: 1px;
+	margin: 0 0 0.2em 0;
+	padding: 0;
 }
 h1 {
-  font-size: 2em;
+	font-size: 2em;
 }
 h2 {
-  font-size: 1.5em;
-  font-weight: bold;
+	font-size: 1.5em;
+	font-weight: bold;
 }
 h3 {
-  font-size: 1.2em;
-  font-weight: bold;
+	font-size: 1.2em;
+	font-weight: bold;
 }
 h1#itemlabel {
-  text-align: center;
-  font-weight: bold;
+	text-align: center;
+	font-weight: bold;
+}
+
+a {
+	color: #4d6175;
+	text-decoration: none;
 }

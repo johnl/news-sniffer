@@ -1,0 +1,69 @@
+.version_diff {
+	margin-top: 1em;
+
+	td, th {
+		width: 46%;
+
+		&.diff-row {
+			width: 2%;
+		}
+	}
+
+	thead {
+		tr:last-child {
+			td {
+				padding-bottom: 2em;
+			}
+		}
+	}
+
+	tbody {
+		td {
+			vertical-align: top;
+		}
+
+		tr {
+			td:first-child {
+				padding-right: 1em;
+			}
+			td:last-child {
+				padding-left: 1em;
+			}
+		}
+	}
+
+	tr:target td {
+		background: #ffffaa;
+		padding: 0.5em;
+	}
+
+	.title {
+		font-size: 1.2em;
+	}
+
+	.time {
+		text-align: center;
+		font-size: 0.9em;
+	}
+}
+
+/* Highlight deleted lines / text */
+del {
+	background-color: $highlight-deletion;
+	text-decoration: none;
+}
+
+del > del {
+	background-color: darken($highlight-deletion, 15%);
+}
+
+/* Highlight replaced lines / text */
+ins {
+	background-color: $highlight-change;
+	text-decoration: none;
+}
+
+ins > ins {
+	background-color: darken($highlight-change, 15%); 
+	text-decoration: none;
+}

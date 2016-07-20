@@ -6,28 +6,17 @@ body {
   background-color: #fff;
 }
 
-a {
-  color: #4d6175;
-	text-decoration: none;
-}
+
 
 input, textarea {
 	background: #F3F6ED;
 	font-size: 1.3em;
 }
 
-h1, h2, h3, h4 {
-	font-weight: normal;
-	letter-spacing: 1px;
-}
-
 hr {
 	border-top: #BBC4A3 1px solid;
 }
-#content {
-  padding: 0 10px 0 10px;
-  font-size: 1em;
-}
+
 #content ul {
 	margin-left: 0;
 	padding-left: 45px;
@@ -98,14 +87,7 @@ hr {
   margin: 0 0 1em;
 }
 
-#footer {
-  clear: both;
-	color: #888;
-	font-size: 0.8em;
-	margin: 0 auto;
-	padding: 7px 0;
-	text-align: center;
-}
+
 
 
 
@@ -160,35 +142,10 @@ p.comment-toolbar {
   text-align: right;
 }
 
-ins {
-  background-color: #baffb1;
-  text-decoration: none;
-}
-
-ins > ins {
-  background-color: #6aee61; 
-	text-decoration: none;
-}
-
-del {
-  background-color: #ffc2c2;
-  text-decoration: none;
-}
-
-del > del {
-  background-color: #ee8888;
-}
 
 div.comment-description {
   background-color: #EEEDF6;
   border: 1px solid #ddd;
   padding: 10px;
-}
-
-
-
-div.version_list {
-		text-align: center;
-		width: 100%;
 }
 

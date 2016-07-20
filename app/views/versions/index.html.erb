@@ -2,6 +2,8 @@
 <%= auto_discovery_link_tag(:rss, versions_path(:format => :rss), :title => "RSS feed of all news article versions") %>
 <% end %>
 
+<div class="wrap">
+
 <div id="search">
 <%= form_tag versions_url, :method => :get do  %>
    <%= text_field_tag 'q', @search, :class => 'searchbox', :size => 40 %>
@@ -63,3 +65,5 @@
 	</tbody>
 </table>
 <%= will_paginate @versions, :next_label => "Next", :prev_label => "Previous" %>
+
+</div>

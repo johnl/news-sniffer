@@ -34,7 +34,7 @@ module HTMLDiff
 
     def to_html
       i = 0
-      @rows.collect { |row| "<tr id='p#{i+=1}'><td>#{row.first}</td><td>#{row.last}</td></tr>" }.join("\n")
+      @rows.collect { |row| "<tr id='p#{i+=1}'>#{row.first}#{row.last}</tr>" }.join("\n")
     end
 
     def initialize
@@ -46,11 +46,11 @@ module HTMLDiff
     end
 
     def discard_a(event)
-      @rows << ["<del>#{event.old_element}</del>", ""]
+      @rows << ["<td class='diff-row diff-row-first'></td><td><del>#{event.old_element}</del></td>", "<td class='diff-row diff-row-last'></td><td></td>"]
     end
 
     def discard_b(event)
-      @rows << ["","<ins>#{event.new_element}</ins>"]
+      @rows << ["<td class='diff-row diff-row-first'></td><td></td>","<td class='diff-row diff-row-last'></td><td><ins>#{event.new_element}</ins></td>"]
     end
     
     def change(event)
@@ -59,7 +59,7 @@ module HTMLDiff
       d = WordDiff.new
       Diff::LCS.traverse_sequences(old,new,d)
       old, new = d.transpose
-      @rows << ["<del>#{old.join("")}</del>", "<ins>#{new.join("")}</ins>"]
+      @rows << ["<td class='diff-row diff-row-first'></td><td><del>#{old.join("")}</del></td>", "<td class='diff-row diff-row-last'></td><td><ins>#{new.join("")}</ins></td>"]
     end
   end 
 
