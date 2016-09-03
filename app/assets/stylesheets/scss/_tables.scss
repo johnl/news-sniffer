@@ -59,23 +59,28 @@
 			display: inline-block;
 			font-size: 0.8em;
 			padding: 0 1em 5px 5px;
+			width: 25%;
 
 			&:before {
-				content: "Versions: ";
+				content: "Version: ";
 			}
 		}
 
 		.source {
 			display: inline-block;
 			float: right;
+			font-size: 0.8em;
 			padding-right: 10px;
 			padding-bottom: 5px;
+			text-align: right;
+			width: 30%;
 		}
 
 		.created_at {
 			display: inline-block;
 			font-size: 0.8em;
 			padding-bottom: 5px;
+			width: 45%;
 
 			&:before {
 				content: "Found: ";
@@ -117,6 +122,7 @@
 			.source {
 				display: table-cell;
 				float: none;
+				font-size: 1em;
 				padding-right: 0;
 				text-align: center;
 				width: 10%;
