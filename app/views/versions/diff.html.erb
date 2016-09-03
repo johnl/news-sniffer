@@ -24,34 +24,7 @@
 	<p>The article has changed <var><%= @versions.size %></var> times. There is an <%= link_to 'RSS feed of changes', article_url(@article, :format => :rss), :class => 'feed rss', :rel => "alternate" %> available.</p>
 </div>
 
-<div class="version_list pagination">
-	<% if @vb.version == 0 %>
-		<span class="prev_page disabled">Previous version</span>
-	<% else %>
-		<%= link_to 'Previous version', { :action => 'diff',
-	 	:version_a => @vb.version,
-	 	:version_b => @vb.version - 1 }, :class => 'prev_page' %>
-	<% end %>
-
-	<% @versions.each do |version| %>
-	<% next if version.version == 0 %>
-		<% if version.version == @va.version %>
-			<span class="current"><%= version.version %></span>
-		<% else %>
-			<%= link_to version.version, 
-			diff_url(@article, version.version - 1, version.version),
-			:title => version.created_at.to_s(:long) %>
-		<% end %>
-	<% end %>
-
-	<% if @va.version + 1 == @article.versions_count %>
-		<span class="next_page disabled">Next version</span>
-	<% else %>
-		<%= link_to 'Next version', { :action => 'diff',
-		  :version_a => @va.version + 1,
-		  :version_b => @va.version }, :class => 'next_page' %>
-	<% end %>
-</div> 
+<%= render "pagination" %>
 
 <table class="version_diff">
 	<thead>
@@ -80,3 +53,5 @@
 	</thead>
 <%= raw @diff %>
 </table>
+
+<%= render "pagination" %>
