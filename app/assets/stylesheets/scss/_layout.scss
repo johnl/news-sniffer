@@ -1,0 +1,36 @@
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.wrap {
+	margin: 0 auto;
+	max-width: 100%;
+
+	@media only screen and (min-width: $wrapper-medium) {
+		// max-width: $wrapper-medium;
+	}
+
+	@media only screen and (min-width: $wrapper-large) {
+		max-width: $wrapper-large;
+	}
+}
+
+#content {
+	padding: 0 .75em;
+
+	@media only screen and (min-width: $wrapper-medium) {
+		padding: 0 1.5em;
+	}
+}
+
+#footer {
+ 	clear: both;
+	color: #888;
+	font-size: 0.8em;
+	margin: 0 auto;
+	padding: 7px 0;
+	text-align: center;
+}

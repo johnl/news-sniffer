@@ -14,3 +14,4 @@ config/secrets.yml
 .rspec
 public/assets
 tmp/
+.DS_Store

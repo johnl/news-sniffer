@@ -1,52 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title><%= h(@title) + " - " if @title -%>News Sniffer</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <%= stylesheet_link_tag "application", media: "all" %>
-    <%= javascript_include_tag "application" %>
+	<!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
     <%= yield :head %>
 </head>
 <body>
 	<header>
-	<div id="header">
-		<img src="/stylesheets/layout/newsniffer-text.png" alt="News Sniffer" id="logo"/>
-		<nav>
-		<div id="nav">
-			<ul>
-				<li>
-				<%= link_to 'News Article Revisions', versions_url, 
-          :title => 'News article Revisions',
-            :class => controller.controller_name == "versions" ? "selected" : "" %>
-				</li>
-				<li><a href="/blog/">Blog</a></li>
-				<li>
-					<%= link_to 'About', '/blog/about'%>
-				</li>
-			</ul>
+		<div id="header" class="header">
+			<div class="logo-head">
+				<a href="/"><img src="/images/newsniffer-text.png" alt="News Sniffer" class="logo" id="logo" /></a>
+			</div>
+			<div class="toggle-nav">
+	            <span class="bar"></span>
+	            <span class="bar"></span>
+	            <span class="bar"></span>
+             </div>
+			<nav class="navigation">
+				<ul id="nav" class="menu">
+					<li><%= link_to 'News Article Revisions', versions_url, :title => 'News article Revisions', :class => controller.controller_name == "versions" ? "selected" : "" %></li>
+					<li><a href="/blog/">Blog</a></li>
+					<li><%= link_to 'About', '/blog/about'%></li>
+				</ul>
+			</nav>
 		</div>
-		</nav>
-	</div>
 	</header>
-	<div id="crossbar"></div>
-	<div id="content">
-    <% if flash[:notice] %>
+	
+	<div id="content" class="content">
+		<% if flash[:notice] %>
 			<div id="notice"><%= flash[:notice] %></div>
-    <% end -%>
-    <% if flash[:error] %>
+		<% end -%>
+		<% if flash[:error] %>
 			<div id="error"><%= flash[:error] %></div>
-    <% end -%>
+		<% end -%>
 
-    <%= yield %>
-  </div>
+	<%= yield %>
+	</div>
 
 	<footer>
-	<div id="footer">
-		<% cache(:footer_stats, :expires_in => 6.hours) do %>
-			<p>Currently monitoring <%= number_with_delimiter(NewsArticle.count, :separator => ",") %> news articles 
-			with <%= number_with_delimiter(NewsArticleVersion.count, :separator => ",") %> different versions.</p>
-		<% end %>
-	</div>
+		<div id="footer">
+			<% cache(:footer_stats, :expires_in => 6.hours) do %>
+				<p>Currently monitoring <%= number_with_delimiter(NewsArticle.count, :separator => ",") %> news articles 
+				with <%= number_with_delimiter(NewsArticleVersion.count, :separator => ",") %> different versions.</p>
+			<% end %>
+		</div>
 	</footer>
+	<script src="http://code.jquery.com/jquery-3.1.0.slim.min.js" integrity="sha256-cRpWjoSOw5KcyIOaZNo4i6fZ9tKPhYYb6i5T9RSVJG8=" crossorigin="anonymous"></script>
+	<!-- Check we're online and if not load local version -->
+	<script>window.jQuery || document.write('<script src="/javascripts/jquery-3.1.0.slim.min.js"><\/script>')</script>
+	<%= javascript_include_tag "application" %>
 </body>
 </html>

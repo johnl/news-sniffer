@@ -2,6 +2,8 @@
 <%= auto_discovery_link_tag(:rss, versions_path(:format => :rss), :title => "RSS feed of all news article versions") %>
 <% end %>
 
+<div class="wrap">
+
 <div id="search">
 <%= form_tag versions_url, :method => :get do  %>
    <%= text_field_tag 'q', @search, :class => 'searchbox', :size => 40 %>
@@ -18,44 +20,50 @@
 <% end %>
 
 <table class="versions">
-	<tr>
-		<th class="title">News Article Title</th>
-		<th class="version">Version</th>
-		<th class="source">Source</th>
-    <th class="created_at">Discovered</th>
-	</tr>
-	<% @versions.each do |version| %>
-	<tr>
-	  <td class="title">
-		<% if version.version > 0 %>
-		<%= link_to h(truncate(version.title, :length => 120)),
-		diff_url(version.news_article.id, version.version - 1, version.version),
-		:class => "version_title" %>
-		<% elsif version.news_article.versions_count > 1 %>
-        <%= link_to h(truncate(version.title, :length => 120)),
-		diff_url(version.news_article.id, version.version, version.version + 1),
-		:class => "version_title" %>
-        <% else %>
-		<%= link_to h(truncate(version.title, :length => 120)), article_url(version.news_article),
-        :class => "version_title" %>
+	<thead>
+		<tr>
+			<th class="title">News Article Title</th>
+			<th class="version">Version</th>
+			<th class="source">Source</th>
+	    	<th class="created_at">Discovered</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @versions.each do |version| %>
+		<tr>
+			<td class="title">
+				<% if version.version > 0 %>
+				<%= link_to h(truncate(version.title, :length => 120)),
+				diff_url(version.news_article.id, version.version - 1, version.version),
+				:class => "version_title" %>
+				<% elsif version.news_article.versions_count > 1 %>
+		        <%= link_to h(truncate(version.title, :length => 120)),
+				diff_url(version.news_article.id, version.version, version.version + 1),
+				:class => "version_title" %>
+		        <% else %>
+				<%= link_to h(truncate(version.title, :length => 120)), article_url(version.news_article),
+		        :class => "version_title" %>
+				<% end %>
+			</td>
+			<td class="version">
+				<%= version.version %>
+			</td>
+			<td class="source">
+				<cite title="<%= version.url %>"><%= version.news_article.source %></cite>
+			</td>
+			<td class="created_at">
+				<time datetime="<%= version.created_at.iso8601 %>">
+				<% if version.created_at < Time.now - 2.hours %>
+				<%= version.created_at.strftime("%d %b %Y, %H:%M") %>
+				<% else %>
+				<%= distance_of_time_in_words(version.created_at, Time.now) %> ago
+				<% end %>
+			  </time>
+			</td>
+		</tr>
 		<% end %>
-	  </td>
-		<td class="version">
-			<%= version.version %>
-		</td>
-		<td class="source">
-			<cite title="<%= version.url %>"><%= version.news_article.source %></cite>
-		</td>
-		<td class="created_at">
-			<time datetime="<%= version.created_at.iso8601 %>">
-			<% if version.created_at < Time.now - 2.hours %>
-			<%= version.created_at.strftime("%d %b %Y, %H:%M") %>
-			<% else %>
-			<%= distance_of_time_in_words(version.created_at, Time.now) %> ago
-			<% end %>
-		  </time>
-		</td>
-	</tr>
-	<% end %>
+	</tbody>
 </table>
 <%= will_paginate @versions, :next_label => "Next", :prev_label => "Previous" %>
+
+</div>

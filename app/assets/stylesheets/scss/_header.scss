@@ -1,0 +1,183 @@
+/* General Header Layout */
+
+.header {
+  background: #211;
+  border-bottom: 5px solid $accent-colour;
+  margin: 0 0 25px 0;
+  overflow: hidden;
+  padding: 10px 0 0 0;
+  text-align: left;
+  vertical-align: bottom;
+
+  @media only screen and (min-width: $wrapper-medium) {
+    padding: 25px 5px 0 10px;
+  }
+}
+
+
+.logo-head {
+  display: block;
+  padding-left: 10px;
+
+  a {
+    display: inline-block;
+  }
+
+  @media only screen and (min-width: $wrapper-medium) {
+    width: 30%;
+    float: left;
+  }
+}
+
+.logo {
+  display: inline-block;
+  margin: 0;
+  width: 100%;
+  max-width: 250px;
+}
+
+.toggle-nav {
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    height: 45px;
+    line-height: 1;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 50px;
+
+    @media only screen and (min-width: $wrapper-medium) {
+        display: none;
+    }
+
+    .bar {
+        backface-visibility: hidden;
+        background: #fff;
+        @include border-radius(2px);
+        display: block;
+        height: 5px; 
+        left: 10px;
+        max-width: 30px;
+        @include opacity(1);
+        position: absolute;
+        @include rotate( $val: 0deg );
+        -webkit-transition: .25s;
+           -moz-transition: .25s;
+             -o-transition: .25s;
+                transition: .25s; 
+        width: 100%;
+
+        &:nth-child(1) {
+            top: 10px;
+            @include transform-origin(left center 0);
+        }
+
+        &:nth-child(2) {
+            top: 19px;
+            @include transform-origin(center center 0);
+        }
+
+        &:nth-child(3) {
+            top: 28px; 
+            @include transform-origin(right center 0);
+        }
+    }
+    &.open {
+        .bar {
+            &:nth-child(1) {
+                left: 15px;
+                @include rotate( $val: 45deg );
+            }
+
+            &:nth-child(2) {
+                @include opacity(0);
+                width: 0;
+            }
+
+            &:nth-child(3) {
+                left: 6px;
+                top: 10px;
+                @include rotate( $val: -45deg );
+            }
+        }
+    }
+}
+
+.navigation {
+  display: none;
+
+  &.nav-open {
+    display: block;
+  }
+
+  @media only screen and (min-width: $wrapper-medium) {
+    display: block;
+    float: left;
+    padding-right: 10px;
+    text-align: right;
+    width: 70%;
+  }
+}
+
+/* Primary Header Navigation */
+.menu {
+  display: block;
+  list-style: none;
+  margin: 2px 0 0 0;
+  padding: 0;
+
+  @media only screen and (min-width: $wrapper-medium) {
+      display: inline-block;
+  }
+
+  li {
+    display: block;
+    margin: 0;
+    padding: 0;
+    
+    @media only screen and (min-width: $wrapper-medium) {
+      display: inline-block;
+    }
+  }
+
+  a {
+    display: block;
+    background-color: darken($accent-colour, 15%);
+    padding: 9px 20px;
+    text-decoration: none;
+    border: none;
+    font-weight: bold;
+    color: #fff;
+    outline: none;
+
+    @media only screen and (min-width: $wrapper-medium) {
+      border-radius: 3px 3px 0 0;
+    }
+
+    &:hover {
+      background-color: darken($accent-colour, 30%);
+      cursor: pointer;
+    }
+
+    &.selected {
+      background-color: $accent-colour;
+
+      &:hover {
+
+      }
+    }
+  }
+
+  #current a {
+    color: #fff;
+    padding-bottom:5px;
+  }
+
+}
+
+#nav-r {
+  position: absolute;
+  top: 70px;
+  right: 40px;
+}

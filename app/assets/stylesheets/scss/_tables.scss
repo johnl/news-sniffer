@@ -1,0 +1,148 @@
+
+.versions {
+	border-collapse: collapse;
+	margin: 0 auto;
+	padding: 0;
+	width: 100%;
+
+	thead {
+		display: none;
+
+		tr {
+			th {
+				display: block;
+			}
+		}
+
+		@media only screen and (min-width: $wrapper-medium) {
+			display: table-header-group;
+
+			tr {
+				th {
+					display: table-cell;
+
+					&.title {
+						text-align: left;
+						padding-left: 10px;
+					}
+				}
+			}
+		}
+	}
+
+	td {
+		display: block;
+		margin: 0;
+		padding: 0;
+
+		@media only screen and (min-width: $wrapper-medium) {
+			display: table-cell;
+		}
+	}
+
+	tbody {
+		tr {
+			&:nth-child(2n) {
+				background-color: $hover-light;
+			}
+			&:hover {
+				background-color: $hover-light;
+				cursor: pointer;
+			}
+		}
+
+		.title {
+			padding: 5px 0 0 5px;
+		}
+
+		.version {
+			display: inline-block;
+			font-size: 0.8em;
+			padding: 0 1em 5px 5px;
+			width: 25%;
+
+			&:before {
+				content: "Version: ";
+			}
+		}
+
+		.source {
+			display: inline-block;
+			float: right;
+			font-size: 0.8em;
+			padding-right: 10px;
+			padding-bottom: 5px;
+			text-align: right;
+			width: 30%;
+		}
+
+		.created_at {
+			display: inline-block;
+			font-size: 0.8em;
+			padding-bottom: 5px;
+			width: 45%;
+
+			&:before {
+				content: "Found: ";
+			}
+		}
+
+		.version_title {
+			cursor: pointer;
+			display: block;
+			line-height: 1.2;
+			text-decoration: none;
+		}
+
+		.version_text {
+			font-size: 0.8em;
+			margin-top: 0;
+		}
+	}
+
+	@media only screen and (min-width: $wrapper-medium) {
+		tbody {
+			.title {
+				text-align: left;
+				width: 60%;
+			}
+
+			.version {
+				display: table-cell;
+				font-size: 1em;
+				padding-right: 0;
+				text-align: center;
+				width: 10%;
+
+				&:before {
+					content: "";
+				}
+			}
+
+			.source {
+				display: table-cell;
+				float: none;
+				font-size: 1em;
+				padding-right: 0;
+				text-align: center;
+				width: 10%;
+			}
+
+			.created_at {
+				display: table-cell;
+				font-size: 0.8em;
+				text-align: center;
+				width: 20%;
+				
+				&:before {
+					content: "";
+				}
+			}
+
+			.version_title {
+				padding: 5px;
+			}
+		}
+	}
+
+}

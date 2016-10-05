@@ -1,6 +1,3 @@
-// Place your application-specific JavaScript functions and classes here
-// This file is automatically included by javascript_include_tag :defaults
-
 ( function( $ ) {
 
 	$(document).on('click', '.toggle-nav', function(){
@@ -14,9 +11,9 @@
 
 	});
 
-	$(document).on('click', '.versions tbody tr td', function() {
+	$(document).on('click', '.versions tbody tr', function() {
 		console.log('clicked');
-		var newsLink = $(this).parent().find('a:first').attr('href');
+		var newsLink = $(this).find('a:first').attr('href');
 		window.location.href = newsLink;
 	});
 

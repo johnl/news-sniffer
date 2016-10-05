@@ -1,0 +1,36 @@
+/* Opacity */
+@mixin opacity($opacity) {
+    opacity: $opacity;
+    $opacity-ie: $opacity * 100;
+    filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+/* Border Radius */
+@mixin border-radius($radius: 3px) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    border-radius: $radius;
+}
+
+
+/* Rotate */
+@mixin rotate( $val: -2deg ) {
+    -webkit-transform: rotate($val);
+    -moz-transform: rotate($val);
+    -ms-transform: rotate($val);
+    -o-transform: rotate($val);
+    transform: rotate($val);
+}
+
+//Usage: @include transform-origin(rotate(left center 0));
+@mixin transform-origin ($values) {
+	@include vendor(transform-origin, $values);
+}
+
+@mixin vendor($name, $argument) {
+    -webkit-#{$name}: #{$argument};
+    -ms-#{$name}: #{$argument};
+    -moz-#{$name}: #{$argument};
+    -o-#{$name}: #{$argument};
+    #{$name}: #{$argument};
+}

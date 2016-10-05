@@ -1,0 +1,151 @@
+body {
+	color: #111;
+	font: 1em/1.4em "Trebuchet MS", Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+  background-color: #fff;
+}
+
+
+
+input, textarea {
+	background: #F3F6ED;
+	font-size: 1.3em;
+}
+
+hr {
+	border-top: #BBC4A3 1px solid;
+}
+
+#content ul {
+	margin-left: 0;
+	padding-left: 45px;
+}
+
+#content ul li {
+	padding-left: 1.5em;
+}
+
+.narrow {
+  width: 550px;
+}
+
+#rap {
+	margin: 0 auto;
+	padding: 0px;
+	text-align: left;
+	width: 910px;
+}
+
+
+#sidebar {
+  font-size: 0.9em;
+  display: inline;
+  width: 186px;
+  float: left;
+  margin: 0 0px 0 2px;
+  padding: 0 0 10px 0;
+}
+#sidebar ul h2 {
+  color: #4d6175;
+	font-size: 1.1em;
+	font-weight: bold;
+	height: 22px;
+	margin: 0 0 0 3px;
+	padding: 2px;
+  line-height: 1.6em;
+  text-align: left;
+}
+#sidebar ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0px;
+}
+
+#sidebar ul ul {
+  color: #4d6175;
+	font-size: 0.9em;
+	list-style-type: square;
+	margin: 0 0 10px 0;
+	padding: 5px;
+}
+#sidebar p {
+}
+#sidebar ul ul.nobullet {
+  list-style-type: none;
+}
+#sidebar ul ul li {
+  margin-left: 15px;
+}
+#sidebar ul ul.nobullet li {
+  margin: 0;
+}
+
+#farsidebar {
+  width: 160px;
+  float: right;
+  margin: 0 0 1em;
+}
+
+
+
+
+
+div.post {
+  padding: 1em 0 2em 0.5em;
+}
+          
+div#notice {
+        text-align: center;
+        color: green;
+        padding: 0.5em 1em 0.5em 1em;
+        width: 300px;
+        margin: 0 auto 2em auto;
+}
+div#error {
+        text-align: center;
+        color: red;
+        padding: 0.5em 1em 0.5em 1em;
+        width: 300px;
+        margin: 0 auto 2em auto;
+}
+
+
+
+#sidebar ul ul li a:hover {
+  background-color: 4d6175;
+  color: #fff;
+}
+
+div#randombox {
+  margin-top: 1em;
+  text-align: center;
+}
+div#randombox img {
+  border: 1px solid #000;
+}
+div#farsidebar {
+  float: right;
+  width: 170px;
+  padding-top: 10px;
+}
+
+span.match {
+  background-color: #f9ef7a;
+}
+p.comment-meta {
+  font-size: 0.8em;
+  color: #888;
+}
+p.comment-toolbar {
+  font-size: 0.8em;
+  text-align: right;
+}
+
+
+div.comment-description {
+  background-color: #EEEDF6;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
