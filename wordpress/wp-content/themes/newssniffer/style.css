@@ -1,0 +1,21 @@
+/*  
+Theme Name: News Sniffer
+Theme URI: http://newssniffer.newworldodour.co.uk
+Version: 1.0
+Author: John Leach
+
+*/
+
+div.post {
+  padding: 15px;
+  background-color: #eee;
+  margin-bottom: 1em;
+  width: 750px;
+}
+
+div.post blockquote {
+  border-left: 6px solid #4D6175;
+  background-color: #fafafa;
+  margin-left: 10px;
+  padding: 0.5em 1em 0.5em 1em;
+}
