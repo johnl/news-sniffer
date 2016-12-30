@@ -14,7 +14,7 @@ platforms :ruby_18 do
 end
 
 # web-page-parser requires Debian/Ubuntu package libonig-dev (on ruby1.8)
-gem "web-page-parser", :git => "git://github.com/johnl/web-page-parser.git", :ref => '3dbaf1', :require => "web-page-parser"
+gem "web-page-parser", :git => "git://github.com/johnl/web-page-parser.git", :ref => '6b689d', :require => "web-page-parser"
 
 gem "diff-lcs", '~>1.2.5', :require => "diff/lcs"
 
