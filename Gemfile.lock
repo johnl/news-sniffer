@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/johnl/web-page-parser.git
-  revision: 4afdebbb48b8e9e75ee0197f9606547d0afbac85
-  ref: 4afdebb
+  revision: 3dbaf1d5604b1717202dc2626e49bdf7e715017c
+  ref: 3dbaf1
   specs:
-    web-page-parser (1.1.1)
+    web-page-parser (1.1.2)
       curb (~> 0.8)
       htmlentities (~> 4.3)
       nokogiri (~> 1.6)
@@ -62,7 +62,7 @@ GEM
       capistrano (~> 3.1)
       sshkit (~> 1.2)
     concurrent-ruby (1.0.1)
-    curb (0.9.1)
+    curb (0.9.3)
     daemons (1.2.3)
     diff-lcs (1.2.5)
     erubis (2.7.0)
@@ -180,4 +180,4 @@ DEPENDENCIES
   xapian-ruby
 
 BUNDLED WITH
-   1.11.2
+   1.13.7
