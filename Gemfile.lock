@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/johnl/web-page-parser.git
-  revision: 6b689d6eebe67b6973ed2754e5cf24e58d738d0e
-  ref: 6b689d
+  revision: e3733771f68eeb35ffc55253cc029916a0ef5a3d
+  ref: e373377
   specs:
-    web-page-parser (1.2.0)
+    web-page-parser (1.2.1)
       curb (~> 0.8)
       htmlentities (~> 4.3)
       nokogiri (~> 1.6)
