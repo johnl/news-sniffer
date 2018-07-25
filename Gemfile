@@ -14,13 +14,15 @@ platforms :ruby_18 do
 end
 
 # web-page-parser requires Debian/Ubuntu package libonig-dev (on ruby1.8)
-gem "web-page-parser", :git => "git://github.com/johnl/web-page-parser.git", :ref => 'e373377', :require => "web-page-parser"
+gem "web-page-parser", :git => "git://github.com/johnl/web-page-parser.git", :require => "web-page-parser"
 
 gem "diff-lcs", '~>1.2.5', :require => "diff/lcs"
 
 # Requires xapian library
 gem "xapian-fu", :git => "git://github.com/johnl/xapian-fu.git", :ref => 'index-field-name-options'
 gem "xapian-ruby"
+
+gem "nokogiri", "1.8.2"
 
 group :development do
   gem "rdoc"
