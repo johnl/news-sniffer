@@ -24,15 +24,11 @@ gem "xapian-ruby"
 
 gem "nokogiri", "1.8.2"
 
+gem "puma"
+
 group :development do
   gem "rdoc"
   gem "sqlite3"
   gem "rspec-core"
   gem "rspec-rails"
-  gem 'thin'
-end
-
-group "deployment" do
-  gem "capistrano", "~>3.4"
-  gem "capistrano-bundler"
 end

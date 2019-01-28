@@ -1,0 +1,6 @@
+.bundle
+log/
+xapian/
+vendor/bundle
+.git
+tmp/
