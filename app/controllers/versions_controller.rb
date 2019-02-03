@@ -2,16 +2,24 @@ require "diff_html"
 class VersionsController < ApplicationController
 
   def index
-    if params[:q].to_s.empty?
-      @versions = NewsArticleVersion.includes(:news_article).order('news_article_versions.id desc').paginate(:per_page => 16, :page => params[:page]  || 1)
-    else
-      @search = params[:q].to_s
-      @versions = NewsArticleVersion.xapian_search(@search, :per_page => 16, :collapse => :news_article_id,
-                                                 :page => params[:page] || 1)
+    if params.has_key? :q
+      redirect_to search_versions_url(:q => params[:q]), :status => :moved_permanently
+      return
     end
+    @versions = NewsArticleVersion.includes(:news_article).order('news_article_versions.id desc').paginate(:per_page => 16, :page => params[:page]  || 1)
     respond_to do |format|
       format.html
       format.rss { render :content_type => 'application/rss+xml', :layout => false }
+    end
+  end
+
+  def search
+    @search = params[:q].to_s
+    @versions = NewsArticleVersion.xapian_search(@search, :per_page => 16, :collapse => :news_article_id,
+                                                 :page => params[:page] || 1)
+    respond_to do |format|
+      format.html { render :index }
+      format.rss { render :index, :content_type => 'application/rss+xml', :layout => false }
     end
   end
 

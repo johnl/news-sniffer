@@ -5,7 +5,7 @@
 <div class="wrap">
 
 <div id="search">
-<%= form_tag versions_url, :method => :get do  %>
+<%= form_tag search_versions_url, :method => :get do  %>
    <%= text_field_tag 'q', @search, :class => 'searchbox', :size => 40 %>
    <%= submit_tag ' Search ' %>
 <% end %>
