@@ -9,7 +9,7 @@ class VersionsController < ApplicationController
     @versions = NewsArticleVersion.includes(:news_article).order('news_article_versions.id desc').paginate(:per_page => 16, :page => params[:page]  || 1)
     respond_to do |format|
       format.html
-      format.rss { render :content_type => 'application/rss+xml', :layout => false }
+      format.rss { render :content_type => 'text/xml', :layout => false }
     end
   end
 
@@ -19,7 +19,7 @@ class VersionsController < ApplicationController
                                                  :page => params[:page] || 1)
     respond_to do |format|
       format.html { render :index }
-      format.rss { render :index, :content_type => 'application/rss+xml', :layout => false }
+      format.rss { render :index, :content_type => 'text/xml', :layout => false }
     end
   end
 

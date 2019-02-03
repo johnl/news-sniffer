@@ -29,7 +29,7 @@ class NewsArticlesController < ApplicationController
     @versions = @article.versions.order('version asc').select("id, version, title, created_at")
     respond_to do |format|
       format.html
-      format.rss { render :content_type => 'application/rss+xml', :layout => false }
+      format.rss { render :content_type => 'text/xml', :layout => false }
     end
   end
 
