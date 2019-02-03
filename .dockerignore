@@ -1,4 +1,5 @@
 .bundle
+config/deploy*
 log/
 xapian/
 vendor/bundle
