@@ -54,5 +54,5 @@ NewsSniffer::Application.configure do
   config.lograge.enabled = true
 
   config.assets.compile = false
-  config.assets.digest = false
+  config.assets.digest = true
 end

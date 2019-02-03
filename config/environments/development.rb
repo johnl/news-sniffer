@@ -25,7 +25,7 @@ NewsSniffer::Application.configure do
   config.log_level = ENV.fetch("LOG_LEVEL", "INFO")
   config.lograge.enabled = true
 
-  config.assets.digest = false
+  config.assets.digest = true
   config.assets.debug = true
 
 end
