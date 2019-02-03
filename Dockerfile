@@ -21,6 +21,6 @@ COPY . /app
 COPY config/database.yml.docker /app/config/database.yml
 
 EXPOSE 9292
-#RUN bundle exec rake assets:precompile
+RUN bundle exec rake assets:precompile
 
 CMD bundle exec puma -v
