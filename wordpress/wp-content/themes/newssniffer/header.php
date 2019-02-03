@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
     <title><?php bloginfo('name'); ?> <?php if ( is_single() ) { ?> &raquo; Archive <?php } ?> <?php wp_title(); ?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/assets/application.css"" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/assets/application.css" type="text/css" media="screen" />
 	<!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -33,6 +33,7 @@
 					<li><a href="/blog/about">About</a></li>
 				</ul>
 			</nav>
+        </div>
     </header>
     <div id="content" class="content">
       <div class="wrap">
