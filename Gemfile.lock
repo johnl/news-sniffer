@@ -141,7 +141,7 @@ GEM
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     will_paginate (3.1.6)
-    xapian-ruby (1.2.22)
+    xapian-ruby (1.4.9)
 
 PLATFORMS
   ruby
