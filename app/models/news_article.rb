@@ -22,7 +22,9 @@ class NewsArticle < ActiveRecord::Base
   validates_presence_of :source # bbc, guardian, independent?
   validates_presence_of :guid, :parser
   validates_uniqueness_of :guid
-  validates_length_of :url, :minimum => 10
+  validates_length_of :guid, :maximum => 250
+  validates_length_of :url, :minimum => 10, :maximum => 250
+
   attr_readonly :versions_count
 
   before_validation :set_initial_next_check_period, :unless => :next_check_after?
