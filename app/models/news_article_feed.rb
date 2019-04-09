@@ -59,7 +59,7 @@ class NewsArticleFeed < ActiveRecord::Base
       a.parser = page.class.to_s.split('::').last
       begin
         a.save!
-        logger.info "feed_id=#{id} news_article_id=#{a.id} status=new source=#{source}x"
+        logger.info "feed_id=#{id} news_article_id=#{a.id} status=new source=#{source}"
         next a
       rescue ActiveRecord::RecordInvalid
         logger.error "feed_id=#{id} news_article_guid='#{a.guid}' source=#{source} status=record_invalid errors=#{a.errors.full_messages}"
