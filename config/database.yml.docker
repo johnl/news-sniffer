@@ -5,3 +5,5 @@ production:
   host: <%= ENV["MYSQL_HOST"] %>
   username: <%= ENV["MYSQL_USERNAME"] %>
   password: <%= ENV["MYSQL_PASSWORD"] %>
+  pool: 10
+  timeout: 5000
