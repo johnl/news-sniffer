@@ -9,7 +9,7 @@ gem 'feed_parser', :git => "https://github.com/johnl/feed_parser.git", :ref => "
 gem 'lograge'
 
 # web-page-parser requires Debian/Ubuntu package libonig-dev (on ruby1.8)
-gem "web-page-parser", :git => "https://github.com/johnl/web-page-parser.git", :require => "web-page-parser"
+gem "web-page-parser", :git => "https://github.com/johnl/web-page-parser.git", :ref => 'washpo-retrieve-fix', :require => "web-page-parser"
 
 gem "diff-lcs", '~>1.2.5', :require => "diff/lcs"
 

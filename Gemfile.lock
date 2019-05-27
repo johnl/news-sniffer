@@ -8,7 +8,8 @@ GIT
 
 GIT
   remote: https://github.com/johnl/web-page-parser.git
-  revision: 105cbe6fda569c6c6667ed655ea6c6771c1d9037
+  revision: 3a48a78dba2ed8e0771df7d6049250e45cf82625
+  ref: washpo-retrieve-fix
   specs:
     web-page-parser (1.2.2)
       curb (~> 0.8)
