@@ -41,8 +41,10 @@ class NewsArticleFeed < ActiveRecord::Base
     rss = get_rss_entries(rssdata)
     entries = NewsArticleFeedFilter.filter(rss.entries)
     articles = entries.collect do |e|
+      # make any guid that is a url into a https url
+      https_guid = e[:guid].to_s.gsub('http:','https:')
       # guid is usually a better link than link, so try that first
-      page = WebPageParser::ParserFactory.parser_for(:url => e[:guid], :page => nil)
+      page = WebPageParser::ParserFactory.parser_for(:url => https_guid, :page => nil)
       # if using the guid wasn't possible or didn't work out, try link
       page = WebPageParser::ParserFactory.parser_for(:url => e[:link], :page => nil) if page.nil?
       # skip if still no luck
