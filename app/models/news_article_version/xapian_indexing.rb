@@ -55,7 +55,10 @@ module NewsArticleVersion::XapianIndexing
     def xapian_batch_index(records)
       bm = Benchmark.measure do
         xapian_db.transaction do
-          records.each { |nv| xapian_db << nv.to_xapian_doc }
+          records.each do |nv|
+            logger.debug("task=xapian_batch_index version=#{nv.id}")
+            xapian_db << nv.to_xapian_doc
+          end
         end
       end
       logger.info("task=xapian_batch_index versions=#{records.size} from=#{records.first.id} to=#{records.last.id}) time_to_index=%.2fs rate=#{(records.size/bm.total).round}/s)" % bm.total)
@@ -70,8 +73,7 @@ module NewsArticleVersion::XapianIndexing
         xapian_rebuild
       end
     rescue Exception => e
-      xapian_db.flush
-      logger.error(e.to_s)
+      logger.fatal(e.to_s)
       raise e
     end
   end
