@@ -38,7 +38,7 @@ module NewsArticleVersion::XapianIndexing
         text: { type: String, index: :without_field_names }
       }
       @xapian_db = XapianFu::XapianDb.new(dir: xapian_db_path, create: true,
-                                          fields: fields, index_positions: false)
+                                          fields: fields, index_positions: false, spelling: false)
     end
 
     def xapian_db_path
