@@ -14,7 +14,8 @@ gem "web-page-parser", :git => "https://github.com/johnl/web-page-parser.git", :
 gem "diff-lcs", '~>1.2.5', :require => "diff/lcs"
 
 # Requires xapian library
-gem "xapian-fu", :git => "https://github.com/johnl/xapian-fu.git", :ref => 'index-field-name-options'
+#gem "xapian-fu", :git => "https://github.com/johnl/xapian-fu.git", :ref => 'index-field-name-options'
+gem "xapian-fu", "~> 1.6.0"
 gem "xapian-ruby"
 
 gem "nokogiri"

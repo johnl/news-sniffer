@@ -16,13 +16,6 @@ GIT
       htmlentities (~> 4.3)
       nokogiri (~> 1.6)
 
-GIT
-  remote: https://github.com/johnl/xapian-fu.git
-  revision: cde9696f39f204ddd3301284399ac76045b0c314
-  ref: index-field-name-options
-  specs:
-    xapian-fu (1.5.3)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -169,6 +162,7 @@ GEM
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     will_paginate (3.1.6)
+    xapian-fu (1.6.0)
     xapian-ruby (1.4.9)
 
 PLATFORMS
@@ -190,8 +184,8 @@ DEPENDENCIES
   sqlite3
   web-page-parser!
   will_paginate (~> 3.0)
-  xapian-fu!
+  xapian-fu (~> 1.6.0)
   xapian-ruby
 
 BUNDLED WITH
-   1.16.3
+   1.17.2
