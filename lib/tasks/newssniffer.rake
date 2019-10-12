@@ -39,8 +39,11 @@ end
 namespace :xapian do
   desc "Reindex the NewsArticleVersion Xapian database"
   task :update => :environment do
-    Rails.logger.info "task=xapian:update"
-    NewsArticleVersion.xapian_update
+    batch_size = (ENV["BATCH_SIZE"] || 1000).to_i
+    max_batches = (ENV["MAX_BATCHES"] || 20).to_i
+    Rails.logger.info "task=xapian:update batch_size=#{batch_size} max_batches=#{max_batches}"
+    NewsArticleVersion.xapian_update(batch_size: batch_size,
+                                     max_batches: max_batches)
   end
 end
 
