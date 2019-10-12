@@ -5,18 +5,19 @@ module NewsArticleVersion::XapianIndexing
   end
 
   def to_xapian_doc
-    XapianFu::XapianDoc.new(id: id, title: title, text: text, news_article_id: news_article_id,
+    XapianFu::XapianDoc.new(news_article_version_id: id, title: title, text: text, news_article_id: news_article_id,
                             created_at: created_at.to_date, version: version,
                             source: news_article.source, url: url)
   end
 
   module ClassMethods
     def xapian_search(query, options = { })
+      options.merge({ collapse: :news_article_version_id })
       xapian_db.ro.reopen
       docs = xapian_db.search(query, options)
       docs.each_with_index do |d,i|
         begin
-          docs[i] = find(d.id)
+          docs[i] = find(d.values[:news_article_version_id])
         rescue ActiveRecord::RecordNotFound
           # Handle documents deleted from db but not from Xapian
           docs[i] = nil
@@ -30,8 +31,9 @@ module NewsArticleVersion::XapianIndexing
       return @xapian_db if @xapian_db
       fields = {
         created_at: { type: Date, store: true, index: :with_field_names_only },
-        news_article_id: { type: Fixnum, store: true, index: :with_field_names_only },
-        version: { type: Fixnum, index: :with_field_names_only },
+        news_article_version_id: { type: Integer, store: true, index: false },
+        news_article_id: { type: Integer, store: true, index: :with_field_names_only },
+        version: { type: Integer, index: :with_field_names_only },
         source: { type: String, index: true },
         url: { type: String, index: :with_field_names_only },
         title: { type: String },
