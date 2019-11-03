@@ -42,8 +42,11 @@ namespace :xapian do
     batch_size = (ENV["BATCH_SIZE"] || 1000).to_i
     max_batches = (ENV["MAX_BATCHES"] || 20).to_i
     Rails.logger.info "task=xapian:update batch_size=#{batch_size} max_batches=#{max_batches}"
-    NewsArticleVersion.xapian_update(batch_size: batch_size,
-                                     max_batches: max_batches)
+    start_time = Time.now
+    total = NewsArticleVersion.xapian_update(batch_size: batch_size,
+                                             max_batches: max_batches)
+    elapsed_time = Time.now - start_time
+    Rails.logger.info "task=xapian:update versions=#{total} elapsed_time=#{elapsed_time.to_i}s rate=#{(total / elapsed_time).to_i}/s"
   end
 end
 

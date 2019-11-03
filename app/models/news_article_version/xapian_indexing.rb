@@ -51,12 +51,15 @@ module NewsArticleVersion::XapianIndexing
     def xapian_rebuild(options = {})
       s = NewsArticleVersion.where(options[:conditions]).includes(:news_article_version_text)
       max_batches = options[:max_batches] || 20
+      total = 0
       batch_number = 0
       s.find_in_batches(batch_size: options[:batch_size] || 1000) do |batch|
         batch_number += 1
         xapian_batch_index(batch)
+        total += batch.size
         break if batch_number == max_batches
       end
+      total
     end
 
     def xapian_batch_index(records)
@@ -76,13 +79,15 @@ module NewsArticleVersion::XapianIndexing
       max_batches = options[:max_batches]
       if last = xapian_db.documents.max(:id)
         logger.info("task=xapian_update last_news_article_versions_id=#{last.id}")
-        xapian_rebuild(conditions: ['news_article_versions.id > ?', last.id],
-                       batch_size: batch_size,
-                       max_batches: max_batches)
+        total = xapian_rebuild(conditions: ['news_article_versions.id > ?', last.id],
+                               batch_size: batch_size,
+                               max_batches: max_batches)
       else
         # No last id so rebuild the whole db
-        xapian_rebuild(batch_size: batch_size, max_batches: max_batches)
+        total = xapian_rebuild(batch_size: batch_size, max_batches: max_batches)
       end
+      xapian_db.flush
+      total
     rescue Exception => e
       logger.fatal(e.to_s)
       raise e
