@@ -14,6 +14,7 @@
 # users commonly want.
 
 require 'news_sniffer_helper'
+require 'rails_helper'
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
