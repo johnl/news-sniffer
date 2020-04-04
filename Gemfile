@@ -14,8 +14,8 @@ gem "web-page-parser", :git => "https://github.com/johnl/web-page-parser.git", :
 gem "diff-lcs", '~>1.2.5', :require => "diff/lcs"
 
 # Requires xapian library
-gem "xapian-fu", :git => "https://github.com/johnl/xapian-fu.git", :ref => 'additional-flags'
-#gem "xapian-fu", "~> 1.6.0"
+#gem "xapian-fu", :git => "https://github.com/johnl/xapian-fu.git", :ref => 'additional-flags'
+gem "xapian-fu", "~> 1.7.0"
 gem "xapian-ruby"
 
 gem "nokogiri"
@@ -27,4 +27,5 @@ group :development do
   gem "sqlite3", "~> 1.3.13"
   gem "rspec-core"
   gem "rspec-rails"
+  gem "ruby-prof"
 end

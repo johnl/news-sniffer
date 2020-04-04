@@ -39,13 +39,18 @@ module NewsArticleVersion::XapianIndexing
         title: { type: String },
         text: { type: String, index: :without_field_names }
       }
-      @xapian_db = XapianFu::XapianDb.new(dir: xapian_db_path, create: true,
+      @xapian_db = XapianFu::XapianDb.new(dir: xapian_db_path, create: true, stopper_strategy: :all,
                                           fields: fields, index_positions: false, spelling: false,
+                                          stemmer: false,
                                           additional_flag: Xapian::DB_NO_SYNC)
     end
 
+    def xapian_db_path=(path)
+      @xapian_db_path = path
+    end
+
     def xapian_db_path
-      File.join(Rails.root, 'xapian/news_article_versions')
+      @xapian_db_path ||= File.join(Rails.root, 'xapian/news_article_versions')
     end
 
     def xapian_rebuild(options = {})

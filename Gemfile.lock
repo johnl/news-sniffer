@@ -16,13 +16,6 @@ GIT
       htmlentities (~> 4.3)
       nokogiri (~> 1.9.1)
 
-GIT
-  remote: https://github.com/johnl/xapian-fu.git
-  revision: 84fb6a37eecc90bcd8b353ccea70158fab0dcd6c
-  ref: additional-flags
-  specs:
-    xapian-fu (1.6.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -86,7 +79,7 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.13.0)
-    mysql2 (0.5.2)
+    mysql2 (0.5.3)
     nio4r (2.5.2)
     nokogiri (1.9.1)
       mini_portile2 (~> 2.4.0)
@@ -146,6 +139,7 @@ GEM
       rspec-mocks (~> 3.9.0)
       rspec-support (~> 3.9.0)
     rspec-support (3.9.0)
+    ruby-prof (1.3.1)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -171,6 +165,7 @@ GEM
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     will_paginate (3.2.1)
+    xapian-fu (1.7.0)
     xapian-ruby (1.4.9)
 
 PLATFORMS
@@ -188,11 +183,12 @@ DEPENDENCIES
   responders (~> 2.0)
   rspec-core
   rspec-rails
+  ruby-prof
   sass-rails (~> 5.0)
   sqlite3 (~> 1.3.13)
   web-page-parser!
   will_paginate (~> 3.0)
-  xapian-fu!
+  xapian-fu (~> 1.7.0)
   xapian-ruby
 
 BUNDLED WITH

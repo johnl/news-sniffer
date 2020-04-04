@@ -15,3 +15,6 @@ config/secrets.yml
 public/assets
 tmp/
 .DS_Store
+docker-mysql/
+*.sql
+*.lz4
