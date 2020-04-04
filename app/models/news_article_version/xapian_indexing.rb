@@ -5,9 +5,10 @@ module NewsArticleVersion::XapianIndexing
   end
 
   def to_xapian_doc
-    XapianFu::XapianDoc.new(news_article_version_id: id, title: title, text: text, news_article_id: news_article_id,
+    html = Nokogiri::HTML.parse(text)
+    XapianFu::XapianDoc.new(news_article_version_id: id, title: title, text: html.text,
                             created_at: created_at.to_date, version: version,
-                            source: news_article.source, url: url)
+                            source: news_article.source)
   end
 
   module ClassMethods
@@ -32,10 +33,8 @@ module NewsArticleVersion::XapianIndexing
       fields = {
         created_at: { type: Date, store: true, index: :with_field_names_only },
         news_article_version_id: { type: Integer, store: true, index: false },
-        news_article_id: { type: Integer, store: true, index: :with_field_names_only },
         version: { type: Integer, index: :with_field_names_only },
         source: { type: String, index: true },
-        url: { type: String, index: :with_field_names_only },
         title: { type: String },
         text: { type: String, index: :without_field_names }
       }
