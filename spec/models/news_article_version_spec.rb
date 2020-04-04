@@ -44,7 +44,6 @@ describe NewsArticleVersion do
       NewsArticleVersion.xapian_search("title:brown").first.should eq v
       NewsArticleVersion.xapian_search("+source:bbc brown").first.should eq v
       NewsArticleVersion.xapian_search("-source:bbc brown").first.should eq nil
-      puts xapdoc.to_xapian_document.terms.collect { |t| t.term }.inspect
 
     end
 
