@@ -32,7 +32,7 @@ module NewsArticleVersion::XapianIndexing
       return @xapian_db if @xapian_db
       fields = {
         created_at: { type: Date, store: true, index: :with_field_names_only },
-        news_article_version_id: { type: Integer, store: true, index: false },
+        news_article_version_id: { type: Integer, store: true, index: :with_field_names_only },
         version: { type: Integer, index: :with_field_names_only },
         source: { type: String, index: true },
         title: { type: String },
