@@ -53,7 +53,7 @@ module NewsArticleVersion::XapianIndexing
     end
 
     def xapian_rebuild(options = {})
-      s = NewsArticleVersion.where(options[:conditions]).includes(:news_article_version_text)
+      s = NewsArticleVersion.where(options[:conditions]).where(['version < 10']).includes(:news_article_version_text)
       max_batches = options[:max_batches] || 20
       total = 0
       batch_number = 0
