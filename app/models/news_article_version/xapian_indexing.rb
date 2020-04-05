@@ -6,19 +6,18 @@ module NewsArticleVersion::XapianIndexing
 
   def to_xapian_doc
     html = Nokogiri::HTML.parse(text)
-    XapianFu::XapianDoc.new(news_article_version_id: id, title: title, text: html.text,
+    XapianFu::XapianDoc.new(id: id, title: title, text: html.text,
                             created_at: created_at.to_date, version: version,
                             source: news_article.source)
   end
 
   module ClassMethods
     def xapian_search(query, options = { })
-      options.merge({ collapse: :news_article_version_id })
       xapian_db.ro.reopen
       docs = xapian_db.search(query, options)
       docs.each_with_index do |d,i|
         begin
-          docs[i] = find(d.values[:news_article_version_id])
+          docs[i] = find(d.id)
         rescue ActiveRecord::RecordNotFound
           # Handle documents deleted from db but not from Xapian
           docs[i] = nil
@@ -32,7 +31,6 @@ module NewsArticleVersion::XapianIndexing
       return @xapian_db if @xapian_db
       fields = {
         created_at: { type: Date, store: true, index: :with_field_names_only },
-        news_article_version_id: { type: Integer, store: true, index: :with_field_names_only },
         version: { type: Integer, index: :with_field_names_only },
         source: { type: String, index: true },
         title: { type: String },
@@ -81,7 +79,12 @@ module NewsArticleVersion::XapianIndexing
     def xapian_update(options = {})
       batch_size = options[:batch_size]
       max_batches = options[:max_batches]
-      if last = xapian_db.documents.max(:id)
+      begin
+        last = xapian_db.documents.max(:id)
+      rescue IOError
+        last = nil
+      end
+      if last
         logger.info("task=xapian_update last_news_article_versions_id=#{last.id}")
         total = xapian_rebuild(conditions: ['news_article_versions.id > ?', last.id],
                                batch_size: batch_size,
