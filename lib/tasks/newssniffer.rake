@@ -46,7 +46,7 @@ namespace :xapian do
     total = NewsArticleVersion.xapian_update(batch_size: batch_size,
                                              max_batches: max_batches)
     elapsed_time = Time.now - start_time
-    Rails.logger.info "task=xapian:update versions=#{total} elapsed_time=#{elapsed_time.to_i}s rate=#{(total / elapsed_time).to_i}/s"
+    Rails.logger.info "task=xapian:update versions=#{total} elapsed_time=#{elapsed_time.to_i}s rate=#{(total / elapsed_time).to_i}/s db_doccount=#{NewsArticleVersion.xapian_db.rw.doccount}"
   end
 
   desc "Compact the NewsArticleVersion Xapian database"
