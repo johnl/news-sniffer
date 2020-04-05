@@ -82,20 +82,12 @@ module NewsArticleVersion::XapianIndexing
     def xapian_update(options = {})
       batch_size = options[:batch_size]
       max_batches = options[:max_batches]
-      begin
-        last = xapian_db.documents.max(:id)
-      rescue IOError
-        last = nil
-      end
-      if last
-        logger.info("task=xapian_update last_news_article_versions_id=#{last.id}")
-        total = xapian_rebuild(conditions: ['news_article_versions.id > ?', last.id],
-                               batch_size: batch_size,
-                               max_batches: max_batches)
-      else
-        # No last id so rebuild the whole db
-        total = xapian_rebuild(batch_size: batch_size, max_batches: max_batches)
-      end
+      xapian_db.rw
+      last_id = xapian_db.documents.max(:id).try(:id) || 0
+      logger.info("task=xapian_update last_news_article_versions_id=#{last_id}")
+      total = xapian_rebuild(conditions: ['news_article_versions.id > ?', last_id],
+                             batch_size: batch_size,
+                             max_batches: max_batches)
       xapian_db.flush
       total
     rescue Exception => e
