@@ -79,18 +79,6 @@ namespace :xapian do
   end
 end
 
-# For backwards compatability with older News Sniffer deployments
-namespace "revisionista" do
-  namespace :articles do
-    task :update => "newssniffer:articles:update" do
-    end
-  end
-  namespace :versions do
-    task :update => "newssniffer:versions:update" do
-    end
-  end
-end
-
 namespace "assets" do
   task undigest: :environment do
     assets = Dir.glob(File.join(Rails.root, 'public/assets/**/*'))
