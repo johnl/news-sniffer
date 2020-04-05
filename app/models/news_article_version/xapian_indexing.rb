@@ -7,12 +7,14 @@ module NewsArticleVersion::XapianIndexing
   def to_xapian_doc
     html = Nokogiri::HTML.parse(text)
     XapianFu::XapianDoc.new(id: id, title: title, text: html.text,
+                            news_article_id: news_article_id,
                             created_at: created_at.to_date, version: version,
                             source: news_article.source)
   end
 
   module ClassMethods
     def xapian_search(query, options = { })
+      options.merge!({ collapse: :news_article_id })
       xapian_db.ro.reopen
       docs = xapian_db.search(query, options)
       docs.each_with_index do |d,i|
@@ -32,6 +34,7 @@ module NewsArticleVersion::XapianIndexing
       fields = {
         created_at: { type: Date, store: true, index: :with_field_names_only },
         version: { type: Integer, index: :with_field_names_only },
+        news_article_id: { type: Integer, store: true, index: false },
         source: { type: String, index: true },
         title: { type: String },
         text: { type: String, index: :without_field_names }
