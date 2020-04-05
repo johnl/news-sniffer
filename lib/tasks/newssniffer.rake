@@ -48,6 +48,24 @@ namespace :xapian do
     elapsed_time = Time.now - start_time
     Rails.logger.info "task=xapian:update versions=#{total} elapsed_time=#{elapsed_time.to_i}s rate=#{(total / elapsed_time).to_i}/s"
   end
+
+  desc "Compact the NewsArticleVersion Xapian database"
+  task compact: :environment do
+    unless system("which xapian-compact >/dev/null")
+      Rails.logger.error "task=xapian:compact status=errored error='xapian-compact command missing'"
+      exit 1
+    end
+    db = NewsArticleVersion.xapian_db_path
+    unless File.exist? db
+      Rails.logger.error "task=xapian:compact status=errored error='database doesn't exist'"
+      exit 1
+    end
+    NewsArticleVersion.xapian_db.transaction do # lock the db
+      id = SecureRandom.uuid
+      Rails.logger.info "task=xapian:compact status=running id=#{id}"
+      system("xapian-compact #{db} #{db}.compacted.#{id} && mv #{db} #{db}.precompact.#{id} && mv #{db}.compacted.#{id} #{db} && rm -rf #{db}.precompact.#{id}")
+    end
+  end
 end
 
 # For backwards compatability with older News Sniffer deployments
