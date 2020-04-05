@@ -1,4 +1,10 @@
 namespace "newssniffer" do
+  def dir_size(dir)
+    Dir.glob(File.join(dir, '**', '*'))
+      .map{ |f| File.size(f) }
+      .inject(:+) / 1024 / 1024
+  end
+
   namespace :articles do
     desc "Hit the RSS feeds looking for new articles"
     task :update => :environment do
@@ -51,10 +57,6 @@ namespace :xapian do
 
   desc "Compact the NewsArticleVersion Xapian database"
   task compact: :environment do
-    unless system("which xapian-compact >/dev/null")
-      Rails.logger.error "task=xapian:compact status=errored error='xapian-compact command missing'"
-      exit 1
-    end
     db = NewsArticleVersion.xapian_db_path
     unless File.exist? db
       Rails.logger.error "task=xapian:compact status=errored error='database doesn't exist'"
@@ -62,8 +64,17 @@ namespace :xapian do
     end
     NewsArticleVersion.xapian_db.transaction do # lock the db
       id = SecureRandom.uuid
-      Rails.logger.info "task=xapian:compact status=running id=#{id}"
-      system("xapian-compact #{db} #{db}.compacted.#{id} && mv #{db} #{db}.precompact.#{id} && mv #{db}.compacted.#{id} #{db} && rm -rf #{db}.precompact.#{id}")
+
+      size_before = dir_size(db)
+      Rails.logger.info "task=xapian:compact status=running id=#{id} size=#{size_before}M"
+      compacted_db = "#{db}.compacted.#{id}"
+      precompacted_db = "#{db}.precompact.#{id}"
+      NewsArticleVersion.xapian_db.rw.compact(compacted_db)
+      FileUtils.mv(db, precompacted_db)
+      FileUtils.mv(compacted_db, db)
+      FileUtils.rm_r(precompacted_db, force: true)
+      size_after = dir_size(db)
+      Rails.logger.info "task=xapian:compact status=completed id=#{id} size=#{size_after}M saved=#{size_before-size_after}M"
     end
   end
 end
